@@ -9,9 +9,8 @@ export const metadata: Metadata = {
     title: "Департамент социальной политики ҚТЖ",
     description: "Вместе создаём сильное сообщество.",
     type: "website",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Департамент социальной политики ҚТЖ" }],
   },
-  twitter: { card: "summary_large_image", images: ["/og.png"] },
+  twitter: { card: "summary" },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

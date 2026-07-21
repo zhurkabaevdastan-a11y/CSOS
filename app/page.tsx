@@ -34,7 +34,7 @@ const fallback: Item[] = [
   { id: 10, section: "Пенсионеры", subsection: "Поддержка ветеранов", title: "Забота о ветеранах отрасли", summary: "Программы поддержки, встречи поколений и полезные контакты.", year: 2026, featured: false, sort_order: 10 },
 ];
 
-const icons: Record<string, string> = { "Спорт": "⚡", "Волонтерство": "♡", "Молодежная политика": "✦", "Пенсионеры": "∞" };
+const icons: Record<string, string> = { "Спорт": "СП", "Волонтерство": "ВО", "Молодежная политика": "МП", "Пенсионеры": "ПН" };
 
 export default function Home() {
   const [active, setActive] = useState("Спорт");
@@ -149,7 +149,7 @@ export default function Home() {
         </div>
         <div className="tabs" role="tablist">
           {sections.map((section, i) => (
-            <button key={section} className={active === section ? "active" : ""} onClick={() => setActive(section)} role="tab">
+            <button key={section} className={active === section ? "active" : ""} onClick={() => setActive(section)} role="tab" aria-selected={active === section}>
               <span>0{i + 1}</span>{section}<i>{icons[section]}</i>
             </button>
           ))}
