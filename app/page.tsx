@@ -155,9 +155,9 @@ export default function Home() {
       <section className="hero" id="top">
         <div className="rail railOne" /><div className="rail railTwo" />
         <div className="heroContent">
-          <span className="eyebrow">АО «НК «Қазақстан темір жолы»</span>
-          <h1>Вместе создаём<br /><em>сильное сообщество</em></h1>
-          <p>Забота о людях, развитие талантов и поддержка инициатив, которые объединяют железнодорожников по всей стране.</p>
+          <span className="eyebrow">Департамент социальной политики · ҚТЖ</span>
+          <h1>Люди. Движение.<br /><em>Возможности.</em></h1>
+          <p>Создаём среду, в которой спорт, добрые дела, молодёжные инициативы и уважение к опыту объединяют железнодорожников по всей стране.</p>
           <div className="heroActions">
             <button className="primary" onClick={() => go("Спорт")}>Наши направления <span>→</span></button>
             <a href="#event" className="textLink">Событие месяца ↘</a>
@@ -169,7 +169,7 @@ export default function Home() {
 
       <section className="directionSection" id="directions">
         <div className="sectionHead">
-          <div><span className="kicker">01 / НАПРАВЛЕНИЯ</span><h2>Социальная политика<br />в действии</h2></div>
+          <div><span className="kicker">01 / НАПРАВЛЕНИЯ</span><h2>Программы, которые<br />объединяют людей</h2></div>
           <p>Выберите направление, чтобы увидеть актуальные проекты, события и контакты.</p>
         </div>
         <div className="tabs" role="tablist">
@@ -204,7 +204,7 @@ export default function Home() {
       </section>
 
       <section className="news">
-        <span className="kicker">03 / ПУЛЬС КОМАНДЫ</span><h2>В центре внимания</h2>
+        <span className="kicker">03 / ПУЛЬС КОМАНДЫ</span><h2>Истории большой команды</h2>
         <div className="newsGrid">
           <article><span>СПОРТ · 18 ИЮЛЯ</span><h3>Сборная ҚТЖ готовится к отраслевой спартакиаде</h3><a href="#directions">Читать →</a></article>
           <article><span>МОЛОДЁЖЬ · 10 ИЮЛЯ</span><h3>Открыт приём заявок на «Жас үздік маман»</h3><a href="#directions">Читать →</a></article>
