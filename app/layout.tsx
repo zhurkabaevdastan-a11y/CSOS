@@ -10,9 +10,9 @@ export const metadata: Metadata = {
     title: "Департамент социальной политики ҚТЖ",
     description: "Люди. Движение. Возможности.",
     type: "website",
-    images: [{ url: "/og-vewoo-inspired.png", width: 1792, height: 1024, alt: "Департамент социальной политики ҚТЖ" }],
+    images: [{ url: "/ktz-hero.png", width: 1672, height: 941, alt: "Люди. Движение. Возможности. Департамент социальной политики ҚТЖ" }],
   },
-  twitter: { card: "summary_large_image", images: ["/og-vewoo-inspired.png"] },
+  twitter: { card: "summary_large_image", images: ["/ktz-hero.png"] },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

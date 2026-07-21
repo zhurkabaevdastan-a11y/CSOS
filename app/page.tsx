@@ -78,6 +78,29 @@ export default function Home() {
       .then(({ data }) => setRole(data?.role ?? "participant"));
   }, [session]);
 
+  useEffect(() => {
+    document.body.classList.add("motion-ready");
+    let lastY = window.scrollY;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -8%" });
+    document.querySelectorAll(".reveal").forEach((node) => observer.observe(node));
+    const handleScroll = () => {
+      const header = document.querySelector(".header");
+      const nextY = window.scrollY;
+      header?.classList.toggle("headerHidden", nextY > lastY && nextY > 180);
+      header?.classList.toggle("headerScrolled", nextY > 36);
+      lastY = nextY;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => { observer.disconnect(); window.removeEventListener("scroll", handleScroll); };
+  }, []);
+
   const authenticate = async (create = false) => {
     setMessage("Проверяем данные…");
     const result = create
@@ -152,22 +175,18 @@ export default function Home() {
         <div className="language"><span>RU</span><span>ҚАЗ</span></div>
       </header>
 
-      <section className="hero" id="top">
-        <div className="rail railOne" /><div className="rail railTwo" />
-        <div className="heroContent">
-          <span className="eyebrow">Департамент социальной политики · ҚТЖ</span>
-          <h1>Люди. Движение.<br /><em>Возможности.</em></h1>
-          <p>Создаём среду, в которой спорт, добрые дела, молодёжные инициативы и уважение к опыту объединяют железнодорожников по всей стране.</p>
-          <div className="heroActions">
-            <button className="primary" onClick={() => go("Спорт")}>Наши направления <span>→</span></button>
-            <a href="#event" className="textLink">Событие месяца ↘</a>
-          </div>
-        </div>
-        <div className="heroStat"><strong>120 000+</strong><span>сотрудников<br />в большой команде ҚТЖ</span></div>
-        <div className="yearMark">20<span>26</span></div>
+      <section className="hero" id="top" aria-label="Люди. Движение. Возможности.">
+        <h1 className="srOnly">Люди. Движение. Возможности.</h1>
+        <a className="scrollPrompt" href="#about"><span>Смотреть направления</span><i>↓</i></a>
       </section>
 
-      <section className="directionSection" id="directions">
+      <section className="aboutSection reveal" id="about">
+        <span className="kicker">О ДЕПАРТАМЕНТЕ</span>
+        <p>Создаём среду, в которой спорт, добрые дела, молодёжные инициативы и уважение к опыту <em>объединяют железнодорожников по всей стране.</em></p>
+        <div className="aboutStats"><span><strong>120 000+</strong>сотрудников</span><span><strong>4</strong>ключевых направления</span><span><strong>17</strong>регионов присутствия</span></div>
+      </section>
+
+      <section className="directionSection reveal" id="directions">
         <div className="sectionHead">
           <div><span className="kicker">01 / НАПРАВЛЕНИЯ</span><h2>Программы, которые<br />объединяют людей</h2></div>
           <p>Выберите направление, чтобы увидеть актуальные проекты, события и контакты.</p>
@@ -194,7 +213,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="event" id="event">
+      <section className="event reveal" id="event">
         <div className="eventPhoto" role="img" aria-label="Корпоративные волонтеры ҚТЖ"><span>БОЛЬШЕ<br />ДОБРЫХ<br />ДЕЛ</span></div>
         <div className="eventCopy">
           <span className="kicker light">02 / ГЛАВНОЕ СОБЫТИЕ</span><span className="date">12–14<br /><small>СЕНТЯБРЯ</small></span>
@@ -203,7 +222,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="news">
+      <section className="news reveal">
         <span className="kicker">03 / ПУЛЬС КОМАНДЫ</span><h2>Истории большой команды</h2>
         <div className="newsGrid">
           <article><span>СПОРТ · 18 ИЮЛЯ</span><h3>Сборная ҚТЖ готовится к отраслевой спартакиаде</h3><a href="#directions">Читать →</a></article>
@@ -212,7 +231,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer><div className="footerBrand"><img src="/ktz-logo.png" alt="ҚТЖ" /><p>Департамент социальной политики<br />АО «НК «Қазақстан темір жолы»</p></div><div><span>НАВИГАЦИЯ</span>{sections.map(s => <button key={s} onClick={() => go(s)}>{s}</button>)}</div><div><span>КОНТАКТЫ</span><a href="mailto:social@railways.kz">social@railways.kz</a><p>Астана, ул. Д. Кунаева, 6</p></div><small>© 2026 АО «НК «ҚТЖ»</small></footer>
+      <footer className="reveal"><div className="footerCta"><span>Есть идея для проекта?</span><h2>Давайте двигаться<br />вместе.</h2><a href="mailto:social@railways.kz">Связаться с департаментом <b>↗</b></a></div><div className="footerBottom"><div className="footerBrand"><img src="/ktz-logo.png" alt="ҚТЖ" /><p>Департамент социальной политики<br />АО «НК «Қазақстан темір жолы»</p></div><div><span>НАВИГАЦИЯ</span>{sections.map(s => <button key={s} onClick={() => go(s)}>{s}</button>)}</div><div><span>КОНТАКТЫ</span><a href="mailto:social@railways.kz">social@railways.kz</a><p>Астана, ул. Д. Кунаева, 6</p></div><small>© 2026 АО «НК «ҚТЖ»</small></div></footer>
 
       {panel && <div className="modalBackdrop" onMouseDown={(e) => e.target === e.currentTarget && setPanel(null)}>
         <section className={panel === "admin" ? "modal adminModal" : "modal"} role="dialog" aria-modal="true" aria-label="Личный кабинет">
