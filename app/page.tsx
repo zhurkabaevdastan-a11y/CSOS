@@ -19,11 +19,21 @@ type Item = {
   sort_order: number;
 };
 
+type DisplayItem = Item & { detail?: "calendar" | "results" };
+
 const sections = ["Спорт", "Волонтерство", "Молодежная политика", "Пенсионеры"];
 
 const fallback: Item[] = [
   { id: 1, section: "Спорт", subsection: "Спортивные инструкторы", title: "Команда инструкторов ҚТЖ", summary: "Контакты и направления работы корпоративных спортивных инструкторов.", year: 2026, featured: false, sort_order: 10 },
-  { id: 2, section: "Спорт", subsection: "События", title: "Календарь спортивных событий", summary: "Турниры, спартакиады и командные старты работников компании.", year: 2026, featured: true, sort_order: 20 },
+  { id: 2, section: "Спорт", subsection: "Календарь спортивных событий · 2027", title: "Чемпионат ҚТЖ по волейболу", summary: "1–4 апреля 2027 года", year: 2027, featured: true, sort_order: 20 },
+  { id: 13, section: "Спорт", subsection: "Календарь спортивных событий · 2027", title: "Чемпионат ҚТЖ по футзалу", summary: "27–30 апреля 2027 года", year: 2027, featured: false, sort_order: 21 },
+  { id: 14, section: "Спорт", subsection: "Календарь спортивных событий · 2027", title: "Спартакиада АО «НК «ҚТЖ»", summary: "27–30 мая 2027 года. Тоғызқұмалақ, асық ату, настольный теннис, армрестлинг, шахматы и лёгкая атлетика.", year: 2027, featured: false, sort_order: 22 },
+  { id: 15, section: "Спорт", subsection: "Календарь спортивных событий · 2027", title: "Детский турнир по мини-футболу", summary: "1 июня 2027 года", year: 2027, featured: false, sort_order: 23 },
+  { id: 16, section: "Спорт", subsection: "Календарь спортивных событий · 2027", title: "Отборочный турнир по плаванию", summary: "13 июня 2027 года", year: 2027, featured: false, sort_order: 24 },
+  { id: 17, section: "Спорт", subsection: "Календарь спортивных событий · 2027", title: "XII Спартакиада АО «Самрук-Қазына»", summary: "Участие сборной команды ҚТЖ. Дата проведения будет опубликована дополнительно.", year: 2027, featured: false, sort_order: 25 },
+  { id: 18, section: "Спорт", subsection: "Календарь спортивных событий · 2027", title: "Марафон ҚТЖ", summary: "20 сентября 2027 года", year: 2027, featured: false, sort_order: 26 },
+  { id: 19, section: "Спорт", subsection: "Календарь спортивных событий · 2027", title: "Чемпионат ҚТЖ по баскетболу", summary: "27–30 октября 2027 года", year: 2027, featured: false, sort_order: 27 },
+  { id: 20, section: "Спорт", subsection: "Календарь спортивных событий · 2027", title: "Спартакиада для работников в Астане", summary: "Выходные дни ноября 2027 года. Для работников АО «НК «ҚТЖ», дислоцированных в городе Астана.", year: 2027, featured: false, sort_order: 28 },
   { id: 3, section: "Спорт", subsection: "Результаты ҚТЖ · 2024", title: "Чемпионы IX Спартакиады", summary: "1-е место в общекомандном зачёте Спартакиады АО «Самрук-Қазына». 20 медалей: 11 золотых, 6 серебряных и 3 бронзовые.", year: 2024, featured: false, sort_order: 30 },
   { id: 11, section: "Спорт", subsection: "Результаты ҚТЖ · 2025", title: "Победители X Спартакиады", summary: "1-е место в общекомандном зачёте Спартакиады АО «Самрук-Қазына». 28 медалей: 11 золотых, 8 серебряных и 9 бронзовых.", year: 2025, featured: true, sort_order: 31 },
   { id: 12, section: "Спорт", subsection: "Мини-футбол · QYZMET CUP 2025", title: "Чемпионы QAZAQSTAN QYZMET CUP", summary: "Сборная АО «НК «ҚТЖ» выиграла финал чемпионата Казахстана по мини-футболу, опередив команду «Самрук-Энерго».", year: 2025, featured: false, sort_order: 32 },
@@ -42,7 +52,7 @@ export default function Home() {
   const [active, setActive] = useState("Спорт");
   const [items, setItems] = useState<Item[]>(fallback);
   const [menu, setMenu] = useState(false);
-  const [panel, setPanel] = useState<"auth" | "register" | "admin" | null>(null);
+  const [panel, setPanel] = useState<"auth" | "register" | "admin" | "calendar" | "results" | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [role, setRole] = useState<string | null>(null);
   const [authEmail, setAuthEmail] = useState("");
@@ -105,7 +115,20 @@ export default function Home() {
     setMessage(error ? error.message : "Готово! Ваша заявка принята.");
   };
 
-  const current = useMemo(() => items.filter((item) => item.section === active), [active, items]);
+  const calendarItems = useMemo(() => items.filter((item) => item.section === "Спорт" && item.subsection.startsWith("Календарь спортивных событий")), [items]);
+  const resultItems = useMemo(() => items.filter((item) => item.section === "Спорт" && (item.subsection.startsWith("Результаты ҚТЖ") || item.subsection.startsWith("Мини-футбол"))), [items]);
+  const current = useMemo<DisplayItem[]>(() => {
+    const sectionItems = items.filter((item) => item.section === active);
+    if (active !== "Спорт") return sectionItems;
+    const instructors = sectionItems.find((item) => item.subsection === "Спортивные инструкторы");
+    const photos = sectionItems.find((item) => item.subsection === "Фото по годам");
+    return [
+      instructors,
+      { id: -1, section: "Спорт", subsection: "События", title: "Календарь спортивных событий", summary: `${calendarItems.length} мероприятий в календаре ҚТЖ на 2027 год.`, year: 2027, featured: true, sort_order: 20, detail: "calendar" as const },
+      { id: -2, section: "Спорт", subsection: "Результаты ҚТЖ", title: "Результаты сборной команды ҚТЖ", summary: "Спартакиады 2024 и 2025 годов, а также QAZAQSTAN QYZMET CUP.", year: 2025, featured: false, sort_order: 30, detail: "results" as const },
+      photos,
+    ].filter(Boolean) as DisplayItem[];
+  }, [active, items, calendarItems.length]);
   const featured = items.find((item) => item.section === "Волонтерство" && item.featured) ?? fallback[4];
 
   const go = (section: string) => {
@@ -164,7 +187,7 @@ export default function Home() {
                 <span className="cardNumber">{String(index + 1).padStart(2, "0")}</span>
                 <span className="cardLabel">{item.subsection}</span>
                 <h4>{item.title}</h4><p>{item.summary}</p>
-                <button aria-label={`Подробнее: ${item.title}`}>Подробнее <span>↗</span></button>
+                <button onClick={() => item.detail && setPanel(item.detail)} aria-label={`Подробнее: ${item.title}`}>Подробнее <span>↗</span></button>
               </article>
             ))}
           </div>
@@ -220,6 +243,16 @@ export default function Home() {
             <div className="adminHead"><div><span className="kicker">БЫСТРАЯ ПАНЕЛЬ</span><h2>Регистрации на события</h2></div><button className="secondary" onClick={() => { supabase.auth.signOut(); setPanel(null); }}>Выйти</button></div>
             <div className="adminStats"><div><strong>{registrations.length}</strong><span>всего заявок</span></div><div><strong>{registrations.filter(r => r.status === "submitted").length}</strong><span>новых</span></div><div><strong>{new Set(registrations.map(r => r.profiles?.region).filter(Boolean)).size}</strong><span>регионов</span></div></div>
             <div className="tableWrap"><table><thead><tr><th>Участник</th><th>Контакты</th><th>Подразделение</th><th>Направление</th><th>Статус</th></tr></thead><tbody>{registrations.map(r => <tr key={r.id}><td><b>{r.profiles?.last_name} {r.profiles?.first_name}</b><small>{r.profiles?.region}</small></td><td>{r.profiles?.email}<small>{r.profiles?.phone}</small></td><td>{r.profiles?.department || "—"}</td><td>{r.discipline || "—"}<small>{r.team_name}</small></td><td><span className="status">{r.status === "submitted" ? "Новая" : r.status}</span></td></tr>)}</tbody></table>{!registrations.length && <p className="emptyState">Пока нет регистраций.</p>}</div>
+          </>}
+          {panel === "calendar" && <>
+            <span className="kicker">СПОРТ · 2027</span><h2>Календарь спортивных событий</h2>
+            <p className="modalLead">Чемпионаты, турниры и спартакиады АО «НК «ҚТЖ».</p>
+            <div className="detailList">{calendarItems.map((item) => <article key={item.id}><span>{item.summary}</span><h3>{item.title}</h3></article>)}</div>
+          </>}
+          {panel === "results" && <>
+            <span className="kicker">СПОРТ · РЕЗУЛЬТАТЫ</span><h2>Результаты сборной команды ҚТЖ</h2>
+            <p className="modalLead">Достижения команды на корпоративных и отраслевых соревнованиях.</p>
+            <div className="detailList">{resultItems.map((item) => <article key={item.id}><span>{item.subsection}</span><h3>{item.title}</h3><p>{item.summary}</p></article>)}</div>
           </>}
         </section>
       </div>}
