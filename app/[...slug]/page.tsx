@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { calendar2027, instructors, powerBiDashboardUrl, sitePages, sportResults, topNavigation } from "../content";
+import { calendar2027, instructors, marathonRegistrationUrl, powerBiEmbedUrl, sitePages, sportResults, topNavigation } from "../content";
 
 export function generateStaticParams() {
   return Object.keys(sitePages).map((key) => ({ slug: key.split("/") }));
@@ -69,7 +69,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
       {key === "sport/calendar" && (
         <section className="kpContentSection">
           <div className="kpSectionTitle"><span>Расписание</span><h2>Спортивный сезон 2027</h2><p>Даты могут уточняться организационным комитетом.</p></div>
-          <div className="kpTimeline">{calendar2027.map(([date, title], index) => <article key={title}><span>{String(index + 1).padStart(2, "0")}</span><time>{date}</time><h3>{title}</h3></article>)}</div>
+          <div className="kpTimeline">{calendar2027.map(([date, title], index) => <article key={title}><span>{String(index + 1).padStart(2, "0")}</span><time>{date}</time><h3>{title}</h3>{title === "Марафон ҚТЖ" && <a className="kpEventRegistration" href={marathonRegistrationUrl} target="_blank" rel="noreferrer">Регистрация <i>↗</i></a>}</article>)}</div>
         </section>
       )}
 
@@ -82,17 +82,16 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
 
       {key === "appeals" && (
         <section className="kpContentSection kpPowerBiSection">
-          <div className="kpSectionTitle"><span>Power BI</span><h2>Дашборд жалоб и обращений</h2><p>Актуальная инфографика хранится в защищённом пространстве Microsoft.</p></div>
-          <div className="kpPowerBiPanel">
-            <div className="kpPowerBiVisual" aria-hidden="true">
-              <span>POWER BI</span>
-              <div><i style={{height: "42%"}} /><i style={{height: "68%"}} /><i style={{height: "55%"}} /><i style={{height: "86%"}} /><i style={{height: "72%"}} /></div>
+          <div className="kpSectionTitle"><span>Power BI</span><h2>Дашборд жалоб и обращений</h2><p>Интерактивная инфографика из защищённого пространства Microsoft.</p></div>
+          <div className="kpPowerBiPanel kpPowerBiPanel--embed">
+            <div className="kpPowerBiEmbed">
+              <iframe title="Дашборд жалоб и обращений ҚТЖ" src={powerBiEmbedUrl} allowFullScreen />
             </div>
             <div className="kpPowerBiCopy">
               <span className="kpEyebrow">Защищённая аналитика</span>
-              <h3>Информация открывается после авторизации Microsoft</h3>
-              <p>Корпоративная ссылка Power BI не разрешает безопасное встраивание на сторонние сайты. Откройте дашборд в новой вкладке, чтобы увидеть интерактивную инфографику и актуальные данные.</p>
-              <a className="kpAction" href={powerBiDashboardUrl} target="_blank" rel="noreferrer">Открыть дашборд Power BI <span>↗</span></a>
+              <h3>Актуальные данные в реальном времени</h3>
+              <p>Если Microsoft запросит доступ, войдите под корпоративной учётной записью. Отчёт можно развернуть на весь экран.</p>
+              <a className="kpAction" href={powerBiEmbedUrl} target="_blank" rel="noreferrer">Открыть на весь экран <span>↗</span></a>
             </div>
           </div>
         </section>
@@ -114,9 +113,8 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
 
       {page.steps && (
         <section className="kpContentSection kpProcessSection">
-          <div className="kpSectionTitle"><span>Как участвовать</span><h2>Простой путь от идеи к результату</h2><p>Три последовательных шага.</p></div>
+          <div className="kpSectionTitle"><span>{key === "volunteering/school" ? "Программа" : "Как участвовать"}</span><h2>{key === "volunteering/school" ? "От знаний к социальному проекту" : "Простой путь от идеи к результату"}</h2><p>{key === "volunteering/school" ? "Три тематических блока." : "Три последовательных шага."}</p></div>
           <div className="kpSteps">{page.steps.map((step) => <article key={step.number}><span>{step.number}</span><h3>{step.title}</h3><p>{step.text}</p></article>)}</div>
-          {key === "volunteering/school" && <a className="kpAction" href="/#register">Подать заявку <span>↗</span></a>}
         </section>
       )}
 
