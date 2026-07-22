@@ -66,6 +66,12 @@ export default function Home() {
       ? await supabase.auth.signUp({ email: authEmail, password: authPassword })
       : await supabase.auth.signInWithPassword({ email: authEmail, password: authPassword });
     if (result.error) return setMessage(result.error.message);
+    if (result.data.session) {
+      setMessage("");
+      setPanel(null);
+      if (window.location.hash) window.history.replaceState(null, "", window.location.pathname);
+      return;
+    }
     setMessage(create && !result.data.session ? "Подтвердите адрес по ссылке в письме, затем войдите." : "Вход выполнен.");
   };
 
@@ -153,8 +159,8 @@ export default function Home() {
         </>}
         {panel === "account" && <>
           <span className="kpEyebrow">Личный кабинет</span><h2>Мой аккаунт</h2>
-          <p className="modalLead">Вы вошли как <b>{session?.user.email}</b>. Регистрация на мероприятия доступна только для Марафона ҚТЖ.</p>
-          <div className="formActions"><a className="primary" href={marathonRegistrationUrl} target="_blank" rel="noreferrer">Регистрация на марафон</a><button type="button" className="secondary" onClick={() => { supabase.auth.signOut(); setPanel(null); }}>Выйти</button></div>
+          <p className="modalLead">Вы вошли как <b>{session?.user.email}</b>.</p>
+          <div className="formActions"><button type="button" className="secondary" onClick={() => { supabase.auth.signOut(); setPanel(null); }}>Выйти</button></div>
         </>}
         {panel === "admin" && <>
           <div className="adminHead"><div><span className="kpEyebrow">Быстрая панель</span><h2>Регистрации на события</h2></div><button className="secondary" onClick={() => { supabase.auth.signOut(); setPanel(null); }}>Выйти</button></div>
