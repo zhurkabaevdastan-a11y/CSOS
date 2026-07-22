@@ -84,6 +84,7 @@ export type SitePage = {
 };
 
 export const powerBiDashboardUrl = "https://app.powerbi.com/links/_EeS_Wc-7-?ctid=c842c2d8-51ce-4bb7-afe3-1894b6993690&pbi_source=linkShare";
+export const marathonRegistrationUrl = "https://forms.cloud.microsoft/r/watNzKnHrC";
 
 export const photoAlbums: Record<string, SiteCard[]> = {
   "2023": [
@@ -206,9 +207,9 @@ export const sitePages: Record<string, SitePage> = {
     path: "/volunteering/school", title: "Школа корпоративного волонтёрства", eyebrow: "12–14 сентября · Астана",
     lead: "Три дня практики, живых кейсов и командной работы для сотрудников, готовых запускать полезные инициативы.",
     steps: [
-      { number: "01", title: "Подайте заявку", text: "Войдите в личный кабинет и заполните короткую форму участника." },
-      { number: "02", title: "Пройдите отбор", text: "Команда департамента свяжется с участниками и подтвердит участие." },
-      { number: "03", title: "Создайте проект", text: "На школе вы соберёте команду и разработаете социальную инициативу." },
+      { number: "01", title: "Основы волонтёрства", text: "Знакомство с принципами устойчивых социальных инициатив и корпоративной взаимопомощи." },
+      { number: "02", title: "Работа над кейсами", text: "Практические задания, командная работа и разбор реальных социальных задач." },
+      { number: "03", title: "Социальный проект", text: "Разработка инициативы, которую команда сможет реализовать в своём регионе." },
     ],
   },
   "volunteering/best-2026": {

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createClient, type Session } from "@supabase/supabase-js";
-import { topNavigation } from "./content";
+import { marathonRegistrationUrl, topNavigation } from "./content";
 
 const supabase = createClient(
   "https://bowvuafbszouqimilytd.supabase.co",
@@ -23,14 +23,13 @@ const directions = [
 
 export default function Home() {
   const [menu, setMenu] = useState(false);
-  const [panel, setPanel] = useState<"auth" | "register" | "admin" | null>(null);
+  const [panel, setPanel] = useState<"auth" | "account" | "admin" | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [role, setRole] = useState<string | null>(null);
   const [authEmail, setAuthEmail] = useState("");
   const [authPassword, setAuthPassword] = useState("");
   const [message, setMessage] = useState("");
   const [registrations, setRegistrations] = useState<any[]>([]);
-  const [form, setForm] = useState({ first_name: "", last_name: "", phone: "", department: "", region: "", discipline: "Корпоративное волонтёрство", team_name: "", comment: "" });
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setSession(data.session));
@@ -47,7 +46,6 @@ export default function Home() {
   useEffect(() => {
     const openFromHash = () => {
       if (window.location.hash === "#login") setPanel("auth");
-      if (window.location.hash === "#register") setPanel(session ? "register" : "auth");
     };
     openFromHash();
     window.addEventListener("hashchange", openFromHash);
@@ -80,23 +78,7 @@ export default function Home() {
         .select("id,event_id,discipline,team_name,status,created_at,user_id,profiles(first_name,last_name,email,department,region,phone)")
         .order("created_at", { ascending: false });
       setRegistrations(data ?? []);
-    } else setPanel("register");
-  };
-
-  const submitRegistration = async (event: React.FormEvent) => {
-    event.preventDefault();
-    if (!session) return setPanel("auth");
-    setMessage("Сохраняем заявку…");
-    const { error: profileError } = await supabase.from("profiles").update({
-      first_name: form.first_name, last_name: form.last_name, phone: form.phone,
-      department: form.department, region: form.region, email: session.user.email,
-    }).eq("id", session.user.id);
-    if (profileError) return setMessage(profileError.message);
-    const { error } = await supabase.from("registrations").insert({
-      user_id: session.user.id, event_id: "volunteer-school-2026", discipline: form.discipline,
-      team_name: form.team_name || null, comment: form.comment || null, health_confirmed: true, status: "submitted",
-    });
-    setMessage(error ? error.message : "Готово! Ваша заявка принята.");
+    } else setPanel("account");
   };
 
   return (
@@ -107,7 +89,7 @@ export default function Home() {
           <span><b>Все о социальной</b><small>политике ҚТЖ</small></span>
         </a>
         <nav className={menu ? "open" : ""}>{topNavigation.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav>
-        <button className="kpCabinet" onClick={openCabinet}>{session ? (role === "admin" ? "Админ-панель" : "Мои заявки") : "Личный кабинет"}</button>
+        <button className="kpCabinet" onClick={openCabinet}>{session ? (role === "admin" ? "Админ-панель" : "Мой аккаунт") : "Вход / регистрация"}</button>
         <button className="kpMenu" onClick={() => setMenu(!menu)} aria-expanded={menu} aria-label="Открыть меню">{menu ? "×" : "☰"}</button>
       </header>
 
@@ -139,8 +121,8 @@ export default function Home() {
       </section>
 
       <section className="kpFeatured reveal">
-        <div className="kpFeaturedVisual"><span>Больше<br />добрых<br />дел</span></div>
-        <div className="kpFeaturedCopy"><span className="kpEyebrow">02 / Главное событие</span><time>12–14 сентября · Астана</time><h2>Школа корпоративного волонтёрства</h2><p>Три дня практики, живых кейсов и командной работы для сотрудников, готовых запускать полезные инициативы.</p><div><a href="/volunteering/school">О событии <span>↗</span></a><button onClick={() => setPanel(session ? "register" : "auth")}>Зарегистрироваться</button></div></div>
+        <div className="kpFeaturedVisual"><span>Один<br />ритм.<br />Одна<br />команда.</span></div>
+        <div className="kpFeaturedCopy"><span className="kpEyebrow">02 / Главное событие</span><time>20 сентября 2027 · Астана</time><h2>Марафон ҚТЖ</h2><p>Главный массовый старт для работников, семей и друзей железной дороги. Регистрация участников проходит в официальной форме Microsoft.</p><div><a href={marathonRegistrationUrl} target="_blank" rel="noreferrer">Регистрация на марафон <span>↗</span></a><a className="kpFeaturedSecondary" href="/sport/calendar">Календарь спорта</a></div></div>
       </section>
 
       <section className="kpUpdates reveal">
@@ -166,23 +148,14 @@ export default function Home() {
           <p className="modalLead">Используйте корпоративную или личную электронную почту.</p>
           <label>Электронная почта<input type="email" value={authEmail} onChange={(event) => setAuthEmail(event.target.value)} placeholder="name@example.com" /></label>
           <label>Пароль<input type="password" value={authPassword} onChange={(event) => setAuthPassword(event.target.value)} placeholder="Не менее 6 символов" /></label>
-          <div className="formActions"><button className="primary" onClick={() => authenticate(false)}>Войти</button><button className="secondary" onClick={() => authenticate(true)}>Создать доступ</button></div>
+          <div className="formActions"><button className="primary" onClick={() => authenticate(false)}>Войти</button><button className="secondary" onClick={() => authenticate(true)}>Зарегистрироваться на сайте</button></div>
           {message && <p className="formMessage">{message}</p>}
         </>}
-        {panel === "register" && <form onSubmit={submitRegistration}>
-          <span className="kpEyebrow">Регистрация</span><h2>Школа корпоративного волонтёрства</h2>
-          <div className="formGrid">
-            <label>Имя<input required value={form.first_name} onChange={(event) => setForm({...form, first_name:event.target.value})} /></label>
-            <label>Фамилия<input required value={form.last_name} onChange={(event) => setForm({...form, last_name:event.target.value})} /></label>
-            <label>Телефон<input required value={form.phone} onChange={(event) => setForm({...form, phone:event.target.value})} /></label>
-            <label>Подразделение<input required value={form.department} onChange={(event) => setForm({...form, department:event.target.value})} /></label>
-            <label>Регион<input required value={form.region} onChange={(event) => setForm({...form, region:event.target.value})} /></label>
-            <label>Команда<input value={form.team_name} onChange={(event) => setForm({...form, team_name:event.target.value})} /></label>
-          </div>
-          <label>Комментарий<textarea value={form.comment} onChange={(event) => setForm({...form, comment:event.target.value})} /></label>
-          <div className="formActions"><button className="primary" type="submit">Отправить заявку</button><button type="button" className="secondary" onClick={() => supabase.auth.signOut()}>Выйти</button></div>
-          {message && <p className="formMessage">{message}</p>}
-        </form>}
+        {panel === "account" && <>
+          <span className="kpEyebrow">Личный кабинет</span><h2>Мой аккаунт</h2>
+          <p className="modalLead">Вы вошли как <b>{session?.user.email}</b>. Регистрация на мероприятия доступна только для Марафона ҚТЖ.</p>
+          <div className="formActions"><a className="primary" href={marathonRegistrationUrl} target="_blank" rel="noreferrer">Регистрация на марафон</a><button type="button" className="secondary" onClick={() => { supabase.auth.signOut(); setPanel(null); }}>Выйти</button></div>
+        </>}
         {panel === "admin" && <>
           <div className="adminHead"><div><span className="kpEyebrow">Быстрая панель</span><h2>Регистрации на события</h2></div><button className="secondary" onClick={() => { supabase.auth.signOut(); setPanel(null); }}>Выйти</button></div>
           <div className="adminStats"><div><strong>{registrations.length}</strong><span>всего заявок</span></div><div><strong>{registrations.filter((row) => row.status === "submitted").length}</strong><span>новых</span></div><div><strong>{new Set(registrations.map((row) => row.profiles?.region).filter(Boolean)).size}</strong><span>регионов</span></div></div>
