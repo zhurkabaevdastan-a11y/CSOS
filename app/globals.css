@@ -22,6 +22,7 @@ img{display:block;max-width:100%}
 .kpBrand b{font-size:12px;letter-spacing:.08em}.kpBrand small{margin-top:6px;color:var(--muted);font-size:10px;letter-spacing:.04em}
 .kpHeader>nav{display:grid;grid-template-columns:repeat(5,1fr)}
 .kpHeader>nav a{display:grid;place-items:center;padding:14px;border-right:1px solid var(--line);text-align:center;text-decoration:none;font-size:13px;line-height:1.2;transition:background .25s,color .25s}
+.kpHome .kpHeader>nav a{font-size:15px;font-weight:700;line-height:1.28;letter-spacing:-.01em}
 .kpHeader>nav a:hover{color:var(--white);background:var(--navy)}
 .kpCabinet{display:grid;place-items:center;min-width:168px;padding:16px 24px;color:var(--white);border:0;background:var(--blue);font-weight:700;text-decoration:none;text-align:center}
 .kpCabinet:hover{background:var(--navy)}
@@ -101,7 +102,7 @@ table{width:100%;border-collapse:collapse}th,td{padding:17px 15px;border-bottom:
 
 .kpTimeline{border-top:1px solid var(--line)}
 .kpTimeline article{display:grid;grid-template-columns:70px minmax(150px,.4fr) minmax(0,1.4fr) auto;align-items:center;gap:30px;min-height:130px;padding:24px 12px;border-bottom:1px solid var(--line)}
-.kpTimeline>article>span{color:var(--blue);font-size:11px}.kpTimeline time{font-weight:800}.kpTimeline h3{margin:0;font-size:clamp(25px,3vw,43px);line-height:1;letter-spacing:-.04em;overflow-wrap:break-word}
+.kpTimeline>article>span{color:var(--blue);font-size:11px}.kpTimeline time{font-size:14px;font-weight:800;line-height:1.4}.kpTimeline h3{margin:0;font-size:clamp(18px,1.65vw,26px);line-height:1.25;letter-spacing:-.02em;overflow-wrap:break-word}
 .kpEventRegistration{display:inline-flex;align-items:center;gap:12px;padding:13px 18px;color:var(--white);background:var(--blue);border-radius:999px;text-decoration:none;font-size:13px;font-weight:800;white-space:nowrap}.kpEventRegistration i{font-style:normal}
 .kpResultGrid,.kpPageCards,.kpSteps,.kpInfoGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .kpResultGrid article,.kpSteps article,.kpInfoGrid article{position:relative;min-height:340px;padding:30px;background:var(--white);border:1px solid var(--line);border-radius:22px}
