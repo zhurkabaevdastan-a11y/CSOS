@@ -21,6 +21,37 @@ const directions = [
   { number: "09", href: "/team", title: "Наша команда", text: "Люди, которые развивают социальные программы и региональные инициативы.", mark: "НК" },
 ];
 
+type SiteAnalytics = {
+  summary: {
+    total_views: number;
+    unique_visitors: number;
+    sessions: number;
+    today_views: number;
+    seven_day_views: number;
+  };
+  pages: Array<{ path: string; page_title: string; views: number; visitors: number; last_visit: string }>;
+  daily: Array<{ day: string; views: number; visitors: number }>;
+  recent: Array<{ path: string; page_title: string; visited_at: string }>;
+};
+
+const numberFormat = new Intl.NumberFormat("ru-RU");
+const visitDateFormat = new Intl.DateTimeFormat("ru-RU", {
+  timeZone: "Asia/Almaty",
+  day: "2-digit",
+  month: "short",
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
+const emptyAnalytics: SiteAnalytics = {
+  summary: { total_views: 0, unique_visitors: 0, sessions: 0, today_views: 0, seven_day_views: 0 },
+  pages: [],
+  daily: [],
+  recent: [],
+};
+
+const pageLabel = (title: string, path: string) => title || (path === "/" ? "Главная" : path);
+
 export default function Home() {
   const [menu, setMenu] = useState(false);
   const [panel, setPanel] = useState<"auth" | "account" | "admin" | null>(null);
@@ -30,6 +61,9 @@ export default function Home() {
   const [authPassword, setAuthPassword] = useState("");
   const [message, setMessage] = useState("");
   const [registrations, setRegistrations] = useState<any[]>([]);
+  const [analytics, setAnalytics] = useState<SiteAnalytics>(emptyAnalytics);
+  const [adminLoading, setAdminLoading] = useState(false);
+  const [adminError, setAdminError] = useState("");
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setSession(data.session));
@@ -80,12 +114,23 @@ export default function Home() {
     if (!session) return setPanel("auth");
     if (role === "admin") {
       setPanel("admin");
-      const { data } = await supabase.from("registrations")
-        .select("id,event_id,discipline,team_name,status,created_at,user_id,profiles(first_name,last_name,email,department,region,phone)")
-        .order("created_at", { ascending: false });
-      setRegistrations(data ?? []);
+      setAdminLoading(true);
+      setAdminError("");
+      const [registrationResult, analyticsResult] = await Promise.all([
+        supabase.from("registrations")
+          .select("id,event_id,discipline,team_name,status,created_at,user_id,profiles(first_name,last_name,email,department,region,phone)")
+          .order("created_at", { ascending: false }),
+        supabase.rpc("get_site_analytics"),
+      ]);
+      setRegistrations(registrationResult.data ?? []);
+      setAnalytics((analyticsResult.data as SiteAnalytics | null) ?? emptyAnalytics);
+      if (registrationResult.error || analyticsResult.error) setAdminError("Не удалось загрузить часть данных. Обновите панель чуть позже.");
+      setAdminLoading(false);
     } else setPanel("account");
   };
+
+  const maxDailyViews = Math.max(1, ...analytics.daily.map((item) => Number(item.views)));
+  const maxPageViews = Math.max(1, ...analytics.pages.map((item) => Number(item.views)));
 
   return (
     <main className="kpHome">
@@ -163,9 +208,39 @@ export default function Home() {
           <div className="formActions"><button type="button" className="secondary" onClick={() => { supabase.auth.signOut(); setPanel(null); }}>Выйти</button></div>
         </>}
         {panel === "admin" && <>
-          <div className="adminHead"><div><span className="kpEyebrow">Быстрая панель</span><h2>Регистрации на события</h2></div><button className="secondary" onClick={() => { supabase.auth.signOut(); setPanel(null); }}>Выйти</button></div>
-          <div className="adminStats"><div><strong>{registrations.length}</strong><span>всего заявок</span></div><div><strong>{registrations.filter((row) => row.status === "submitted").length}</strong><span>новых</span></div><div><strong>{new Set(registrations.map((row) => row.profiles?.region).filter(Boolean)).size}</strong><span>регионов</span></div></div>
-          <div className="tableWrap"><table><thead><tr><th>Участник</th><th>Контакты</th><th>Подразделение</th><th>Направление</th><th>Статус</th></tr></thead><tbody>{registrations.map((row) => <tr key={row.id}><td><b>{row.profiles?.last_name} {row.profiles?.first_name}</b><small>{row.profiles?.region}</small></td><td>{row.profiles?.email}<small>{row.profiles?.phone}</small></td><td>{row.profiles?.department || "—"}</td><td>{row.discipline || "—"}<small>{row.team_name}</small></td><td><span className="status">{row.status === "submitted" ? "Новая" : row.status}</span></td></tr>)}</tbody></table>{!registrations.length && <p className="emptyState">Пока нет регистраций.</p>}</div>
+          <div className="adminHead"><div><span className="kpEyebrow">Быстрая панель</span><h2>Управление сайтом</h2><p>Посещения страниц и регистрации собраны в одном месте.</p></div><button className="secondary" onClick={() => { supabase.auth.signOut(); setPanel(null); }}>Выйти</button></div>
+          {adminLoading && <p className="adminNotice">Загружаем актуальную статистику…</p>}
+          {adminError && <p className="adminNotice adminNotice--error">{adminError}</p>}
+
+          <section className="adminSection">
+            <div className="adminSectionTitle"><div><span>Посещаемость</span><h3>Статистика сайта</h3></div><small>Время: Астана</small></div>
+            <div className="adminStats adminStats--analytics">
+              <div><strong>{numberFormat.format(analytics.summary.total_views)}</strong><span>просмотров</span></div>
+              <div><strong>{numberFormat.format(analytics.summary.unique_visitors)}</strong><span>посетителей</span></div>
+              <div><strong>{numberFormat.format(analytics.summary.today_views)}</strong><span>сегодня</span></div>
+              <div><strong>{numberFormat.format(analytics.summary.seven_day_views)}</strong><span>за 7 дней</span></div>
+            </div>
+
+            <div className="analyticsChart" aria-label="Просмотры за последние 14 дней">
+              <div className="analyticsChartHead"><h4>Динамика за 14 дней</h4><span>{numberFormat.format(analytics.summary.sessions)} сессий всего</span></div>
+              <div className="analyticsBars">{analytics.daily.map((item) => <div key={item.day} title={`${item.day}: ${item.views} просмотров`}><span style={{ height: `${Math.max(4, (Number(item.views) / maxDailyViews) * 100)}%` }} /><small>{new Date(`${item.day}T00:00:00+05:00`).toLocaleDateString("ru-RU", { day: "2-digit", month: "2-digit" })}</small></div>)}</div>
+            </div>
+
+            <div className="analyticsGrid">
+              <div className="analyticsPanel"><div className="analyticsPanelHead"><h4>Просмотры по страницам</h4><span>{analytics.pages.length} страниц</span></div>
+                <div className="pageAnalytics">{analytics.pages.map((item) => <article key={item.path}><div><b>{pageLabel(item.page_title, item.path)}</b><small>{item.path}</small></div><div className="pageAnalyticsNumbers"><strong>{numberFormat.format(item.views)}</strong><span>{numberFormat.format(item.visitors)} чел.</span></div><i style={{ width: `${Math.max(3, (Number(item.views) / maxPageViews) * 100)}%` }} /></article>)}{!analytics.pages.length && <p className="emptyState">Статистика начнёт появляться после новых посещений сайта.</p>}</div>
+              </div>
+              <div className="analyticsPanel"><div className="analyticsPanelHead"><h4>Последние посещения</h4><span>20 последних</span></div>
+                <div className="recentVisits">{analytics.recent.map((item, index) => <article key={`${item.visited_at}-${index}`}><div><b>{pageLabel(item.page_title, item.path)}</b><small>{item.path}</small></div><time>{visitDateFormat.format(new Date(item.visited_at))}</time></article>)}{!analytics.recent.length && <p className="emptyState">Пока нет посещений.</p>}</div>
+              </div>
+            </div>
+          </section>
+
+          <section className="adminSection">
+            <div className="adminSectionTitle"><div><span>Участники</span><h3>Регистрации на события</h3></div></div>
+            <div className="adminStats"><div><strong>{registrations.length}</strong><span>всего заявок</span></div><div><strong>{registrations.filter((row) => ["new", "submitted"].includes(row.status)).length}</strong><span>новых</span></div><div><strong>{new Set(registrations.map((row) => row.profiles?.region).filter(Boolean)).size}</strong><span>регионов</span></div></div>
+            <div className="tableWrap"><table><thead><tr><th>Участник</th><th>Контакты</th><th>Подразделение</th><th>Направление</th><th>Статус</th></tr></thead><tbody>{registrations.map((row) => <tr key={row.id}><td><b>{row.profiles?.last_name} {row.profiles?.first_name}</b><small>{row.profiles?.region}</small></td><td>{row.profiles?.email}<small>{row.profiles?.phone}</small></td><td>{row.profiles?.department || "—"}</td><td>{row.discipline || "—"}<small>{row.team_name}</small></td><td><span className="status">{["new", "submitted"].includes(row.status) ? "Новая" : row.status}</span></td></tr>)}</tbody></table>{!registrations.length && <p className="emptyState">Пока нет регистраций.</p>}</div>
+          </section>
         </>}
       </section></div>}
     </main>

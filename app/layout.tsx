@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+import VisitTracker from "./VisitTracker";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://csos-nu.vercel.app"),
@@ -17,5 +18,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="ru"><body>{children}<Analytics /></body></html>;
+  return <html lang="ru"><body>{children}<VisitTracker /><Analytics /></body></html>;
 }
