@@ -4,14 +4,14 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://csos-nu.vercel.app"),
-  title: "Департамент социальной политики ҚТЖ",
-  description: "Спорт, волонтерство, молодежная политика и поддержка ветеранов ҚТЖ.",
+  title: "Все о социальной политике ҚТЖ",
+  description: "Корпоративная культура, социальная стабильность, молодёжные, волонтёрские и спортивные инициативы ҚТЖ.",
   icons: { icon: "/favicon.svg" },
   openGraph: {
-    title: "Департамент социальной политики ҚТЖ",
+    title: "Все о социальной политике ҚТЖ",
     description: "Люди. Движение. Возможности.",
     type: "website",
-    images: [{ url: "/ktz-hero.png", width: 1672, height: 941, alt: "Люди. Движение. Возможности. Департамент социальной политики ҚТЖ" }],
+    images: [{ url: "/ktz-hero.png", width: 1672, height: 941, alt: "Люди. Движение. Возможности. Всё о социальной политике ҚТЖ" }],
   },
   twitter: { card: "summary_large_image", images: ["/ktz-hero.png"] },
 };

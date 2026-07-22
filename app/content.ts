@@ -71,7 +71,8 @@ export const sportResults = [
   { label: "Мини-футбол · QYZMET CUP 2025", title: "Чемпионы QAZAQSTAN QYZMET CUP", text: "Сборная АО «НК «ҚТЖ» выиграла финал чемпионата Казахстана по мини-футболу, опередив команду «Самрук-Энерго»." },
 ];
 
-export type SiteCard = { href: string; title: string; text: string; tag?: string };
+export type SiteCard = { href: string; title: string; text: string; tag?: string; external?: boolean };
+export type InfoPanel = { label: string; title: string; text: string };
 export type SitePage = {
   path: string;
   title: string;
@@ -79,11 +80,90 @@ export type SitePage = {
   lead: string;
   cards?: SiteCard[];
   steps?: { number: string; title: string; text: string }[];
+  panels?: InfoPanel[];
+};
+
+export const powerBiDashboardUrl = "https://app.powerbi.com/links/_EeS_Wc-7-?ctid=c842c2d8-51ce-4bb7-afe3-1894b6993690&pbi_source=linkShare";
+
+export const photoAlbums: Record<string, SiteCard[]> = {
+  "2023": [
+    { href: "https://disk.yandex.kz/d/eV5VRBIJozH49Q", title: "Марафон ҚТЖ 2023", text: "Фотографии участников и ярких моментов марафона.", tag: "Яндекс Диск", external: true },
+  ],
+  "2024": [
+    { href: "https://disk.yandex.kz/d/Op7crl_IQFuuJQ", title: "Баскетбол 2024", text: "Фотоальбом баскетбольного турнира.", tag: "Яндекс Диск", external: true },
+    { href: "https://disk.yandex.kz/d/pQMVpXXPHCDggw", title: "Футбол 2024 — Шымкент", text: "Фотографии футбольных встреч в Шымкенте.", tag: "Яндекс Диск", external: true },
+    { href: "https://disk.yandex.kz/d/-UBSzXA3iqC0YQ", title: "Зимняя спартакиада ҚТЖ 2024", text: "Фото зимних соревнований команды ҚТЖ.", tag: "Яндекс Диск", external: true },
+    { href: "https://disk.yandex.kz/d/GKTgW2oo-6gOZA", title: "Летняя спартакиада 2024", text: "Фотоальбом летнего спортивного сезона.", tag: "Яндекс Диск", external: true },
+    { href: "https://disk.yandex.kz/d/Br5RLZO_rhckkA", title: "Марафон ҚТЖ 2024", text: "Фотографии марафона ҚТЖ 2024 года.", tag: "Яндекс Диск", external: true },
+  ],
+  "2025": [
+    { href: "https://disk.yandex.kz/d/4Df-19C9LPsQ2Q", title: "Волейбол 2025", text: "Фотоальбом чемпионата по волейболу.", tag: "Яндекс Диск", external: true },
+    { href: "https://disk.yandex.kz/d/HpDG4-q_WFiLVw", title: "Зимняя спартакиада ҚТЖ 2025", text: "Фото зимней спартакиады ҚТЖ.", tag: "Яндекс Диск", external: true },
+    { href: "https://disk.yandex.kz/d/MRfn-wEoChs1PA", title: "Зимняя спартакиада Самрук-Қазына 2025", text: "Фотоальбом отраслевой зимней спартакиады.", tag: "Яндекс Диск", external: true },
+    { href: "https://disk.yandex.kz/d/oJRP3NjV7psEBA", title: "Лыжные гонки 2025", text: "Фотографии участников лыжных стартов.", tag: "Яндекс Диск", external: true },
+    { href: "https://disk.yandex.kz/d/h8GjngcSflKBEQ", title: "Марафон ҚТЖ 2025", text: "Фотоальбом марафона ҚТЖ.", tag: "Яндекс Диск", external: true },
+    { href: "https://disk.yandex.kz/d/WYlBR74XkT20Vw", title: "Марафон Самрук-Қазына 2025", text: "Фотографии команды на корпоративном марафоне.", tag: "Яндекс Диск", external: true },
+    { href: "https://disk.yandex.kz/d/HDbR4i_rnm_jTg", title: "X Спартакиада Самрук-Қазына 2025", text: "Фото главных стартов и побед сборной ҚТЖ.", tag: "Яндекс Диск", external: true },
+    { href: "https://disk.yandex.kz/d/J753Zs_nsVIIsg", title: "УмтылФест 2025", text: "Фотографии спортивного фестиваля.", tag: "Яндекс Диск", external: true },
+    { href: "https://disk.yandex.kz/d/yfRgfaRXmvAQcg", title: "Чемпионат по национальным видам спорта 2025", text: "Фото соревнований по национальным видам спорта.", tag: "Яндекс Диск", external: true },
+    { href: "https://disk.yandex.kz/d/FwiMTWWdMnxiKA", title: "Спартакиада ҚТЖ 2025 — Астана", text: "Фотоальбом соревнований в Астане.", tag: "Яндекс Диск", external: true },
+    { href: "https://disk.yandex.kz/d/tFeCSSrWbbtwow", title: "Футзал 2025", text: "Фотографии матчей и команды по футзалу.", tag: "Яндекс Диск", external: true },
+  ],
+  "2026": [
+    { href: "https://disk.yandex.kz/d/nedznmrNR_LH9Q", title: "II Зимняя спартакиада Самрук-Қазына", text: "Фотоальбом зимней отраслевой спартакиады.", tag: "Яндекс Диск", external: true },
+    { href: "https://disk.yandex.kz/d/-vunVSK2fL-8Aw", title: "Баскетбол 2026", text: "Фотографии баскетбольного сезона.", tag: "Яндекс Диск", external: true },
+    { href: "https://disk.yandex.kz/d/E49gPa61vqDsaw", title: "Волейбол 2026", text: "Фотоальбом волейбольного чемпионата.", tag: "Яндекс Диск", external: true },
+    { href: "https://disk.yandex.kz/d/QgO0GBMyqgc2xA", title: "Детский турнир 2026", text: "Фотографии детского спортивного турнира.", tag: "Яндекс Диск", external: true },
+    { href: "https://disk.yandex.kz/d/n18nYKMu_mRfGg", title: "Наурыз 2026", text: "Фото праздничных спортивных мероприятий.", tag: "Яндекс Диск", external: true },
+    { href: "https://disk.yandex.kz/d/s5QdRg1ZzBPKdw", title: "Футзал 2026", text: "Фотографии матчей и участников чемпионата.", tag: "Яндекс Диск", external: true },
+    { href: "https://disk.yandex.kz/d/R3wJvmpCa6fWhg", title: "Летняя спартакиада 2026", text: "Фотоальбом летних соревнований.", tag: "Яндекс Диск", external: true },
+    { href: "https://disk.yandex.kz/d/3ItqQEa3kPCCjw", title: "IV Charity Samruk Marathon 2026", text: "Фотографии благотворительного марафона.", tag: "Яндекс Диск", external: true },
+  ],
 };
 
 export const sitePages: Record<string, SitePage> = {
+  "corporate-culture": {
+    path: "/corporate-culture", title: "Корпоративная культура", eyebrow: "Единая команда ҚТЖ",
+    lead: "Ценности, традиции и инициативы, которые объединяют железнодорожников по всей стране.",
+    panels: [
+      { label: "Ценности", title: "Уважение и ответственность", text: "Поддерживаем культуру открытого диалога, взаимного уважения и личной ответственности за общий результат." },
+      { label: "Традиции", title: "Профессиональная гордость", text: "Сохраняем отраслевые традиции и рассказываем о людях, чья работа двигает железную дорогу вперёд." },
+      { label: "Команда", title: "Вовлечённость сотрудников", text: "Создаём возможности для участия в корпоративных, социальных и общественных инициативах." },
+    ],
+  },
+  "social-stability": {
+    path: "/social-stability", title: "Социальная стабильность", eyebrow: "Благополучие сотрудников",
+    lead: "Системная работа с обратной связью, социальным самочувствием и условиями для устойчивой командной среды.",
+    panels: [
+      { label: "Мониторинг", title: "Социальное самочувствие", text: "Анализируем обратную связь сотрудников и отслеживаем вопросы, влияющие на стабильность коллективов." },
+      { label: "Диалог", title: "Открытая коммуникация", text: "Помогаем подразделениям выстраивать конструктивный диалог и своевременно находить решения." },
+      { label: "Поддержка", title: "Профилактические меры", text: "Формируем инициативы, направленные на снижение социальных рисков и укрепление доверия." },
+    ],
+  },
+  "appeals": {
+    path: "/appeals", title: "Информация по жалобам и обращениям", eyebrow: "Обратная связь",
+    lead: "Дашборд Power BI для анализа обращений и работы с обратной связью сотрудников.",
+  },
+  "children": {
+    path: "/children", title: "Работа с детьми", eyebrow: "Забота о будущем",
+    lead: "Социальные, образовательные и спортивные инициативы для детей работников железнодорожной отрасли.",
+    panels: [
+      { label: "Развитие", title: "Образовательные инициативы", text: "Поддерживаем проекты, которые помогают детям раскрывать способности и знакомиться с миром железной дороги." },
+      { label: "Здоровье", title: "Спорт и активный отдых", text: "Создаём возможности для участия детей в турнирах, семейных стартах и оздоровительных программах." },
+      { label: "Семья", title: "Совместные события", text: "Объединяем семьи работников через праздники, конкурсы и корпоративные социальные проекты." },
+    ],
+  },
+  "team": {
+    path: "/team", title: "Наша команда", eyebrow: "Люди социальной политики",
+    lead: "Команда, которая координирует социальные программы, поддерживает региональные инициативы и помогает сотрудникам ҚТЖ.",
+    panels: [
+      { label: "Координация", title: "Единый социальный контур", text: "Связываем центральный аппарат и региональные подразделения для реализации общих программ." },
+      { label: "Экспертиза", title: "Работа по направлениям", text: "Развиваем корпоративную культуру, молодёжные, ветеранские, волонтёрские и спортивные проекты." },
+      { label: "Связь", title: "Открыты к предложениям", text: "Принимаем идеи сотрудников и помогаем превращать полезные инициативы в работающие проекты." },
+    ],
+  },
   "sport": {
-    path: "/sport", title: "Спорт в ҚТЖ", eyebrow: "Энергия движения",
+    path: "/sport", title: "Спортивная жизнь ҚТЖ", eyebrow: "Энергия движения",
     lead: "Корпоративный спорт объединяет железнодорожников, укрепляет командный дух и создаёт культуру активной жизни.",
     cards: [
       { href: "/sport/instructors", title: "Спортивные инструкторы", text: "42 действующих инструктора в 32 городах и регионах.", tag: "Команда" },
@@ -107,11 +187,12 @@ export const sitePages: Record<string, SitePage> = {
   "sport/photos": {
     path: "/sport/photos", title: "Фотоархив спорта", eyebrow: "История в кадрах",
     lead: "Фото спортивных событий, команд и побед ҚТЖ с навигацией по годам.",
-    cards: [2024, 2025, 2026, 2027].map((year) => ({ href: `/sport/photos/${year}`, title: String(year), text: "Альбом спортивных событий года", tag: "Фото" })),
+    cards: [2023, 2024, 2025, 2026].map((year) => ({ href: `/sport/photos/${year}`, title: String(year), text: `${photoAlbums[String(year)].length} ${photoAlbums[String(year)].length === 1 ? "фотоальбом" : "фотоальбомов"} спортивных событий`, tag: "Фото" })),
   },
-  ...Object.fromEntries([2024, 2025, 2026, 2027].map((year) => [`sport/photos/${year}`, {
+  ...Object.fromEntries([2023, 2024, 2025, 2026].map((year) => [`sport/photos/${year}`, {
     path: `/sport/photos/${year}`, title: `Спортивный фотоархив ${year}`, eyebrow: "Фото по годам",
-    lead: `Страница для фотографий команд, соревнований и ярких моментов спортивного сезона ${year} года.`,
+    lead: `Фотографии команд, соревнований и ярких моментов спортивного сезона ${year} года.`,
+    cards: photoAlbums[String(year)],
   }])),
   "volunteering": {
     path: "/volunteering", title: "Корпоративное волонтёрство", eyebrow: "Добрые дела объединяют",
@@ -174,7 +255,7 @@ export const sitePages: Record<string, SitePage> = {
     ],
   },
   "pensioners": {
-    path: "/pensioners", title: "Забота о ветеранах отрасли", eyebrow: "Уважение к опыту",
+    path: "/pensioners", title: "Ветераны отрасли", eyebrow: "Уважение к опыту",
     lead: "Программы поддержки пенсионеров и ветеранов железнодорожной отрасли, встречи поколений и сохранение профессиональной памяти.",
     cards: [
       { href: "/pensioners/support", title: "Социальная поддержка", text: "Информация о программах помощи и полезных контактах.", tag: "Поддержка" },
@@ -188,8 +269,9 @@ export const sitePages: Record<string, SitePage> = {
 };
 
 export const topNavigation = [
-  { href: "/sport", label: "Спорт" },
-  { href: "/volunteering", label: "Волонтёрство" },
+  { href: "/corporate-culture", label: "Корпоративная культура" },
+  { href: "/appeals", label: "Жалобы и обращения" },
   { href: "/youth", label: "Молодёжная политика" },
-  { href: "/pensioners", label: "Пенсионеры" },
+  { href: "/volunteering", label: "Волонтёрство" },
+  { href: "/sport", label: "Спортивная жизнь" },
 ];

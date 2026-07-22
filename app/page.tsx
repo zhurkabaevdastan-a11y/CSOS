@@ -10,10 +10,15 @@ const supabase = createClient(
 );
 
 const directions = [
-  { number: "01", href: "/sport", title: "Спорт", text: "Инструкторы, календарь событий, результаты сборной и фотоархив.", mark: "СП" },
-  { number: "02", href: "/volunteering", title: "Волонтёрство", text: "Школа корпоративного волонтёрства и лучшие волонтёры 2026 года.", mark: "ВО" },
-  { number: "03", href: "/youth", title: "Молодёжная политика", text: "КВН, региональный совет и конкурс «Жас үздік маман».", mark: "МП" },
-  { number: "04", href: "/pensioners", title: "Пенсионеры", text: "Поддержка ветеранов, встречи поколений и сохранение истории.", mark: "ПН" },
+  { number: "01", href: "/corporate-culture", title: "Корпоративная культура", text: "Ценности, традиции и инициативы единой команды ҚТЖ.", mark: "КК" },
+  { number: "02", href: "/social-stability", title: "Социальная стабильность", text: "Благополучие сотрудников, открытый диалог и профилактика социальных рисков.", mark: "СС" },
+  { number: "03", href: "/appeals", title: "Информация по жалобам и обращениям", text: "Защищённый дашборд Power BI и работа с обратной связью.", mark: "ОБ" },
+  { number: "04", href: "/youth", title: "Молодёжная политика", text: "КВН, региональный совет и конкурс «Жас үздік маман».", mark: "МП" },
+  { number: "05", href: "/children", title: "Работа с детьми", text: "Образовательные, спортивные и семейные инициативы.", mark: "ДТ" },
+  { number: "06", href: "/pensioners", title: "Ветераны отрасли", text: "Поддержка ветеранов, встречи поколений и сохранение истории.", mark: "ВО" },
+  { number: "07", href: "/volunteering", title: "Волонтёрство", text: "Школа корпоративного волонтёрства и лучшие волонтёры 2026 года.", mark: "ВЛ" },
+  { number: "08", href: "/sport", title: "Спортивная жизнь", text: "Инструкторы, календарь событий, результаты сборной и фотоархив.", mark: "СП" },
+  { number: "09", href: "/team", title: "Наша команда", text: "Люди, которые развивают социальные программы и региональные инициативы.", mark: "НК" },
 ];
 
 export default function Home() {
@@ -99,7 +104,7 @@ export default function Home() {
       <header className="kpHeader">
         <a className="kpBrand" href="/" aria-label="ҚТЖ — главная">
           <img src="/ktz-logo.png" alt="Қазақстан темір жолы" />
-          <span><b>Департамент</b><small>социальной политики</small></span>
+          <span><b>Все о социальной</b><small>политике ҚТЖ</small></span>
         </a>
         <nav className={menu ? "open" : ""}>{topNavigation.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav>
         <button className="kpCabinet" onClick={openCabinet}>{session ? (role === "admin" ? "Админ-панель" : "Мои заявки") : "Личный кабинет"}</button>
@@ -107,20 +112,21 @@ export default function Home() {
       </header>
 
       <section className="kpHomeHero" aria-label="Люди. Движение. Возможности.">
-        <img className="kpHeroDesktop" src="/ktz-hero.png" alt="Люди. Движение. Возможности. Департамент социальной политики ҚТЖ" />
-        <div className="kpHeroMobile"><span>Департамент социальной политики ҚТЖ</span><h1>Люди.<br />Движение.<br />Возможности.</h1><i /></div>
+        <img className="kpHeroDesktop" src="/ktz-hero.png" alt="Люди. Движение. Возможности. Всё о социальной политике ҚТЖ" />
+        <span className="kpHeroBrandLine">Все о социальной политике ҚТЖ</span>
+        <div className="kpHeroMobile"><span>Все о социальной политике ҚТЖ</span><h1>Люди.<br />Движение.<br />Возможности.</h1><i /></div>
         <a href="#mission" className="kpScroll">Смотреть направления <span>↓</span></a>
       </section>
 
       <section className="kpMission reveal" id="mission">
-        <span className="kpEyebrow">О департаменте</span>
+        <span className="kpEyebrow">О социальной политике</span>
         <h2>Социальная политика, которая <em>объединяет большую команду.</em></h2>
         <p>Создаём среду для движения, добрых дел, профессионального роста и уважения к опыту железнодорожников.</p>
       </section>
 
-      <section className="kpHomeFacts reveal" aria-label="Департамент в цифрах">
+      <section className="kpHomeFacts reveal" aria-label="Социальная политика в цифрах">
         <article><strong>120 000+</strong><span>сотрудников</span></article>
-        <article><strong>4</strong><span>ключевых направления</span></article>
+        <article><strong>9</strong><span>ключевых направлений</span></article>
         <article><strong>17</strong><span>регионов присутствия</span></article>
         <article><strong>45</strong><span>позиций спортивных инструкторов</span></article>
       </section>
@@ -147,7 +153,7 @@ export default function Home() {
       </section>
 
       <footer className="kpFooter">
-        <div><img src="/ktz-logo.png" alt="ҚТЖ" /><p>Департамент социальной политики<br />АО «НК «Қазақстан темір жолы»</p></div>
+        <div><img src="/ktz-logo.png" alt="ҚТЖ" /><p>Все о социальной политике<br />АО «НК «Қазақстан темір жолы»</p></div>
         <nav>{topNavigation.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav>
         <div><a href="mailto:social@railways.kz">social@railways.kz</a><p>Астана, ул. Д. Кунаева, 6</p></div>
         <small>© 2026 АО «НК «ҚТЖ»</small>
