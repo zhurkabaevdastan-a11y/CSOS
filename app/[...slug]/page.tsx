@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { calendar2027, instructors, sitePages, sportResults, topNavigation } from "../content";
+import { calendar2027, instructors, powerBiDashboardUrl, sitePages, sportResults, topNavigation } from "../content";
 
 export function generateStaticParams() {
   return Object.keys(sitePages).map((key) => ({ slug: key.split("/") }));
@@ -10,7 +10,7 @@ function SiteHeader() {
     <header className="kpHeader">
       <a className="kpBrand" href="/" aria-label="ҚТЖ — главная">
         <img src="/ktz-logo.png" alt="Қазақстан темір жолы" />
-        <span><b>Департамент</b><small>социальной политики</small></span>
+        <span><b>Все о социальной</b><small>политике ҚТЖ</small></span>
       </a>
       <nav>{topNavigation.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav>
       <a className="kpCabinet" href="/#login">Личный кабинет</a>
@@ -22,7 +22,7 @@ function SiteHeader() {
 function SiteFooter() {
   return (
     <footer className="kpFooter">
-      <div><img src="/ktz-logo.png" alt="ҚТЖ" /><p>Департамент социальной политики<br />АО «НК «Қазақстан темір жолы»</p></div>
+      <div><img src="/ktz-logo.png" alt="ҚТЖ" /><p>Все о социальной политике<br />АО «НК «Қазақстан темір жолы»</p></div>
       <nav>{topNavigation.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav>
       <div><a href="mailto:social@railways.kz">social@railways.kz</a><p>Астана, ул. Д. Кунаева, 6</p></div>
       <small>© 2026 АО «НК «ҚТЖ»</small>
@@ -80,10 +80,35 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
         </section>
       )}
 
+      {key === "appeals" && (
+        <section className="kpContentSection kpPowerBiSection">
+          <div className="kpSectionTitle"><span>Power BI</span><h2>Дашборд жалоб и обращений</h2><p>Актуальная инфографика хранится в защищённом пространстве Microsoft.</p></div>
+          <div className="kpPowerBiPanel">
+            <div className="kpPowerBiVisual" aria-hidden="true">
+              <span>POWER BI</span>
+              <div><i style={{height: "42%"}} /><i style={{height: "68%"}} /><i style={{height: "55%"}} /><i style={{height: "86%"}} /><i style={{height: "72%"}} /></div>
+            </div>
+            <div className="kpPowerBiCopy">
+              <span className="kpEyebrow">Защищённая аналитика</span>
+              <h3>Информация открывается после авторизации Microsoft</h3>
+              <p>Корпоративная ссылка Power BI не разрешает безопасное встраивание на сторонние сайты. Откройте дашборд в новой вкладке, чтобы увидеть интерактивную инфографику и актуальные данные.</p>
+              <a className="kpAction" href={powerBiDashboardUrl} target="_blank" rel="noreferrer">Открыть дашборд Power BI <span>↗</span></a>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {page.panels && (
+        <section className="kpContentSection">
+          <div className="kpSectionTitle"><span>Главное</span><h2>Работа по направлению</h2><p>Основные задачи и приоритеты социальной политики.</p></div>
+          <div className="kpInfoGrid">{page.panels.map((panel, index) => <article key={panel.title}><span>{panel.label}</span><strong>0{index + 1}</strong><h3>{panel.title}</h3><p>{panel.text}</p></article>)}</div>
+        </section>
+      )}
+
       {page.cards && (
         <section className="kpContentSection">
-          <div className="kpSectionTitle"><span>Направления</span><h2>Выберите подраздел</h2><p>Каждый подраздел открывается на отдельной странице.</p></div>
-          <div className="kpPageCards">{page.cards.map((card, index) => <a key={`${card.title}-${index}`} href={card.href}><span>{card.tag ?? `0${index + 1}`}</span><h3>{card.title}</h3><p>{card.text}</p><i>↗</i></a>)}</div>
+          <div className="kpSectionTitle"><span>{key.startsWith("sport/photos/") ? "Фотоальбомы" : "Направления"}</span><h2>{key.startsWith("sport/photos/") ? "Откройте альбом события" : "Выберите подраздел"}</h2><p>{key.startsWith("sport/photos/") ? "Фотографии откроются в новой вкладке на Яндекс Диске." : "Каждый подраздел открывается на отдельной странице."}</p></div>
+          <div className="kpPageCards">{page.cards.map((card, index) => <a key={`${card.title}-${index}`} href={card.href} target={card.external ? "_blank" : undefined} rel={card.external ? "noreferrer" : undefined}><span>{card.tag ?? `0${index + 1}`}</span><h3>{card.title}</h3><p>{card.text}</p><i>↗</i></a>)}</div>
         </section>
       )}
 
@@ -95,10 +120,10 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
         </section>
       )}
 
-      {!page.cards && !page.steps && !["sport/instructors", "sport/calendar", "sport/results"].includes(key) && (
+      {!page.cards && !page.steps && !page.panels && !["sport/instructors", "sport/calendar", "sport/results", "appeals"].includes(key) && (
         <section className="kpContentSection">
           <div className="kpSectionTitle"><span>Информация</span><h2>Раздел наполняется</h2><p>Материалы, контакты и новости будут добавляться по мере обновления программы.</p></div>
-          <a className="kpAction" href="mailto:social@railways.kz">Связаться с департаментом <span>↗</span></a>
+          <a className="kpAction" href="mailto:social@railways.kz">Связаться с командой <span>↗</span></a>
         </section>
       )}
 
