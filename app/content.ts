@@ -84,7 +84,7 @@ export type SitePage = {
 };
 
 export const powerBiDashboardUrl = "https://app.powerbi.com/links/_EeS_Wc-7-?ctid=c842c2d8-51ce-4bb7-afe3-1894b6993690&pbi_source=linkShare";
-export const powerBiEmbedUrl = "https://app.powerbi.com/reportEmbed?reportId=13d7dd2e-7e37-42cd-b14f-107a344f8327&autoAuth=true&ctid=c842c2d8-51ce-4bb7-afe3-1894b6993690";
+export const powerBiEmbedUrl = "https://app.powerbi.com/view?r=eyJrIjoiMjljMWJhNDMtZTU4MS00NjAwLWIyMDQtNWI1YTZkZjJmYmRmIiwidCI6ImM4NDJjMmQ4LTUxY2UtNGJiNy1hZmUzLTE4OTRiNjk5MzY5MCIsImMiOjl9";
 export const marathonRegistrationUrl = "https://forms.cloud.microsoft/r/watNzKnHrC";
 
 export const photoAlbums: Record<string, SiteCard[]> = {
