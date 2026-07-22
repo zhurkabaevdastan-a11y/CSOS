@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createClient, type Session } from "@supabase/supabase-js";
-import { marathonRegistrationUrl, topNavigation } from "./content";
+import { marathonRegistrationPath, topNavigation } from "./content";
 
 const supabase = createClient(
   "https://bowvuafbszouqimilytd.supabase.co",
@@ -173,7 +173,7 @@ export default function Home() {
 
       <section className="kpFeatured reveal">
         <div className="kpFeaturedVisual"><span>Один<br />ритм.<br />Одна<br />команда.</span></div>
-        <div className="kpFeaturedCopy"><span className="kpEyebrow">02 / Главное событие</span><time>20 сентября 2027 · Астана</time><h2>Марафон ҚТЖ</h2><p>Главный массовый старт для работников, семей и друзей железной дороги. Регистрация участников проходит в официальной форме Microsoft.</p><div><a href={marathonRegistrationUrl} target="_blank" rel="noreferrer">Регистрация на марафон <span>↗</span></a><a className="kpFeaturedSecondary" href="/sport/calendar">Календарь спорта</a></div></div>
+        <div className="kpFeaturedCopy"><span className="kpEyebrow">02 / Главное событие</span><time>20 сентября 2027 · Астана</time><h2>Марафон ҚТЖ</h2><p>Главный массовый старт для работников, семей и друзей железной дороги. Регистрация участников проходит в официальной форме Microsoft прямо на сайте.</p><div><a href={marathonRegistrationPath}>Регистрация на марафон <span>↗</span></a><a className="kpFeaturedSecondary" href="/sport/calendar">Календарь спорта</a></div></div>
       </section>
 
       <section className="kpUpdates reveal">

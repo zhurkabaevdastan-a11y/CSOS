@@ -86,6 +86,8 @@ export type SitePage = {
 export const powerBiDashboardUrl = "https://app.powerbi.com/links/_EeS_Wc-7-?ctid=c842c2d8-51ce-4bb7-afe3-1894b6993690&pbi_source=linkShare";
 export const powerBiEmbedUrl = "https://app.powerbi.com/view?r=eyJrIjoiMjljMWJhNDMtZTU4MS00NjAwLWIyMDQtNWI1YTZkZjJmYmRmIiwidCI6ImM4NDJjMmQ4LTUxY2UtNGJiNy1hZmUzLTE4OTRiNjk5MzY5MCIsImMiOjl9";
 export const marathonRegistrationUrl = "https://forms.cloud.microsoft/r/watNzKnHrC";
+export const marathonRegistrationPath = "/sport/marathon-registration";
+export const marathonEmbedUrl = "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=2MJCyM5Rt0uv4xiUtpk2kB6fSDF9afpGrlMkPIqa7aNUMUpHTFA3T05KRE5ZSFhOQ0U5OUNFRkJEVi4u&embed=true";
 
 export const photoAlbums: Record<string, SiteCard[]> = {
   "2023": [
@@ -181,6 +183,10 @@ export const sitePages: Record<string, SitePage> = {
   "sport/calendar": {
     path: "/sport/calendar", title: "Календарь спортивных событий", eyebrow: "Сезон 2027",
     lead: "Чемпионаты, турниры, спартакиады и массовые старты АО «НК «ҚТЖ» в едином календаре.",
+  },
+  "sport/marathon-registration": {
+    path: marathonRegistrationPath, title: "Регистрация на Марафон ҚТЖ", eyebrow: "20 сентября 2027 · Астана",
+    lead: "Заполните официальную форму участника прямо на сайте. Порядок вопросов и предусмотренные организаторами ветвления сохранены.",
   },
   "sport/results": {
     path: "/sport/results", title: "Результаты сборной команды ҚТЖ", eyebrow: "Наши достижения",
