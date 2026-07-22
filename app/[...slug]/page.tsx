@@ -82,15 +82,15 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
 
       {key === "appeals" && (
         <section className="kpContentSection kpPowerBiSection">
-          <div className="kpSectionTitle"><span>Power BI</span><h2>Дашборд жалоб и обращений</h2><p>Интерактивная инфографика из защищённого пространства Microsoft.</p></div>
+          <div className="kpSectionTitle"><span>Power BI</span><h2>Дашборд жалоб и обращений</h2><p>Общедоступная интерактивная инфографика Power BI.</p></div>
           <div className="kpPowerBiPanel kpPowerBiPanel--embed">
             <div className="kpPowerBiEmbed">
               <iframe title="Дашборд жалоб и обращений ҚТЖ" src={powerBiEmbedUrl} allowFullScreen />
             </div>
             <div className="kpPowerBiCopy">
-              <span className="kpEyebrow">Защищённая аналитика</span>
-              <h3>Актуальные данные в реальном времени</h3>
-              <p>Если Microsoft запросит доступ, войдите под корпоративной учётной записью. Отчёт можно развернуть на весь экран.</p>
+              <span className="kpEyebrow">Открытая аналитика</span>
+              <h3>Данные доступны без авторизации</h3>
+              <p>Отчёт загружается прямо на странице и доступен всем посетителям. Его можно развернуть на весь экран.</p>
               <a className="kpAction" href={powerBiEmbedUrl} target="_blank" rel="noreferrer">Открыть на весь экран <span>↗</span></a>
             </div>
           </div>
