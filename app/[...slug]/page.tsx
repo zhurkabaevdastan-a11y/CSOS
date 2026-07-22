@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { calendar2027, instructors, marathonRegistrationUrl, powerBiEmbedUrl, sitePages, sportResults, topNavigation } from "../content";
+import { calendar2027, instructors, marathonEmbedUrl, marathonRegistrationPath, marathonRegistrationUrl, powerBiEmbedUrl, sitePages, sportResults, topNavigation } from "../content";
 
 export function generateStaticParams() {
   return Object.keys(sitePages).map((key) => ({ slug: key.split("/") }));
@@ -69,7 +69,17 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
       {key === "sport/calendar" && (
         <section className="kpContentSection">
           <div className="kpSectionTitle"><span>Расписание</span><h2>Спортивный сезон 2027</h2><p>Даты могут уточняться организационным комитетом.</p></div>
-          <div className="kpTimeline">{calendar2027.map(([date, title], index) => <article key={title}><span>{String(index + 1).padStart(2, "0")}</span><time>{date}</time><h3>{title}</h3>{title === "Марафон ҚТЖ" && <a className="kpEventRegistration" href={marathonRegistrationUrl} target="_blank" rel="noreferrer">Регистрация <i>↗</i></a>}</article>)}</div>
+          <div className="kpTimeline">{calendar2027.map(([date, title], index) => <article key={title}><span>{String(index + 1).padStart(2, "0")}</span><time>{date}</time><h3>{title}</h3>{title === "Марафон ҚТЖ" && <a className="kpEventRegistration" href={marathonRegistrationPath}>Регистрация <i>↗</i></a>}</article>)}</div>
+        </section>
+      )}
+
+      {key === "sport/marathon-registration" && (
+        <section className="kpContentSection kpMarathonFormSection">
+          <div className="kpSectionTitle"><span>Форма участника</span><h2>Регистрация на марафон</h2><p>Ответы сохраняются в официальной форме Microsoft Forms.</p></div>
+          <div className="kpFormPanel">
+            <iframe title="Регистрация на Марафон ҚТЖ" src={marathonEmbedUrl} allowFullScreen />
+          </div>
+          <p className="kpFormFallback">Если форма не загрузилась, <a href={marathonRegistrationUrl} target="_blank" rel="noreferrer">откройте её в новой вкладке</a>.</p>
         </section>
       )}
 
@@ -118,7 +128,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
         </section>
       )}
 
-      {!page.cards && !page.steps && !page.panels && !["sport/instructors", "sport/calendar", "sport/results", "appeals"].includes(key) && (
+      {!page.cards && !page.steps && !page.panels && !["sport/instructors", "sport/calendar", "sport/marathon-registration", "sport/results", "appeals"].includes(key) && (
         <section className="kpContentSection">
           <div className="kpSectionTitle"><span>Информация</span><h2>Раздел наполняется</h2><p>Материалы, контакты и новости будут добавляться по мере обновления программы.</p></div>
           <a className="kpAction" href="mailto:social@railways.kz">Связаться с командой <span>↗</span></a>
