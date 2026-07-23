@@ -18,5 +18,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="ru"><body>{children}<VisitTracker /><Analytics /></body></html>;
+  return <html lang="ru"><body>{children}<VisitTracker /><Analytics /><script src="/language.js" defer /></body></html>;
 }

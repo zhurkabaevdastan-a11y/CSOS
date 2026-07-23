@@ -15,7 +15,7 @@ img{display:block;max-width:100%}
 .reveal.is-visible{opacity:1;transform:none}
 
 /* Fixed, grid-like header inspired by KazPallet's clear information architecture. */
-.kpHeader{position:sticky;z-index:50;top:0;display:grid;grid-template-columns:minmax(230px,1.15fr) minmax(460px,2fr) auto auto;align-items:stretch;min-height:84px;color:var(--ink);background:rgba(247,243,238,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(18px)}
+.kpHeader{position:sticky;z-index:50;top:0;display:grid;grid-template-columns:minmax(230px,1.15fr) minmax(460px,2fr) auto auto auto;align-items:stretch;min-height:84px;color:var(--ink);background:rgba(247,243,238,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(18px)}
 .kpBrand{display:flex;align-items:center;gap:15px;padding:14px clamp(18px,3vw,46px);border-right:1px solid var(--line);text-decoration:none;min-width:0}
 .kpBrand img{width:116px;height:46px;object-fit:contain}
 .kpBrand span{display:flex;flex-direction:column;min-width:0;text-transform:uppercase;line-height:1.05}
@@ -25,6 +25,8 @@ img{display:block;max-width:100%}
 .kpHeader>nav a:hover{color:var(--white);background:var(--navy)}
 .kpCabinet{display:grid;place-items:center;min-width:168px;padding:16px 24px;color:var(--white);border:0;background:var(--blue);font-weight:700;text-decoration:none;text-align:center}
 .kpCabinet:hover{background:var(--navy)}
+.kpLanguage{display:grid;place-items:center;min-width:72px;padding:14px 16px;color:var(--navy);border:0;border-left:1px solid var(--line);background:var(--paper);font-size:12px;font-weight:900;letter-spacing:.09em;cursor:pointer;transition:color .2s,background .2s}
+.kpLanguage:hover{color:var(--white);background:var(--navy)}
 .kpMenu{display:none;width:64px;border:0;border-left:1px solid var(--line);background:transparent;font-size:27px}.kpMobileNav{display:none}
 
 /* Home hero keeps the approved ҚТЖ composition on wide screens. */
@@ -32,6 +34,11 @@ img{display:block;max-width:100%}
 .kpHeroDesktop{width:100%;height:100%;min-height:min(780px,calc(100svh - 84px));object-fit:cover;object-position:center}
 .kpHeroBrandLine{position:absolute;z-index:2;left:6.5%;bottom:22.5%;width:min(700px,48vw);padding:14px 18px 12px 0;color:var(--cyan);background:linear-gradient(90deg,var(--navy) 0 78%,transparent);font-size:clamp(15px,1.65vw,27px);font-weight:700;line-height:1.25;text-transform:uppercase}
 .kpHeroMobile{display:none}
+html[lang="kk"] .kpHeroDesktop,html[lang="kk"] .kpHeroBrandLine{display:none}
+html[lang="kk"] .kpHeroMobile{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:clamp(100px,12vw,180px) clamp(24px,7vw,116px);background:linear-gradient(90deg,rgba(3,19,47,.98),rgba(3,19,47,.76) 55%,rgba(3,19,47,.18)),url("/ktz-hero.png") 74% center/cover;color:var(--white)}
+html[lang="kk"] .kpHeroMobile>span{max-width:560px;color:var(--cyan);font-size:clamp(13px,1.3vw,20px);font-weight:700;line-height:1.5;text-transform:uppercase;letter-spacing:.09em}
+html[lang="kk"] .kpHeroMobile h1{max-width:820px;margin:30px 0;font-size:clamp(52px,6.5vw,104px);line-height:.96;letter-spacing:-.045em;text-transform:uppercase}
+html[lang="kk"] .kpHeroMobile i{width:240px;height:6px;background:linear-gradient(90deg,var(--gold) 0 70%,var(--red) 70%)}
 .kpScroll{position:absolute;right:clamp(20px,4vw,68px);bottom:28px;display:flex;align-items:center;gap:16px;color:var(--white);text-decoration:none;text-transform:uppercase;font-size:11px;letter-spacing:.12em}
 .kpScroll span{display:grid;place-items:center;width:46px;height:46px;border:1px solid rgba(255,255,255,.5);border-radius:50%;animation:bob 1.8s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(7px)}}
@@ -149,14 +156,14 @@ table{width:100%;border-collapse:collapse}th,td{padding:17px 15px;border-bottom:
 td small{display:block;margin-top:5px;color:var(--muted)}.status{display:inline-block;padding:6px 9px;color:#08703c;background:#dcf7e9;border-radius:999px;font-size:12px}.emptyState{padding:36px;color:var(--muted);text-align:center}
 
 @media(max-width:1120px){
-  .kpHeader{grid-template-columns:minmax(180px,.8fr) minmax(420px,2fr) auto}.kpBrand span{display:none}.kpCabinet{min-width:142px;padding-inline:15px}
+  .kpHeader{grid-template-columns:minmax(180px,.8fr) minmax(420px,2fr) auto auto}.kpBrand span{display:none}.kpCabinet{min-width:142px;padding-inline:15px}
   .kpSectionTitle{grid-template-columns:1fr 2fr}.kpSectionTitle p{grid-column:2}.kpHomeFacts{grid-template-columns:repeat(2,1fr)}.kpHomeFacts article:nth-child(2){border-right:0}.kpHomeFacts article:nth-child(-n+2){border-bottom:1px solid var(--line)}
   .kpDirectionList>a{grid-template-columns:54px minmax(190px,.7fr) 1fr 58px 40px;gap:18px}.kpFeatured{grid-template-columns:1fr}.kpFeaturedVisual{min-height:520px}.kpFeaturedCopy{min-height:630px}
   .kpResultGrid,.kpPageCards,.kpSteps,.kpInfoGrid{grid-template-columns:repeat(2,1fr)}.kpFooter{grid-template-columns:1.5fr 1fr 1fr}.kpFooter small{grid-column:1/-1}
 }
 
 @media(max-width:820px){
-  .kpHeader{grid-template-columns:1fr auto auto;min-height:68px}.kpBrand{padding:10px 16px}.kpBrand img{width:98px}.kpHeader>nav{position:absolute;top:100%;left:0;right:0;display:none;grid-template-columns:1fr;background:var(--paper);border-bottom:1px solid var(--line);box-shadow:0 18px 35px rgba(3,19,47,.13)}.kpHeader>nav.open{display:grid}.kpHeader>nav a{min-height:56px;justify-items:start;border-right:0;border-top:1px solid var(--line);padding:16px 20px}.kpCabinet{min-width:0;font-size:12px}.kpMenu{display:block}.kpMobileNav{display:block;position:relative}.kpMobileNav summary{display:grid;place-items:center;width:64px;height:68px;border-left:1px solid var(--line);font-size:27px;list-style:none;cursor:pointer}.kpMobileNav summary::-webkit-details-marker{display:none}.kpMobileNav nav{position:absolute;right:0;top:100%;display:grid;width:min(360px,100vw);background:var(--paper);box-shadow:0 18px 35px rgba(3,19,47,.13)}.kpMobileNav nav a{padding:18px 22px;border-top:1px solid var(--line);text-decoration:none;font-size:17px;font-weight:700;line-height:1.35}.kpPage .kpHeader>.kpMenu{display:none}
+  .kpHeader{grid-template-columns:1fr auto auto auto;min-height:68px}.kpBrand{padding:10px 16px}.kpBrand img{width:98px}.kpHeader>nav{position:absolute;top:100%;left:0;right:0;display:none;grid-template-columns:1fr;background:var(--paper);border-bottom:1px solid var(--line);box-shadow:0 18px 35px rgba(3,19,47,.13)}.kpHeader>nav.open{display:grid}.kpHeader>nav a{min-height:56px;justify-items:start;border-right:0;border-top:1px solid var(--line);padding:16px 20px}.kpCabinet{min-width:0;font-size:12px}.kpLanguage{min-width:58px;height:68px;padding-inline:10px}.kpMenu{display:block}.kpMobileNav{display:block;position:relative}.kpMobileNav summary{display:grid;place-items:center;width:64px;height:68px;border-left:1px solid var(--line);font-size:27px;list-style:none;cursor:pointer}.kpMobileNav summary::-webkit-details-marker{display:none}.kpMobileNav nav{position:absolute;right:0;top:100%;display:grid;width:min(360px,100vw);background:var(--paper);box-shadow:0 18px 35px rgba(3,19,47,.13)}.kpMobileNav nav a{padding:18px 22px;border-top:1px solid var(--line);text-decoration:none;font-size:17px;font-weight:700;line-height:1.35}.kpPage .kpHeader>.kpMenu{display:none}
   .kpHomeHero{min-height:calc(100svh - 68px)}.kpHeroDesktop,.kpHeroBrandLine{display:none}.kpHeroMobile{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:120px 20px 120px;background:linear-gradient(90deg,rgba(3,19,47,.96),rgba(3,19,47,.63) 62%,rgba(3,19,47,.12)),url("/ktz-hero.png") 74% center/cover;color:var(--white)}.kpHeroMobile>span{max-width:310px;color:var(--cyan);font-size:11px;line-height:1.5;text-transform:uppercase;letter-spacing:.09em}.kpHeroMobile h1{max-width:100%;margin:28px 0 32px;font-size:clamp(36px,10vw,58px);line-height:1;letter-spacing:-.045em;text-transform:uppercase;overflow-wrap:normal;word-break:normal}.kpHeroMobile i{width:190px;height:5px;background:linear-gradient(90deg,var(--gold) 0 70%,var(--red) 70%)}
   .kpMission,.kpDirections,.kpUpdates,.kpContentSection,.kpPageHero{width:calc(100% - 16px);margin:8px auto;border-radius:25px}.kpMission h2{font-size:clamp(34px,9vw,52px)}
   .kpSectionTitle{grid-template-columns:1fr;gap:18px;margin-bottom:42px}.kpSectionTitle p{grid-column:auto}.kpSectionTitle h2{font-size:clamp(34px,9vw,50px)}
@@ -172,7 +179,7 @@ td small{display:block;margin-top:5px;color:var(--muted)}.status{display:inline-
 }
 
 @media(max-width:620px){
-  .kpCabinet{padding-inline:10px}.kpMenu{width:52px}.kpBrand img{width:84px}
+  .kpCabinet{padding-inline:9px;font-size:11px}.kpLanguage{min-width:52px;padding-inline:7px;font-size:10px}.kpMenu{width:48px}.kpBrand img{width:80px}
   .kpMission,.kpDirections,.kpUpdates,.kpContentSection{padding:58px 18px}.kpHomeFacts{grid-template-columns:1fr;width:calc(100% - 16px);margin:8px auto}.kpHomeFacts article{min-height:150px;padding:28px;border-right:0;border-bottom:1px solid var(--line)}.kpHomeFacts article:last-child{border-bottom:0}
   .kpDirectionList>a{padding-inline:4px}.kpDirectionList>a:hover{padding-left:10px}.kpDirectionList strong{font-size:clamp(26px,7.5vw,36px);line-height:1.18}
   .kpFeaturedVisual{min-height:360px;padding:26px}.kpFeaturedVisual>span{font-size:clamp(46px,14vw,66px)}.kpFeaturedCopy>div{align-items:stretch;flex-direction:column}.kpFeaturedCopy a,.kpFeaturedCopy button{width:100%}

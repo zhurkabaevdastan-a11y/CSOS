@@ -83,8 +83,6 @@ export type SitePage = {
   panels?: InfoPanel[];
 };
 
-export const powerBiDashboardUrl = "https://app.powerbi.com/links/_EeS_Wc-7-?ctid=c842c2d8-51ce-4bb7-afe3-1894b6993690&pbi_source=linkShare";
-export const powerBiEmbedUrl = "https://app.powerbi.com/view?r=eyJrIjoiMjljMWJhNDMtZTU4MS00NjAwLWIyMDQtNWI1YTZkZjJmYmRmIiwidCI6ImM4NDJjMmQ4LTUxY2UtNGJiNy1hZmUzLTE4OTRiNjk5MzY5MCIsImMiOjl9";
 export const marathonRegistrationUrl = "https://forms.cloud.microsoft/r/watNzKnHrC";
 export const marathonRegistrationPath = "/sport/marathon-registration";
 export const marathonEmbedUrl = "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=2MJCyM5Rt0uv4xiUtpk2kB6fSDF9afpGrlMkPIqa7aNUMUpHTFA3T05KRE5ZSFhOQ0U5OUNFRkJEVi4u&embed=true";
@@ -146,7 +144,7 @@ export const sitePages: Record<string, SitePage> = {
   },
   "appeals": {
     path: "/appeals", title: "Информация по жалобам и обращениям", eyebrow: "Обратная связь",
-    lead: "Дашборд Power BI для анализа обращений и работы с обратной связью сотрудников.",
+    lead: "",
   },
   "children": {
     path: "/children", title: "Работа с детьми", eyebrow: "Забота о будущем",
