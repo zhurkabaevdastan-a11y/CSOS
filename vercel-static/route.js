@@ -49,3 +49,8 @@ async function trackPageView() {
 }
 
 void trackPageView();
+
+const languageScript = document.createElement("script");
+languageScript.src = "/language.js";
+languageScript.defer = true;
+document.head.append(languageScript);
