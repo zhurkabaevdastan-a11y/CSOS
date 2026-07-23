@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { calendar2027, instructors, marathonEmbedUrl, marathonRegistrationPath, marathonRegistrationUrl, powerBiEmbedUrl, sitePages, sportResults, topNavigation } from "../content";
+import { calendar2027, instructors, marathonEmbedUrl, marathonRegistrationPath, marathonRegistrationUrl, sitePages, sportResults, topNavigation } from "../content";
 
 export function generateStaticParams() {
   return Object.keys(sitePages).map((key) => ({ slug: key.split("/") }));
@@ -44,7 +44,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
         <div className="kpBreadcrumbs"><a href="/">Главная</a><span>•</span>{parent && <><a href={parent.path}>{parent.title}</a><span>•</span></>}<b>{page.title}</b></div>
         <span className="kpEyebrow">{page.eyebrow}</span>
         <h1>{page.title}</h1>
-        <p>{page.lead}</p>
+        {page.lead && <p>{page.lead}</p>}
         <div className={`kpHeroVisual kpHeroVisual--${slug[0]}`}><span>ҚТЖ</span><i /></div>
       </section>
 
@@ -87,23 +87,6 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
         <section className="kpContentSection">
           <div className="kpSectionTitle"><span>Победы</span><h2>Достижения сборной</h2><p>Результаты корпоративных и отраслевых соревнований.</p></div>
           <div className="kpResultGrid">{sportResults.map((result, index) => <article key={result.title}><span>{result.label}</span><strong>0{index + 1}</strong><h3>{result.title}</h3><p>{result.text}</p></article>)}</div>
-        </section>
-      )}
-
-      {key === "appeals" && (
-        <section className="kpContentSection kpPowerBiSection">
-          <div className="kpSectionTitle"><span>Power BI</span><h2>Дашборд жалоб и обращений</h2><p>Общедоступная интерактивная инфографика Power BI.</p></div>
-          <div className="kpPowerBiPanel kpPowerBiPanel--embed">
-            <div className="kpPowerBiEmbed">
-              <iframe title="Дашборд жалоб и обращений ҚТЖ" src={powerBiEmbedUrl} allowFullScreen />
-            </div>
-            <div className="kpPowerBiCopy">
-              <span className="kpEyebrow">Открытая аналитика</span>
-              <h3>Данные доступны без авторизации</h3>
-              <p>Отчёт загружается прямо на странице и доступен всем посетителям. Его можно развернуть на весь экран.</p>
-              <a className="kpAction" href={powerBiEmbedUrl} target="_blank" rel="noreferrer">Открыть на весь экран <span>↗</span></a>
-            </div>
-          </div>
         </section>
       )}
 
