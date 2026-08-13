@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { calendar2027, instructors, marathonEmbedUrl, marathonRegistrationPath, marathonRegistrationUrl, sitePages, sportResults, topNavigation, youngFacesApplicationUrl } from "../content";
+import { instructors, marathonEmbedUrl, marathonRegistrationPath, marathonRegistrationUrl, samruk2026Nominations, samruk2026Placements, sitePages, sportCalendar, sportResults, topNavigation, youngFacesApplicationUrl } from "../content";
 
 export function generateStaticParams() {
   return Object.keys(sitePages).map((key) => ({ slug: key.split("/") }));
@@ -69,8 +69,8 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
 
       {key === "sport/calendar" && (
         <section className="kpContentSection">
-          <div className="kpSectionTitle"><span>Расписание</span><h2>Спортивный сезон 2027</h2><p>Даты могут уточняться организационным комитетом.</p></div>
-          <div className="kpTimeline">{calendar2027.map(([date, title], index) => <article key={title}><span>{String(index + 1).padStart(2, "0")}</span><time>{date}</time><h3>{title}</h3>{title === "Марафон ҚТЖ" && <a className="kpEventRegistration" href={marathonRegistrationPath}>Регистрация <i>↗</i></a>}</article>)}</div>
+          <div className="kpSectionTitle"><span>Расписание</span><h2>Спортивные сезоны 2026–2027</h2><p>Даты могут уточняться организационным комитетом.</p></div>
+          <div className="kpCalendarYears">{sportCalendar.map((season) => <section className="kpCalendarYear" key={season.year}><h3>{season.year} год</h3><div className="kpTimeline">{season.events.map((event, index) => <article key={`${season.year}-${event.title}`}><span>{String(index + 1).padStart(2, "0")}</span><time>{event.date}</time><h3>{event.title}</h3>{"registration" in event && event.registration && <a className="kpEventRegistration" href={marathonRegistrationPath}>Регистрация <i>↗</i></a>}</article>)}</div></section>)}</div>
         </section>
       )}
 
@@ -88,6 +88,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
         <section className="kpContentSection">
           <div className="kpSectionTitle"><span>Победы</span><h2>Достижения сборной</h2><p>Результаты корпоративных и отраслевых соревнований.</p></div>
           <div className="kpResultGrid">{sportResults.map((result, index) => <article key={result.title}><span>{result.label}</span><strong>0{index + 1}</strong><h3>{result.title}</h3><p>{result.text}</p></article>)}</div>
+          <section className="kpSamrukResults"><div className="kpSectionTitle"><span>8–10 августа 2026 · Астана</span><h2>Призовые места сборной ҚТЖ на XI Спартакиаде</h2><p>Итоги по дисциплинам из официального распределения призовых мест.</p></div><div className="kpSamrukSummary"><article><strong>27</strong><span>призовых мест</span></article><article><strong>9</strong><span>первых мест</span></article><article><strong>13</strong><span>вторых мест</span></article><article><strong>5</strong><span>третьих мест</span></article></div><div className="kpSamrukPlacements">{samruk2026Placements.map((item) => <article key={item.place}><h3>{item.place}</h3><p>{item.disciplines}</p></article>)}</div><div className="kpSamrukNominations"><h3>Индивидуальные номинации</h3><ul>{samruk2026Nominations.map((nomination) => <li key={nomination}>{nomination}</li>)}</ul></div></section>
         </section>
       )}
 
