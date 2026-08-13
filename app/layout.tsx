@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import VisitTracker from "./VisitTracker";
@@ -18,5 +19,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="ru"><body>{children}<VisitTracker /><Analytics /><script src="/language.js" defer /></body></html>;
+  return <html lang="ru"><body>{children}<VisitTracker /><Analytics /><Script src="/language.js" strategy="afterInteractive" /></body></html>;
 }
