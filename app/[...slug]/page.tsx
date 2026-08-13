@@ -13,6 +13,7 @@ function SiteHeader() {
         <span><b>Все о социальной</b><small>политике ҚТЖ</small></span>
       </a>
       <nav>{topNavigation.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav>
+      <button className="kpLanguage" type="button" data-language-toggle aria-label="Қазақ тіліне ауысу" title="Қазақша">ҚАЗ</button>
       <a className="kpCabinet" href="/#login">Личный кабинет</a>
       <details className="kpMobileNav"><summary aria-label="Открыть меню">☰</summary><nav>{topNavigation.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav></details>
     </header>
