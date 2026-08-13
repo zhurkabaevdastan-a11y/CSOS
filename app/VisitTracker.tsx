@@ -1,12 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
-import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(
-  "https://bowvuafbszouqimilytd.supabase.co",
-  "sb_publishable_lz5Tf7Xfkz9KTPWjNtvtzQ_Xo9yVAFG",
-);
+const supabaseUrl = "https://bowvuafbszouqimilytd.supabase.co";
+const supabaseKey = "sb_publishable_lz5Tf7Xfkz9KTPWjNtvtzQ_Xo9yVAFG";
 
 const createId = () => crypto.randomUUID();
 
@@ -28,12 +25,24 @@ export default function VisitTracker() {
       const referrer = document.referrer ? new URL(document.referrer) : null;
       const referrerHost = referrer && referrer.origin !== window.location.origin ? referrer.hostname.slice(0, 200) : null;
 
-      void supabase.from("page_views").insert({
+      const payload = {
         path,
         page_title: pageTitle,
         visitor_id: getStoredId(window.localStorage, "ktzh_visitor_id"),
         session_id: getStoredId(window.sessionStorage, "ktzh_session_id"),
         referrer_host: referrerHost,
+      };
+
+      void fetch(`${supabaseUrl}/rest/v1/page_views`, {
+        method: "POST",
+        headers: {
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`,
+          "Content-Type": "application/json",
+          Prefer: "return=minimal",
+        },
+        body: JSON.stringify(payload),
+        keepalive: true,
       });
     } catch {
       // Analytics must never interrupt navigation when storage is unavailable.
