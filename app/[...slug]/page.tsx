@@ -87,9 +87,12 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
       {key === "sport/results" && (
         <section className="kpContentSection">
           <div className="kpSectionTitle"><span>Победы</span><h2>Достижения сборной</h2><p>Результаты корпоративных и отраслевых соревнований.</p></div>
-          <div className="kpResultGrid">{sportResults.map((result, index) => <article key={result.title}><span>{result.label}</span><strong>0{index + 1}</strong><h3>{result.title}</h3><p>{result.text}</p></article>)}</div>
-          <section className="kpSamrukResults"><div className="kpSectionTitle"><span>8–10 августа 2026 · Астана</span><h2>Призовые места сборной ҚТЖ на XI Спартакиаде</h2><p>Итоги по дисциплинам из официального распределения призовых мест.</p></div><div className="kpSamrukSummary"><article><strong>27</strong><span>призовых мест</span></article><article><strong>9</strong><span>первых мест</span></article><article><strong>13</strong><span>вторых мест</span></article><article><strong>5</strong><span>третьих мест</span></article></div><div className="kpSamrukPlacements">{samruk2026Placements.map((item) => <article key={item.place}><h3>{item.place}</h3><p>{item.disciplines}</p></article>)}</div><div className="kpSamrukNominations"><h3>Индивидуальные номинации</h3><ul>{samruk2026Nominations.map((nomination) => <li key={nomination}>{nomination}</li>)}</ul></div></section>
+          <div className="kpResultGrid">{sportResults.map((result, index) => "href" in result ? <a className="kpResultCard" href={result.href} key={result.title}><span>{result.label}</span><strong>0{index + 1}</strong><h3>{result.title}</h3><p>{result.text}</p><i>Открыть результаты ↗</i></a> : <article key={result.title}><span>{result.label}</span><strong>0{index + 1}</strong><h3>{result.title}</h3><p>{result.text}</p></article>)}</div>
         </section>
+      )}
+
+      {key === "sport/results/samruk-2026" && (
+        <section className="kpContentSection kpSamrukResults"><div className="kpSectionTitle"><span>Итоги соревнований</span><h2>Призовые места сборной ҚТЖ</h2><p>Результаты по дисциплинам из официального распределения призовых мест.</p></div><div className="kpSamrukSummary"><article><strong>27</strong><span>призовых мест</span></article><article><strong>9</strong><span>первых мест</span></article><article><strong>13</strong><span>вторых мест</span></article><article><strong>5</strong><span>третьих мест</span></article></div><div className="kpSamrukPlacements">{samruk2026Placements.map((item) => <article key={item.place}><h3>{item.place}</h3><p>{item.disciplines}</p></article>)}</div><div className="kpSamrukNominations"><h3>Индивидуальные номинации</h3><ul>{samruk2026Nominations.map((nomination) => <li key={nomination}>{nomination}</li>)}</ul></div></section>
       )}
 
       {key === "youth/young-faces/fourth-cohort" && (
@@ -166,7 +169,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
         </section>
       )}
 
-      {!page.cards && !page.steps && !page.panels && !["sport/instructors", "sport/calendar", "sport/marathon-registration", "sport/results", "appeals", "youth/young-faces/fourth-cohort"].includes(key) && (
+      {!page.cards && !page.steps && !page.panels && !["sport/instructors", "sport/calendar", "sport/marathon-registration", "sport/results", "sport/results/samruk-2026", "appeals", "youth/young-faces/fourth-cohort"].includes(key) && (
         <section className="kpContentSection">
           <div className="kpSectionTitle"><span>Информация</span><h2>Раздел наполняется</h2><p>Материалы, контакты и новости будут добавляться по мере обновления программы.</p></div>
           <a className="kpAction" href="mailto:social@railways.kz">Связаться с командой <span>↗</span></a>
