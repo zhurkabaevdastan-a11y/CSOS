@@ -348,7 +348,8 @@
   function translateTextNode(node) {
     if (!originalText.has(node)) originalText.set(node, node.nodeValue ?? "");
     const original = originalText.get(node) ?? "";
-    node.nodeValue = currentLanguage === "kk" ? translatedWithWhitespace(original) : original;
+    const translated = currentLanguage === "kk" ? translatedWithWhitespace(original) : original;
+    if (node.nodeValue !== translated) node.nodeValue = translated;
   }
 
   const attributes = ["placeholder", "aria-label", "title", "alt", "data-label"];
@@ -360,8 +361,40 @@
       if (!element.hasAttribute(attribute)) continue;
       if (!(attribute in originals)) originals[attribute] = element.getAttribute(attribute);
       const original = originals[attribute] ?? "";
-      element.setAttribute(attribute, currentLanguage === "kk" ? translateValue(original) : original);
+      const translated = currentLanguage === "kk" ? translateValue(original) : original;
+      if (element.getAttribute(attribute) !== translated) element.setAttribute(attribute, translated);
     }
+  }
+
+  function translateSubtree(root) {
+    if (!root) return;
+
+    if (root.nodeType === Node.TEXT_NODE) {
+      const parent = root.parentElement;
+      if (parent && !parent.closest("script, style, noscript, [data-language-toggle]") && root.nodeValue?.trim()) {
+        translateTextNode(root);
+      }
+      return;
+    }
+
+    if (root.nodeType !== Node.ELEMENT_NODE || root.matches("script, style, noscript, [data-language-toggle]")) return;
+
+    translateElement(root);
+    for (const element of root.querySelectorAll("*")) {
+      if (!element.closest("script, style, noscript, [data-language-toggle]")) translateElement(element);
+    }
+
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        const parent = node.parentElement;
+        if (!parent || parent.closest("script, style, noscript, [data-language-toggle]")) return NodeFilter.FILTER_REJECT;
+        return node.nodeValue?.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      },
+    });
+
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(translateTextNode);
   }
 
   function ensureButton() {
@@ -374,47 +407,34 @@
       const cabinet = header.querySelector(".kpCabinet");
       header.insertBefore(button, cabinet);
     }
-    for (const button of document.querySelectorAll("[data-language-toggle]")) {
-      if (button.dataset.languageReady) continue;
-      button.dataset.languageReady = "true";
-      button.addEventListener("click", () => {
-        setLanguage(currentLanguage === "ru" ? "kk" : "ru");
-      });
-    }
   }
 
   function updateButtons() {
+    const label = currentLanguage === "ru" ? "ҚАЗ" : "РУС";
+    const ariaLabel = currentLanguage === "ru" ? "Қазақ тіліне ауысу" : "Переключить на русский язык";
+    const title = currentLanguage === "ru" ? "Қазақша" : "Русский";
     for (const button of document.querySelectorAll("[data-language-toggle]")) {
-      button.textContent = currentLanguage === "ru" ? "ҚАЗ" : "РУС";
-      button.setAttribute("aria-label", currentLanguage === "ru" ? "Қазақ тіліне ауысу" : "Переключить на русский язык");
-      button.setAttribute("title", currentLanguage === "ru" ? "Қазақша" : "Русский");
+      if (button.textContent !== label) button.textContent = label;
+      if (button.getAttribute("aria-label") !== ariaLabel) button.setAttribute("aria-label", ariaLabel);
+      if (button.getAttribute("title") !== title) button.setAttribute("title", title);
     }
   }
 
   function applyLanguage() {
     if (applying || !document.body) return;
     applying = true;
-    ensureButton();
-    document.documentElement.lang = currentLanguage === "kk" ? "kk" : "ru";
+    try {
+      ensureButton();
+      document.documentElement.lang = currentLanguage === "kk" ? "kk" : "ru";
+      translateSubtree(document.body);
+      updateButtons();
 
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-      acceptNode(node) {
-        const parent = node.parentElement;
-        if (!parent || parent.closest("script, style, noscript, [data-language-toggle]")) return NodeFilter.FILTER_REJECT;
-        return node.nodeValue?.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
-      },
-    });
-
-    const nodes = [];
-    while (walker.nextNode()) nodes.push(walker.currentNode);
-    nodes.forEach(translateTextNode);
-    document.querySelectorAll("*").forEach(translateElement);
-    updateButtons();
-
-    if (!document.documentElement.dataset.originalTitle) document.documentElement.dataset.originalTitle = document.title;
-    const originalTitle = document.documentElement.dataset.originalTitle;
-    document.title = currentLanguage === "kk" ? translateValue(originalTitle) : originalTitle;
-    applying = false;
+      if (!document.documentElement.dataset.originalTitle) document.documentElement.dataset.originalTitle = document.title;
+      const originalTitle = document.documentElement.dataset.originalTitle;
+      document.title = currentLanguage === "kk" ? translateValue(originalTitle) : originalTitle;
+    } finally {
+      applying = false;
+    }
   }
 
   function setLanguage(language) {
@@ -433,10 +453,36 @@
     currentLanguage = "ru";
   }
 
+  document.addEventListener("click", (event) => {
+    const button = event.target.closest?.("[data-language-toggle]");
+    if (!button) return;
+    setLanguage(currentLanguage === "ru" ? "kk" : "ru");
+  });
+
   applyLanguage();
 
-  const mutationObserver = new MutationObserver(() => {
-    if (!applying) applyLanguage();
+  const mutationObserver = new MutationObserver((mutations) => {
+    if (applying) return;
+
+    const addedRoots = new Set();
+    for (const mutation of mutations) {
+      if (mutation.target.parentElement?.closest("[data-language-toggle]") || mutation.target.closest?.("[data-language-toggle]")) continue;
+      for (const node of mutation.addedNodes) {
+        const element = node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement;
+        if (element?.closest("script, style, noscript, [data-language-toggle]")) continue;
+        addedRoots.add(node);
+      }
+    }
+
+    if (!addedRoots.size) return;
+    applying = true;
+    try {
+      ensureButton();
+      for (const root of addedRoots) translateSubtree(root);
+      updateButtons();
+    } finally {
+      applying = false;
+    }
   });
   mutationObserver.observe(document.body, { childList: true, subtree: true });
 })();
