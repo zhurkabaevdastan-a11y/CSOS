@@ -86,6 +86,7 @@ export type SitePage = {
 export const marathonRegistrationUrl = "https://forms.cloud.microsoft/r/watNzKnHrC";
 export const marathonRegistrationPath = "/sport/marathon-registration";
 export const marathonEmbedUrl = "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=2MJCyM5Rt0uv4xiUtpk2kB6fSDF9afpGrlMkPIqa7aNUMUpHTFA3T05KRE5ZSFhOQ0U5OUNFRkJEVi4u&embed=true";
+export const youngFacesApplicationUrl = "https://forms.cloud.microsoft/r/mXpaWCRuek";
 
 export const photoAlbums: Record<string, SiteCard[]> = {
   "2023": [
@@ -236,6 +237,7 @@ export const sitePages: Record<string, SitePage> = {
       { href: "/youth/kvn", title: "КВН ҚТЖ", text: "Юмор, командный дух и новые имена из регионов железной дороги.", tag: "Творчество" },
       { href: "/youth/representatives", title: "Региональные представители", text: "Совет по делам молодёжи и его представители в регионах.", tag: "Совет" },
       { href: "/youth/young-specialist", title: "Жас үздік маман", text: "Конкурс профессионального мастерства молодых специалистов.", tag: "Конкурс" },
+      { href: "/youth/young-faces", title: "100 молодых лиц ҚТЖ", text: "Программа выявления, развития и продвижения талантливых молодых работников.", tag: "Развитие" },
     ],
   },
   "youth/kvn": {
@@ -259,6 +261,17 @@ export const sitePages: Record<string, SitePage> = {
       { number: "02", title: "Профессиональные задания", text: "Участники решают практические кейсы и демонстрируют навыки." },
       { number: "03", title: "Финал", text: "Лучшие специалисты представляют проекты и получают признание компании." },
     ],
+  },
+  "youth/young-faces": {
+    path: "/youth/young-faces", title: "100 молодых лиц ҚТЖ", eyebrow: "Программа развития",
+    lead: "Стратегическая инициатива ҚТЖ по выявлению, развитию и продвижению талантливых молодых работников, запущенная в 2019 году.",
+    cards: [
+      { href: "/youth/young-faces/fourth-cohort", title: "4 поток программы", text: "Отбор молодых экспертов и проектных лидеров на двухлетнюю программу развития.", tag: "Набор 2026" },
+    ],
+  },
+  "youth/young-faces/fourth-cohort": {
+    path: "/youth/young-faces/fourth-cohort", title: "4 поток «100 молодых лиц ҚТЖ»", eyebrow: "Приём заявок · 3–31 августа 2026",
+    lead: "Новый поток формирует сообщество молодых экспертов, способных предлагать инициативы, реализовывать значимые проекты и повышать эффективность ҚТЖ.",
   },
   "pensioners": {
     path: "/pensioners", title: "Ветераны отрасли", eyebrow: "Уважение к опыту",
