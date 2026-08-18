@@ -145,7 +145,7 @@ export default function Home() {
       </header>
 
       <section className="kpHomeHero" aria-label="Люди. Движение. Возможности.">
-        <img className="kpHeroDesktop" src="/ktz-hero.png" alt="Люди. Движение. Возможности. Всё о социальной политике ҚТЖ" />
+        <img className="kpHeroDesktop" src="/ktz-hero-clean.png" alt="Световые линии и железнодорожные пути ҚТЖ" />
         <span className="kpHeroBrandLine">Все о социальной политике ҚТЖ</span>
         <div className="kpHeroMobile"><span>Все о социальной политике ҚТЖ</span><h1>Люди.<br />Движение.<br />Возможности.</h1><i /></div>
         <a href="#mission" className="kpScroll">Смотреть направления <span>↓</span></a>

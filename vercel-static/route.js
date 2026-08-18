@@ -30,8 +30,7 @@ function makeSectionLinks(markMobileOnly = false) {
   });
 }
 
-const homeSectionMenu = document.querySelector(".kpHome .kpHeader>nav");
-if (homeSectionMenu) homeSectionMenu.replaceChildren(...makeSectionLinks(true));
+document.querySelectorAll(".kpHeader>nav").forEach((menu) => menu.replaceChildren(...makeSectionLinks(true)));
 document.querySelectorAll(".kpMobileNav nav").forEach((menu) => menu.replaceChildren(...makeSectionLinks()));
 
 const supabaseUrl = "https://bowvuafbszouqimilytd.supabase.co";
