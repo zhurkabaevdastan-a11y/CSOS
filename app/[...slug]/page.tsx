@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { instructorRegions, instructors, marathonEmbedUrl, marathonRegistrationPath, marathonRegistrationUrl, samruk2026Nominations, samruk2026Placements, sitePages, sportCalendar, sportResults, topNavigation, youngFacesApplicationUrl } from "../content";
+import { instructorRegions, instructors, marathonEmbedUrl, marathonRegistrationPath, marathonRegistrationUrl, samruk2026Nominations, samruk2026Placements, sectionNavigation, sitePages, sportCalendar, sportResults, topNavigation, youngFacesApplicationUrl } from "../content";
 
 export function generateStaticParams() {
   return Object.keys(sitePages).map((key) => ({ slug: key.split("/") }));
@@ -15,7 +15,7 @@ function SiteHeader() {
       <nav>{topNavigation.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav>
       <button className="kpLanguage" type="button" data-language-toggle aria-label="Қазақ тіліне ауысу" title="Қазақша">ҚАЗ</button>
       <a className="kpCabinet" href="/#login">Личный кабинет</a>
-      <details className="kpMobileNav"><summary aria-label="Открыть меню">☰</summary><nav>{topNavigation.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav></details>
+      <details className="kpMobileNav"><summary aria-label="Открыть меню">☰</summary><nav>{sectionNavigation.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav></details>
     </header>
   );
 }
