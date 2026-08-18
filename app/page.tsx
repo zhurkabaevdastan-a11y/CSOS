@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createClient, type Session } from "@supabase/supabase-js";
-import { marathonRegistrationPath, topNavigation } from "./content";
+import { marathonRegistrationPath, sectionNavigation, topNavigation } from "./content";
 
 const supabase = createClient(
   "https://bowvuafbszouqimilytd.supabase.co",
@@ -139,7 +139,7 @@ export default function Home() {
           <img src="/ktz-logo.png" alt="Қазақстан темір жолы" />
           <span><b>Все о социальной</b><small>политике ҚТЖ</small></span>
         </a>
-        <nav className={menu ? "open" : ""}>{topNavigation.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav>
+        <nav className={menu ? "open" : ""}>{sectionNavigation.map((item) => <a className={topNavigation.some((primary) => primary.href === item.href) ? undefined : "kpMenuOnly"} key={item.href} href={item.href}>{item.label}</a>)}</nav>
         <button className="kpLanguage" type="button" data-language-toggle aria-label="Қазақ тіліне ауысу" title="Қазақша">ҚАЗ</button>
         <button className="kpCabinet" onClick={openCabinet}>{session ? (role === "admin" ? "Админ-панель" : "Мой аккаунт") : "Вход / регистрация"}</button>
         <button className="kpMenu" onClick={() => setMenu(!menu)} aria-expanded={menu} aria-label="Открыть меню">{menu ? "×" : "☰"}</button>
