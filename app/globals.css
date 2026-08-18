@@ -267,8 +267,7 @@ body{
     linear-gradient(132deg,transparent 0 23%,rgba(0,127,174,.07) 23% 27%,transparent 27% 43%,rgba(182,138,36,.08) 43% 45%,transparent 45%);
 }
 .kpHomeHero:after{
-  right:-8%;bottom:-36%;width:62%;height:120%;background:url("/ktz-hero.png") 75% center/cover no-repeat;
-  opacity:.1;filter:grayscale(1);transform:rotate(-5deg);
+  content:none;display:none;
 }
 .kpHeroDesktop{opacity:0}
 .kpHeroBrandLine{display:none}
