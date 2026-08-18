@@ -387,6 +387,19 @@ export const topNavigation = [
   { href: "/corporate-culture", label: "Корпоративная культура" },
   { href: "/appeals", label: "Жалобы и обращения" },
   { href: "/youth", label: "Молодёжная политика" },
+  { href: "/pensioners", label: "Ветераны отрасли" },
   { href: "/volunteering", label: "Волонтёрство" },
   { href: "/sport", label: "Спортивная жизнь" },
+];
+
+export const sectionNavigation = [
+  { href: "/corporate-culture", label: "Корпоративная культура" },
+  { href: "/social-stability", label: "Социальная стабильность" },
+  { href: "/appeals", label: "Информация по жалобам и обращениям" },
+  { href: "/youth", label: "Молодёжная политика" },
+  { href: "/children", label: "Работа с детьми" },
+  { href: "/pensioners", label: "Ветераны отрасли" },
+  { href: "/volunteering", label: "Волонтёрство" },
+  { href: "/sport", label: "Спортивная жизнь" },
+  { href: "/team", label: "Наша команда" },
 ];
