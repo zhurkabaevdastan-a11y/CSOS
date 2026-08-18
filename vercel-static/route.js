@@ -7,6 +7,33 @@ const observer = new IntersectionObserver((entries) => entries.forEach((entry) =
 
 document.querySelectorAll(".reveal").forEach((node) => observer.observe(node));
 
+const fullSectionNavigation = [
+  ["/corporate-culture/", "Корпоративная культура"],
+  ["/social-stability/", "Социальная стабильность"],
+  ["/appeals/", "Информация по жалобам и обращениям"],
+  ["/youth/", "Молодёжная политика"],
+  ["/children/", "Работа с детьми"],
+  ["/pensioners/", "Ветераны отрасли"],
+  ["/volunteering/", "Волонтёрство"],
+  ["/sport/", "Спортивная жизнь"],
+  ["/team/", "Наша команда"],
+];
+const primarySectionPaths = new Set(["/corporate-culture/", "/appeals/", "/youth/", "/pensioners/", "/volunteering/", "/sport/"]);
+
+function makeSectionLinks(markMobileOnly = false) {
+  return fullSectionNavigation.map(([href, label]) => {
+    const link = document.createElement("a");
+    link.href = href;
+    link.textContent = label;
+    if (markMobileOnly && !primarySectionPaths.has(href)) link.className = "kpMenuOnly";
+    return link;
+  });
+}
+
+const homeSectionMenu = document.querySelector(".kpHome .kpHeader>nav");
+if (homeSectionMenu) homeSectionMenu.replaceChildren(...makeSectionLinks(true));
+document.querySelectorAll(".kpMobileNav nav").forEach((menu) => menu.replaceChildren(...makeSectionLinks()));
+
 const supabaseUrl = "https://bowvuafbszouqimilytd.supabase.co";
 const supabaseKey = "sb_publishable_lz5Tf7Xfkz9KTPWjNtvtzQ_Xo9yVAFG";
 
