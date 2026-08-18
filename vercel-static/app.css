@@ -587,3 +587,76 @@ body{
   .kpCabinet{max-width:118px;padding-inline:10px;font-size:10px;white-space:normal;text-align:center}
   .kpMobileNav summary{width:40px;height:40px}
 }
+
+/* Compact vertical rhythm: keep information dense without sacrificing readability. */
+.kpHomeHero{min-height:clamp(560px,78svh,680px)}
+.kpHeroMobile,html[lang="kk"] .kpHeroMobile{padding:clamp(76px,8vw,118px) clamp(24px,7vw,104px)}
+.kpMission,.kpDirections,.kpUpdates,.kpContentSection{margin-block:12px;padding:clamp(46px,5.2vw,76px) clamp(22px,5vw,72px)}
+.kpSectionTitle{margin-bottom:clamp(34px,4vw,48px)}
+.kpHomeFacts{margin-block:12px}.kpHomeFacts article{min-height:168px;padding:30px}
+.kpDirectionList>a{min-height:124px;padding-block:20px}
+.kpFeatured{min-height:560px;margin-block:12px}.kpFeaturedVisual{padding:clamp(30px,4vw,58px)}.kpFeaturedCopy{padding:clamp(36px,4.8vw,68px)}
+.kpUpdateGrid>a{min-height:290px;padding:26px}
+.kpPageHero{margin-block:12px;padding-top:28px}
+.kpTimeline article{min-height:108px;padding-block:19px}
+.kpResultGrid article,.kpResultGrid>a,.kpSteps article,.kpInfoGrid article{min-height:270px;padding:26px}
+.kpPageCards>a{min-height:280px;padding:26px}
+.kpSamrukResults{margin-top:52px}.kpSamrukSummary article{min-height:140px;padding:22px}
+.kpMarathonDistances article,.kpMarathonConditions article{min-height:250px}
+.kpVeteranFunctions article{min-height:230px}.kpVeteranFunctions h3{margin-top:42px}
+.kpVeteranSupportGrid article{min-height:270px}.kpVeteranSupportGrid h3{margin-top:46px}
+.kpVeteranRegions article{min-height:106px;padding:20px}
+.kpRelated{margin-block:12px;padding:clamp(42px,5vw,70px)}
+.kpFooter{margin:12px;padding:48px clamp(24px,5vw,72px) 30px}
+
+@media(min-width:1121px){
+  .kpDirectionList{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;padding:1px;background:rgba(0,95,132,.17);border:0}
+  .kpDirectionList>a{grid-template-columns:38px minmax(0,1fr) 46px;grid-template-rows:auto 1fr;align-content:start;min-height:218px;padding:24px;background:rgba(255,255,255,.94);border:0}
+  .kpDirectionList>a:hover{padding-left:24px}
+  .kpDirectionList strong{align-self:center;font-size:clamp(22px,1.8vw,31px)}
+  .kpDirectionList p{grid-column:2/4;margin:20px 0 0;font-size:14px}
+  .kpDirectionList i{grid-column:3;grid-row:1;width:44px;height:44px}
+  .kpDirectionList b{display:none}
+}
+
+@media(max-width:820px){
+  .kpHomeHero{min-height:clamp(560px,78svh,660px)}
+  .kpHeroMobile,html[lang="kk"] .kpHeroMobile{justify-content:flex-start;padding:84px 20px 76px}
+  .kpMission,.kpDirections,.kpUpdates,.kpContentSection{padding:42px 20px}
+  .kpPageHero{padding-top:24px}
+  .kpSectionTitle{margin-bottom:32px}
+  .kpDirectionList>a{min-height:108px;padding-block:16px}
+  .kpFeaturedVisual{min-height:310px}.kpFeaturedCopy{min-height:0;padding:34px 24px}.kpFeaturedCopy time{margin-top:34px}
+  .kpUpdateGrid>a{min-height:230px}.kpUpdateGrid h3{margin-top:48px}
+  .kpPageCards>a,.kpResultGrid article,.kpResultGrid>a,.kpSteps article,.kpInfoGrid article{min-height:230px;padding:24px}
+  .kpTimeline article{min-height:0;padding-block:18px}
+  .kpRelated{padding:40px 24px}.kpFooter{padding:40px 24px 28px}
+  .kpVeteransLead figure{min-height:320px}.kpVeteranStructure>img{min-height:310px}.kpVeteranSplit>figure{min-height:330px}
+  .kpVeteranSupportGrid article{min-height:230px}.kpVeteranFunctions article{min-height:220px}
+}
+
+@media(max-width:620px){
+  .kpHomeHero{min-height:clamp(540px,76svh,620px)}
+  .kpHeroMobile,html[lang="kk"] .kpHeroMobile{padding:76px 20px 70px}
+  .kpMission,.kpDirections,.kpUpdates,.kpContentSection{padding:32px 18px}
+  .kpMission h2{margin-block:22px}.kpMission>p{font-size:16px;line-height:1.55}
+  .kpHomeFacts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kpHomeFacts article{min-height:106px;padding:18px 20px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .kpHomeFacts article:nth-child(2n){border-right:0}.kpHomeFacts article:nth-last-child(-n+2){border-bottom:0}
+  .kpHomeFacts strong{font-size:clamp(30px,10vw,42px)}.kpHomeFacts span{font-size:10px}
+  .kpSectionTitle{gap:12px;margin-bottom:24px}.kpSectionTitle p{font-size:14px;line-height:1.5}
+  .kpDirectionList>a{grid-template-columns:34px minmax(0,1fr) 24px;min-height:84px;padding:14px 2px;gap:10px}
+  .kpDirectionList strong{align-self:center;font-size:clamp(19px,5.5vw,25px)}
+  .kpDirectionList p,.kpDirectionList i{display:none}.kpDirectionList b{display:block;font-size:20px;text-align:center}
+  .kpFeaturedVisual{min-height:210px;padding:24px}.kpFeaturedVisual>span{font-size:clamp(36px,11vw,48px)}
+  .kpFeaturedCopy{padding:26px 22px}.kpFeaturedCopy time{margin-top:22px}.kpFeaturedCopy h2{margin:24px 0 18px}.kpFeaturedCopy p{font-size:16px}
+  .kpFeaturedCopy>div{padding-top:24px}
+  .kpUpdateGrid{gap:8px}.kpUpdateGrid>a{min-height:132px;padding:20px 74px 20px 20px}
+  .kpUpdateGrid h3{margin:22px 0 0;font-size:22px}.kpUpdateGrid i{right:18px;bottom:50%;width:44px;height:44px;transform:translateY(50%);font-size:18px}
+  .kpPageCards>a,.kpResultGrid article,.kpResultGrid>a,.kpSteps article,.kpInfoGrid article{min-height:210px}
+  .kpMarathonDistances article,.kpMarathonConditions article{min-height:220px}
+  .kpVeteransLead figure{min-height:290px}.kpVeteranSplit>figure{min-height:280px}
+  .kpVeteranPhotoPair img,.kpVeteranPhotoStory img,.kpVeteranPhotoStory img:first-child{height:280px}
+  .kpVeteranSportsGallery img,.kpVeteranSportsGallery img:first-child,.kpVeteranSportsGallery img:last-child{height:280px}
+  .kpRelated{padding-block:34px}.kpFooter{padding-block:36px 24px}
+}
