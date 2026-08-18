@@ -20,7 +20,8 @@ img{display:block;max-width:100%}
 .kpBrand img{width:116px;height:46px;object-fit:contain}
 .kpBrand span{display:flex;flex-direction:column;min-width:0;text-transform:uppercase;line-height:1.05}
 .kpBrand b{font-size:12px;letter-spacing:.08em}.kpBrand small{margin-top:6px;color:var(--muted);font-size:10px;letter-spacing:.04em}
-.kpHeader>nav{display:grid;grid-template-columns:repeat(6,1fr)}\n.kpHeader>nav .kpMenuOnly{display:none}
+.kpHeader>nav{display:grid;grid-template-columns:repeat(6,1fr)}
+.kpHeader>nav .kpMenuOnly{display:none}
 .kpHeader>nav a{display:grid;place-items:center;padding:14px;border-right:1px solid var(--line);text-align:center;text-decoration:none;font-size:17px;font-weight:700;line-height:1.28;letter-spacing:-.01em;transition:background .25s,color .25s}
 .kpHeader>nav a:hover{color:var(--white);background:var(--navy)}
 .kpCabinet{display:grid;place-items:center;min-width:168px;padding:16px 24px;color:var(--white);border:0;background:var(--blue);font-weight:700;text-decoration:none;text-align:center}
@@ -227,6 +228,7 @@ td small{display:block;margin-top:5px;color:var(--muted)}.status{display:inline-
 
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
 
+
 /* Poster-inspired ҚТЖ theme: condensed typography, blue headlines and gold accents. */
 :root{
   --ink:#111820;--navy:#005d80;--navy-2:#004664;--blue:#007fae;--cyan:#12a8d2;
@@ -372,4 +374,34 @@ body{
   .kpPageHero h1{font-size:clamp(38px,11vw,50px)}
   .kpDirectionList strong{font-size:clamp(28px,8vw,38px)}
   .kpPageCards>a,.kpResultGrid article,.kpResultGrid>a,.kpSteps article,.kpInfoGrid article{min-height:270px}
+}
+
+/* Readable Kazakh typography and calmer display sizes. */
+.kpHeader>nav a,.kpHeroMobile h1,html[lang="kk"] .kpHeroMobile h1,
+.kpMission h2,.kpSectionTitle h2,.kpPageHero h1,.kpFeaturedVisual>span,.kpFeaturedCopy h2,.kpRelated h2,
+.kpDirectionList strong,.kpUpdateGrid h3,.kpPageCards h3,.kpResultGrid h3,.kpSteps h3,.kpInfoGrid h3,
+.kpTimeline h3,.kpYoungFacesLead h2,.kpMarathonLead h2,.kpVeteransLead h2,
+.kpHomeFacts strong,.kpHeader>nav a,.kpMobileNav nav a{
+  font-family:Arial,"Helvetica Neue",sans-serif;font-weight:900;font-stretch:condensed;letter-spacing:-.025em;
+}
+.kpHeroMobile h1,html[lang="kk"] .kpHeroMobile h1{font-size:clamp(56px,7vw,108px);line-height:.93;letter-spacing:-.045em}
+.kpMission h2,.kpSectionTitle h2{font-size:clamp(34px,4vw,58px);line-height:1.04;letter-spacing:-.035em}
+.kpPageHero h1{font-size:clamp(40px,5vw,70px);line-height:1.05;letter-spacing:-.035em}
+.kpDirectionList strong{font-size:clamp(24px,2.2vw,38px);line-height:1.14}
+.kpFeaturedVisual>span{font-size:clamp(40px,4.6vw,66px);line-height:.96}
+.kpFeaturedCopy h2{font-size:clamp(34px,3.2vw,48px);line-height:1.05}
+.kpRelated h2{font-size:clamp(34px,4vw,58px);line-height:1.03}
+.kpUpdateGrid h3,.kpPageCards h3,.kpResultGrid h3,.kpSteps h3,.kpInfoGrid h3{font-size:clamp(22px,2vw,32px);line-height:1.15}
+.kpVeteransLead h2,.kpYoungFacesLead h2,.kpMarathonLead h2{font-size:clamp(30px,3vw,46px);line-height:1.08}
+
+@media(max-width:820px){
+  .kpHeroMobile h1,html[lang="kk"] .kpHeroMobile h1{font-size:clamp(38px,11vw,48px);line-height:.95;letter-spacing:-.04em}
+  .kpMission h2,.kpSectionTitle h2{font-size:clamp(30px,8vw,42px);line-height:1.08}
+  .kpPageHero h1{font-size:clamp(32px,8.5vw,44px);line-height:1.1}
+  .kpDirectionList strong{font-size:clamp(23px,6.5vw,31px);line-height:1.16}
+  .kpFeaturedVisual>span{font-size:clamp(34px,9.5vw,44px);line-height:.98}
+  .kpFeaturedCopy h2{font-size:clamp(30px,7.8vw,40px);line-height:1.08}
+  .kpRelated h2{font-size:clamp(30px,8vw,42px)}
+  .kpUpdateGrid h3,.kpPageCards h3,.kpResultGrid h3,.kpSteps h3,.kpInfoGrid h3{font-size:clamp(21px,6vw,28px)}
+  .kpVeteransLead h2,.kpYoungFacesLead h2,.kpMarathonLead h2{font-size:clamp(28px,7.5vw,38px)}
 }
