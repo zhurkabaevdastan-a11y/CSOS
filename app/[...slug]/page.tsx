@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { instructors, marathonEmbedUrl, marathonRegistrationPath, marathonRegistrationUrl, samruk2026Nominations, samruk2026Placements, sitePages, sportCalendar, sportResults, topNavigation, youngFacesApplicationUrl } from "../content";
+import { instructors, marathonEmbedUrl, marathonRegistrationUrl, samruk2026Nominations, samruk2026Placements, sitePages, sportCalendar, sportResults, topNavigation, youngFacesApplicationUrl } from "../content";
 
 export function generateStaticParams() {
   return Object.keys(sitePages).map((key) => ({ slug: key.split("/") }));
@@ -70,13 +70,13 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
       {key === "sport/calendar" && (
         <section className="kpContentSection">
           <div className="kpSectionTitle"><span>Расписание</span><h2>Спортивные сезоны 2026–2027</h2><p>Даты могут уточняться организационным комитетом.</p></div>
-          <div className="kpCalendarYears">{sportCalendar.map((season) => <section className="kpCalendarYear" key={season.year}><h3>{season.year} год</h3><div className="kpTimeline">{season.events.map((event, index) => <article key={`${season.year}-${event.title}`}><span>{String(index + 1).padStart(2, "0")}</span><time>{event.date}</time><h3>{event.title}</h3>{"registration" in event && event.registration && <a className="kpEventRegistration" href={marathonRegistrationPath}>Регистрация <i>↗</i></a>}</article>)}</div></section>)}</div>
+          <div className="kpCalendarYears">{sportCalendar.map((season) => <section className="kpCalendarYear" key={season.year}><h3>{season.year} год</h3><div className="kpTimeline">{season.events.map((event, index) => <article key={`${season.year}-${event.title}`}><span>{String(index + 1).padStart(2, "0")}</span><time>{event.date}</time><h3>{event.title}</h3>{"registration" in event && event.registration && <a className="kpEventRegistration" href="#marathon-2026">Подробнее и регистрация <i>↗</i></a>}</article>)}</div></section>)}</div>
         </section>
       )}
 
-      {key === "sport/marathon-registration" && (
+      {key === "sport/calendar" && (
         <>
-          <section className="kpContentSection kpMarathonIntro">
+          <section className="kpContentSection kpMarathonIntro" id="marathon-2026">
             <div className="kpSectionTitle"><span>О событии</span><h2>Один старт — одна команда</h2><p>Марафон развивает корпоративную культуру, поддерживает здоровый образ жизни и объединяет железнодорожников по всей стране.</p></div>
             <div className="kpMarathonLead"><div><p>Марафон ҚТЖ — спортивное событие для работников Компании, их семей и друзей железной дороги. Участники встречаются в Астане, чтобы вместе пройти выбранную дистанцию и поддержать культуру активной жизни.</p><p>Мы ждём вас на старте. Верьте в себя, поддерживайте коллег и двигайтесь к финишу в едином ритме ҚТЖ.</p><a href="#marathon-registration">Зарегистрироваться <i>↗</i></a></div><aside><span>Дата старта</span><strong>19 сентября</strong><small>2026 · Астана</small></aside></div>
           </section>
@@ -189,7 +189,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
         </section>
       )}
 
-      {!page.cards && !page.steps && !page.panels && !["sport/instructors", "sport/calendar", "sport/marathon-registration", "sport/results", "sport/results/samruk-2026", "appeals", "youth/young-faces/fourth-cohort"].includes(key) && (
+      {!page.cards && !page.steps && !page.panels && !["sport/instructors", "sport/calendar", "sport/results", "sport/results/samruk-2026", "appeals", "youth/young-faces/fourth-cohort"].includes(key) && (
         <section className="kpContentSection">
           <div className="kpSectionTitle"><span>Информация</span><h2>Раздел наполняется</h2><p>Материалы, контакты и новости будут добавляться по мере обновления программы.</p></div>
           <a className="kpAction" href="mailto:social@railways.kz">Связаться с командой <span>↗</span></a>
