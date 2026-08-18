@@ -197,6 +197,7 @@ export const sitePages: Record<string, SitePage> = {
     cards: [
       { href: "/sport/instructors", title: "Спортивные инструкторы", text: "42 действующих инструктора в 32 городах и регионах.", tag: "Команда" },
       { href: "/sport/calendar", title: "Календарь событий", text: "Спортивные мероприятия ҚТЖ на 2026 и 2027 годы.", tag: "2026–2027" },
+      { href: marathonRegistrationPath, title: "Марафон ҚТЖ", text: "Дистанции, программа, место старта, условия участия и регистрация.", tag: "19 сентября 2026" },
       { href: "/sport/results", title: "Результаты ҚТЖ", text: "Спартакиады 2024–2026 и победа в QAZAQSTAN QYZMET CUP.", tag: "Достижения" },
       { href: "/sport/photos", title: "Фото по годам", text: "Архив ярких моментов корпоративного спорта.", tag: "Фотоархив" },
     ],
@@ -210,8 +211,8 @@ export const sitePages: Record<string, SitePage> = {
     lead: "Чемпионаты, турниры, спартакиады и массовые старты АО «НК «ҚТЖ» в едином календаре.",
   },
   "sport/marathon-registration": {
-    path: marathonRegistrationPath, title: "Регистрация на Марафон ҚТЖ", eyebrow: "19 сентября 2026 · Астана",
-    lead: "Заполните официальную форму участника прямо на сайте. Порядок вопросов и предусмотренные организаторами ветвления сохранены.",
+    path: marathonRegistrationPath, title: "Марафон ҚТЖ", eyebrow: "19 сентября 2026 · Астана",
+    lead: "Корпоративный старт, который объединяет работников, семьи и друзей железной дороги со всех регионов страны.",
   },
   "sport/results": {
     path: "/sport/results", title: "Результаты сборной команды ҚТЖ", eyebrow: "Наши достижения",
