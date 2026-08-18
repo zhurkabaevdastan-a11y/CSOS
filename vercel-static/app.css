@@ -405,3 +405,15 @@ body{
   .kpUpdateGrid h3,.kpPageCards h3,.kpResultGrid h3,.kpSteps h3,.kpInfoGrid h3{font-size:clamp(21px,6vw,28px)}
   .kpVeteransLead h2,.kpYoungFacesLead h2,.kpMarathonLead h2{font-size:clamp(28px,7.5vw,38px)}
 }
+
+/* Mobile overflow guard for long labels, cards and their action icons. */
+@media(max-width:620px){
+  .kpContentSection,.kpContentSection>*{min-width:0}
+  .kpVeteransLead>*{width:100%;min-width:0;max-width:100%}
+  .kpVeteransLead h2,.kpVeteransLead p,.kpPageCards h3,.kpResultGrid h3,.kpUpdateGrid h3{overflow-wrap:anywhere;word-break:normal}
+  .kpDirectionList>a,.kpUpdateGrid>a,.kpPageCards>a,.kpResultGrid article,.kpResultGrid>a,.kpSteps article,.kpInfoGrid article{min-width:0;overflow:hidden}
+  .kpDirectionList i,.kpUpdateGrid i,.kpPageCards>a>i{flex:0 0 auto;max-width:52px;max-height:52px}
+  .kpAction,.kpEventRegistration,.kpYoungFacesCta>a,.kpMarathonContact a{max-width:100%;white-space:normal;text-align:center;overflow-wrap:anywhere}
+  .kpMarathonSchedule article{width:100%;min-width:0;grid-template-columns:minmax(72px,90px) minmax(0,1fr);gap:8px 14px;padding:22px 8px}
+  .kpMarathonSchedule h3,.kpMarathonSchedule p{min-width:0;overflow-wrap:anywhere}
+}
