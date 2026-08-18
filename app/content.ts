@@ -110,6 +110,7 @@ export type SitePage = {
 };
 
 export const marathonRegistrationUrl = "https://forms.cloud.microsoft/r/watNzKnHrC";
+export const marathonRegistrationPath = "/sport/marathon-registration";
 export const marathonEmbedUrl = "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=2MJCyM5Rt0uv4xiUtpk2kB6fSDF9afpGrlMkPIqa7aNUMUpHTFA3T05KRE5ZSFhOQ0U5OUNFRkJEVi4u&embed=true";
 export const youngFacesApplicationUrl = "https://forms.cloud.microsoft/r/mXpaWCRuek";
 
@@ -207,6 +208,10 @@ export const sitePages: Record<string, SitePage> = {
   "sport/calendar": {
     path: "/sport/calendar", title: "Календарь спортивных событий", eyebrow: "Сезоны 2026–2027",
     lead: "Чемпионаты, турниры, спартакиады и массовые старты АО «НК «ҚТЖ» в едином календаре.",
+  },
+  "sport/marathon-registration": {
+    path: marathonRegistrationPath, title: "Марафон ҚТЖ", eyebrow: "19 сентября 2026 · Астана",
+    lead: "Корпоративный старт, который объединяет работников, семьи и друзей железной дороги со всех регионов страны.",
   },
   "sport/results": {
     path: "/sport/results", title: "Результаты сборной команды ҚТЖ", eyebrow: "Наши достижения",
