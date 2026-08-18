@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { instructors, marathonEmbedUrl, marathonRegistrationPath, marathonRegistrationUrl, samruk2026Nominations, samruk2026Placements, sitePages, sportCalendar, sportResults, topNavigation, youngFacesApplicationUrl } from "../content";
+import { instructorRegions, instructors, marathonEmbedUrl, marathonRegistrationPath, marathonRegistrationUrl, samruk2026Nominations, samruk2026Placements, sitePages, sportCalendar, sportResults, topNavigation, youngFacesApplicationUrl } from "../content";
 
 export function generateStaticParams() {
   return Object.keys(sitePages).map((key) => ({ slug: key.split("/") }));
@@ -51,18 +51,20 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
 
       {key === "sport/instructors" && (
         <section className="kpContentSection">
-          <div className="kpSectionTitle"><span>Команда</span><h2>Инструкторы по городам и регионам</h2><p>42 действующих специалиста и 3 открытые вакансии.</p></div>
-          <div className="kpStats"><article><strong>45</strong><span>позиций</span></article><article><strong>42</strong><span>инструктора</span></article><article><strong>32</strong><span>города и региона</span></article><article><strong>3</strong><span>вакансии</span></article></div>
-          <div className="instructorTableWrap">
-            <table className="instructorTable">
-              <thead><tr><th>№</th><th>ФИО</th><th>Город / регион</th><th>Телефон</th></tr></thead>
-              <tbody>{instructors.map((person) => (
-                <tr key={person.id} className={person.name === "Вакансия" ? "vacancy" : ""}>
-                  <td data-label="№">{person.id}</td><td data-label="ФИО"><b>{person.name}</b></td><td data-label="Город / регион">{person.region}</td>
-                  <td data-label="Телефон">{person.phone ? <a href={`tel:${person.phone.replace(/[^\d+]/g, "")}`}>{person.phone}</a> : <span>Открытая позиция</span>}</td>
-                </tr>
-              ))}</tbody>
-            </table>
+          <div className="kpSectionTitle"><span>Команда</span><h2>Инструкторы по основным регионам</h2><p>Выберите регион, чтобы посмотреть города, инструкторов и контакты.</p></div>
+          <div className="kpStats"><article><strong>16</strong><span>основных регионов</span></article><article><strong>43</strong><span>инструктора</span></article><article><strong>32</strong><span>города и станции</span></article><article><strong>2</strong><span>вакансии</span></article></div>
+          <div className="instructorRegions">
+            {instructorRegions.map((region, regionIndex) => {
+              const people = region.instructorIds.map((id) => instructors.find((person) => person.id === id)).filter((person): person is (typeof instructors)[number] => Boolean(person));
+              return (
+                <details className="instructorRegion" key={region.name} open={regionIndex === 0}>
+                  <summary><span>{String(regionIndex + 1).padStart(2, "0")}</span><strong>{region.name}</strong><small><b>{people.length}</b> <span>{people.length === 1 ? "позиция" : people.length < 5 ? "позиции" : "позиций"}</span></small><i aria-hidden="true">+</i></summary>
+                  <div className="instructorRegionPeople">
+                    {people.map((person) => <article className={person.name === "Вакансия" ? "vacancy" : ""} key={person.id}><span>{person.region}</span><h3>{person.name}</h3>{person.phone ? <a href={`tel:${person.phone.replace(/[^\d+]/g, "")}`}>{person.phone}</a> : <b>Открытая позиция</b>}</article>)}
+                  </div>
+                </details>
+              );
+            })}
           </div>
         </section>
       )}
