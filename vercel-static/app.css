@@ -229,6 +229,8 @@ td small{display:block;margin-top:5px;color:var(--muted)}.status{display:inline-
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
 
 
+/* Disabled poster redesign: keep the earlier ҚТЖ visual system active. */
+@media(max-width:0px){
 /* Poster-inspired ҚТЖ theme: condensed typography, blue headlines and gold accents. */
 :root{
   --ink:#111820;--navy:#005d80;--navy-2:#004664;--blue:#007fae;--cyan:#12a8d2;
@@ -373,6 +375,8 @@ body{
   .kpPageHero h1{font-size:clamp(38px,11vw,50px)}
   .kpDirectionList strong{font-size:clamp(28px,8vw,38px)}
   .kpPageCards>a,.kpResultGrid article,.kpResultGrid>a,.kpSteps article,.kpInfoGrid article{min-height:270px}
+}
+
 }
 
 /* Readable Kazakh typography and calmer display sizes. */
