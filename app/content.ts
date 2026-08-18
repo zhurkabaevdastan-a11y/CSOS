@@ -12,7 +12,7 @@ export const instructors: Instructor[] = [
   { id: 4, name: "Рахимбаев Талгат Зияданович", region: "Курорт-Боровое", phone: "8-701-479-68-35" },
   { id: 5, name: "Кажаев Болатбек Шахмуратович", region: "Атбасар", phone: "8-701-448-59-27" },
   { id: 6, name: "Вакансия", region: "Жана-Есиль", phone: null },
-  { id: 7, name: "Вакансия", region: "Костанай", phone: null },
+  { id: 7, name: "Ахтаханов Ислам Шараниевич", region: "Костанай", phone: "8-707-372-29-65" },
   { id: 8, name: "Ахтаханов Шарани Юнусович", region: "Кушмурун", phone: "8-775-303-46-67" },
   { id: 9, name: "Шевцов Сергей Сергеевич", region: "Тобол", phone: "8-747-601-38-14" },
   { id: 10, name: "Мартынова Наталья Михайловна", region: "Павлодар", phone: "8-701-599-93-59" },
@@ -51,6 +51,30 @@ export const instructors: Instructor[] = [
   { id: 43, name: "Кубландиев Жанибек Аскарович", region: "Макат", phone: "8-775-346-15-77" },
   { id: 44, name: "Кадырова Нурайна Есимовна", region: "Мангистау", phone: "8-771-772-44-41" },
   { id: 45, name: "Нуралиев Бекзад Максетулы", region: "Бейнеу", phone: "8-771-513-90-55" },
+];
+
+export type InstructorRegion = {
+  name: string;
+  instructorIds: number[];
+};
+
+export const instructorRegions: InstructorRegion[] = [
+  { name: "Астана", instructorIds: [1, 2] },
+  { name: "Акмолинский регион", instructorIds: [3, 4, 5, 6] },
+  { name: "Костанайский регион", instructorIds: [7, 8, 9] },
+  { name: "Павлодарский регион", instructorIds: [10, 11] },
+  { name: "Карагандинский регион", instructorIds: [12, 13, 14, 15] },
+  { name: "Семейский регион", instructorIds: [16, 17, 18] },
+  { name: "Станция Өскемен", instructorIds: [19, 20, 21] },
+  { name: "Алматинский регион", instructorIds: [22, 23, 24, 25, 26, 27] },
+  { name: "Жамбылский регион", instructorIds: [28, 29, 30] },
+  { name: "Шымкентский регион", instructorIds: [31, 32] },
+  { name: "Кызылординский регион", instructorIds: [33, 34] },
+  { name: "Актобинский регион", instructorIds: [35, 36, 37, 38] },
+  { name: "Станция Орал", instructorIds: [39, 40] },
+  { name: "Станция Илецк", instructorIds: [41] },
+  { name: "Атырауский регион", instructorIds: [42, 43] },
+  { name: "Мангистауский регион", instructorIds: [44, 45] },
 ];
 
 export const sportCalendar = [
@@ -195,7 +219,7 @@ export const sitePages: Record<string, SitePage> = {
     path: "/sport", title: "Спортивная жизнь ҚТЖ", eyebrow: "Энергия движения",
     lead: "Корпоративный спорт объединяет железнодорожников, укрепляет командный дух и создаёт культуру активной жизни.",
     cards: [
-      { href: "/sport/instructors", title: "Спортивные инструкторы", text: "42 действующих инструктора в 32 городах и регионах.", tag: "Команда" },
+      { href: "/sport/instructors", title: "Спортивные инструкторы", text: "43 действующих инструктора в 16 основных регионах.", tag: "Команда" },
       { href: "/sport/calendar", title: "Календарь событий", text: "Спортивные мероприятия ҚТЖ на 2026 и 2027 годы.", tag: "2026–2027" },
       { href: "/sport/results", title: "Результаты ҚТЖ", text: "Спартакиады 2024–2026 и победа в QAZAQSTAN QYZMET CUP.", tag: "Достижения" },
       { href: "/sport/photos", title: "Фото по годам", text: "Архив ярких моментов корпоративного спорта.", tag: "Фотоархив" },
