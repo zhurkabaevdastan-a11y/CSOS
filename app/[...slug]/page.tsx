@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { instructorRegions, instructors, marathonEmbedUrl, marathonRegistrationPath, marathonRegistrationUrl, samruk2026Nominations, samruk2026Placements, sectionNavigation, sitePages, sportCalendar, sportResults, topNavigation, youngFacesApplicationUrl } from "../content";
+import { instructorRegions, instructors, marathonEmbedUrl, marathonRegistrationPath, marathonRegistrationUrl, samruk2026Nominations, samruk2026Placements, sectionNavigation, sitePages, sportCalendar, sportResults, teamMembers, topNavigation, veteranAgeGroups, veteranGallery, veteranRegions, veteranStats, youngFacesApplicationUrl } from "../content";
 
 export function generateStaticParams() {
   return Object.keys(sitePages).map((key) => ({ slug: key.split("/") }));
@@ -48,6 +48,89 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
         {page.lead && <p>{page.lead}</p>}
         <div className={`kpHeroVisual kpHeroVisual--${slug[0]}`}><span>ҚТЖ</span><i /></div>
       </section>
+
+      {key === "pensioners" && (
+        <section className="kpContentSection kpVeteransIntro">
+          <div className="kpVeteransLead">
+            <div><span className="kpEyebrow">Забота о ветеранах</span><h2>Ветераны — золотой фонд железнодорожного транспорта</h2><p>Их труд, мудрость и любовь к профессии вдохновляют новые поколения железнодорожников. Работа с ветеранами носит постоянный характер и ежегодно дополняется новыми программами и мероприятиями.</p><p>Главная цель — повысить качество жизни неработающих пенсионеров Компании, обеспечить социальную поддержку и признать их вклад в развитие отрасли.</p></div>
+            <figure><img src="/veterans/hero.jpg" alt="Работники ҚТЖ навещают ветерана железнодорожной отрасли" /><figcaption>Забота, уважение и связь поколений</figcaption></figure>
+          </div>
+          <div className="kpVeteranStats">{veteranStats.map((item) => <article key={item.label}><strong>{item.value}</strong><span>{item.label}</span></article>)}</div>
+        </section>
+      )}
+
+      {key === "pensioners/portrait" && (
+        <>
+          <section className="kpContentSection kpVeteranPortrait">
+            <div className="kpSectionTitle"><span>2025 год</span><h2>Социальный портрет ветеранов</h2><p>Общая численность — 45 883 человека: 22 798 мужчин и 23 085 женщин.</p></div>
+            <div className="kpVeteranStats">{veteranStats.map((item) => <article key={item.label}><strong>{item.value}</strong><span>{item.label}</span></article>)}</div>
+            <div className="kpVeteranSplit"><figure><img src="/veterans/portrait.jpg" alt="Забота о старшем поколении" /></figure><div><h3>Возрастной состав</h3>{veteranAgeGroups.map((group) => <article key={group.label}><span>{group.label}</span><strong>{group.value}</strong></article>)}</div><aside><span>Заслуги ветеранов</span><strong>64</strong><p>награды в 2025 году</p><ul><li>5 государственных</li><li>2 ведомственные</li><li>57 отраслевых</li></ul></aside></div>
+          </section>
+          <section className="kpContentSection kpVeteranRegions">
+            <div className="kpSectionTitle"><span>География</span><h2>Региональные советы ветеранов</h2><p>Представительство ветеранов железнодорожной отрасли по регионам и участкам.</p></div>
+            <div>{veteranRegions.map(([region, count]) => <article key={region}><span>{region}</span><strong>{count}</strong><small>человек</small></article>)}</div>
+          </section>
+        </>
+      )}
+
+      {key === "pensioners/generations" && (
+        <>
+          <section className="kpContentSection kpVeteranCouncil">
+            <div className="kpSectionTitle"><span>Опыт и преемственность</span><h2>Роль консультативного совета ҚТЖ</h2><p>Опытные ветераны готовят рекомендации, участвуют в обсуждении решений, анализируют деятельность Компании и сопровождают проекты.</p></div>
+            <div className="kpVeteranPhotoPair"><img src="/veterans/council-group.jpg" alt="Участники консультативного совета ҚТЖ" /><img src="/veterans/council-meeting.jpg" alt="Заседание консультативного совета ҚТЖ" /></div>
+            <div className="kpVeteranFunctions"><article><span>01</span><h3>Экспертные рекомендации</h3><p>Подготовка предложений с опорой на профессиональный опыт ветеранов.</p></article><article><span>02</span><h3>Обсуждение решений</h3><p>Участие в заседаниях и рассмотрении важных вопросов развития отрасли.</p></article><article><span>03</span><h3>Наставничество</h3><p>Передача знаний молодым специалистам и сохранение корпоративных традиций.</p></article><article><span>04</span><h3>Сохранение истории</h3><p>Участие в создании музеев, архивов, мемориалов и публикаций.</p></article></div>
+          </section>
+          <section className="kpContentSection kpVeteranStructure"><div className="kpSectionTitle"><span>Организация работы</span><h2>Структура советов ветеранов</h2><p>От центрального совета до региональных, узловых и цеховых советов.</p></div><div><article><span>01</span><h3>Президиум Центрального совета</h3></article><article><span>02</span><h3>Центральный совет ветеранов</h3></article><article><span>03</span><h3>Региональные и участковые советы</h3></article><article><span>04</span><h3>Узловые и цеховые советы</h3></article></div><img src="/veterans/regional-council.jpg" alt="Заседание регионального совета ветеранов" /></section>
+        </>
+      )}
+
+      {key === "pensioners/support" && (
+        <>
+          <section className="kpContentSection kpVeteranSupport">
+            <div className="kpSectionTitle"><span>Система помощи</span><h2>Поддержка на каждом этапе</h2><p>Признание заслуг дополняется финансовой, медицинской и адресной помощью.</p></div>
+            <div className="kpVeteranSupportGrid"><article><span>01</span><h3>Признание и награды</h3><p>Государственные и ведомственные награды, почётные звания и публичное признание.</p></article><article><span>02</span><h3>Материальная помощь</h3><p>Единовременные выплаты, продуктовые корзины и помощь в трудных жизненных ситуациях.</p></article><article><span>03</span><h3>Льготы и гарантии</h3><p>Бесплатный проезд, медицинское сопровождение и санаторно-курортное лечение.</p></article><article><span>04</span><h3>Поддержка на местах</h3><p>Поздравления на дому, посещения и персональная адресная помощь ветеранам и их семьям.</p></article><article><span>05</span><h3>Информационная поддержка</h3><p>Публикации, интервью, выставки и сохранение исторической памяти.</p></article></div>
+          </section>
+          <section className="kpContentSection"><div className="kpVeteranPhotoStory"><img src="/veterans/award.jpg" alt="Вручение награды ветерану" /><img src="/veterans/medical-support.jpg" alt="Медицинское сопровождение ветеранов" /><img src="/veterans/home-visit.jpg" alt="Адресная поддержка ветерана" /></div></section>
+        </>
+      )}
+
+      {key === "pensioners/stories" && (
+        <>
+          <section className="kpContentSection kpVeteranParticipation">
+            <div className="kpSectionTitle"><span>Признание вклада</span><h2>Ветераны представляют отрасль</h2><p>Ветераны участвуют в государственных и официальных мероприятиях, телемостах, запусках инфраструктурных проектов и церемониях награждения.</p></div>
+            <div className="kpVeteranPhotoPair"><img src="/veterans/president-event.jpg" alt="Ветераны на мероприятии с участием Президента Республики Казахстан" /><img src="/veterans/president-meeting.jpg" alt="Встреча с ветеранами железнодорожной отрасли" /></div>
+            <div className="kpVeteranFunctions"><article><span>01</span><h3>Патриотические акции</h3><p>Участие в парадах, памятных мероприятиях и общественных инициативах.</p></article><article><span>02</span><h3>Форумы и конференции</h3><p>Диалог по вопросам социальной политики и развития транспортной системы.</p></article><article><span>03</span><h3>Корпоративная жизнь</h3><p>Торжественные встречи, концерты, экскурсии и вечера памяти.</p></article><article><span>04</span><h3>Связь поколений</h3><p>Совместные программы с молодыми сотрудниками и наставничество.</p></article></div>
+          </section>
+          <section className="kpContentSection"><div className="kpVeteranPhotoStory"><img src="/veterans/memorial-action.jpg" alt="Памятная акция с участием ветеранов" /><img src="/veterans/national-event.jpg" alt="Мероприятие странового масштаба" /><img src="/veterans/media-interview.jpg" alt="Интервью с ветераном ҚТЖ" /></div></section>
+        </>
+      )}
+
+      {key === "pensioners/active-longevity" && (
+        <>
+          <section className="kpContentSection kpVeteranActive">
+            <div className="kpSectionTitle"><span>Здоровье и движение</span><h2>Поддержка активного долголетия</h2><p>ҚТЖ помогает ветеранам сохранять физическое и моральное здоровье и участвовать в спортивной жизни.</p></div>
+            <div className="kpVeteranFunctions"><article><span>01</span><h3>Спортивные мероприятия</h3><p>Корпоративные старты, шахматы и фестивали для ветеранов.</p></article><article><span>02</span><h3>Участие в соревнованиях</h3><p>Поддержка ветеранов труда и спорта на республиканском и международном уровне.</p></article><article><span>03</span><h3>Оздоровительные программы</h3><p>Содействие в проведении мероприятий для активного и здорового образа жизни.</p></article><article><span>04</span><h3>Совместные старты</h3><p>Спортивные события ветеранов вместе с молодыми сотрудниками.</p></article></div>
+          </section>
+          <section className="kpContentSection"><div className="kpVeteranSportsGallery"><img src="/veterans/chess.jpg" alt="Ветеран играет в шахматы" /><img src="/veterans/sports-festival.jpg" alt="Спортивный фестиваль ветеранов" /><img src="/veterans/veteran-team.jpg" alt="Команда ветеранов на соревнованиях" /><img src="/veterans/medalist.jpg" alt="Ветеран с наградой спортивного соревнования" /><img src="/veterans/marathon-team.jpg" alt="Команда ветеранов ҚТЖ" /></div></section>
+        </>
+      )}
+
+      {key === "pensioners/gallery" && (
+        <section className="kpContentSection kpVeteranGallery">
+          <div className="kpSectionTitle"><span>История в кадрах</span><h2>Люди, встречи и события</h2><p>Фотографии из материалов Департамента социальной политики ҚТЖ.</p></div>
+          <div>{veteranGallery.map((photo) => <figure key={photo.src}><img src={photo.src} alt={photo.alt} loading="lazy" /><figcaption>{photo.caption}</figcaption></figure>)}</div>
+        </section>
+      )}
+
+      {key === "team" && (
+        <section className="kpContentSection kpTeamStructure">
+          <div className="kpSectionTitle"><span>Структура Департамента</span><h2>Команда социальной политики</h2><p>Сотрудники Департамента и направления работы по основному и приписному штату.</p></div>
+          {teamMembers.filter((member) => member.staff === "Руководитель").map((member) => <article className="kpTeamDirector" key={member.name}><img src={member.image} alt={member.name} /><div><span>{member.role}</span><h3>{member.name}</h3><p>Руководит работой Департамента социальной политики ҚТЖ.</p></div></article>)}
+          <div className="kpTeamGroups">
+            {["Основной штат", "Приписной штат"].map((group) => <section key={group}><div className="kpTeamGroupTitle"><span>{group}</span><strong>{teamMembers.filter((member) => member.staff === group).length}</strong></div><div className="kpTeamGrid">{teamMembers.filter((member) => member.staff === group).map((member) => <article className="kpTeamCard" key={member.name}><img src={member.image} alt={member.name} loading="lazy" /><div><span>{member.role}</span><h3>{member.name}</h3><h4>Функционал</h4><ul>{member.responsibilities.map((responsibility) => <li key={responsibility}>{responsibility}</li>)}</ul></div></article>)}</div></section>)}
+          </div>
+        </section>
+      )}
 
       {key === "sport/instructors" && (
         <section className="kpContentSection">
@@ -191,7 +274,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
         </section>
       )}
 
-      {!page.cards && !page.steps && !page.panels && !["sport/instructors", "sport/calendar", "sport/marathon-registration", "sport/results", "sport/results/samruk-2026", "appeals", "youth/young-faces/fourth-cohort"].includes(key) && (
+      {!page.cards && !page.steps && !page.panels && !["team", "sport/instructors", "sport/calendar", "sport/marathon-registration", "sport/results", "sport/results/samruk-2026", "appeals", "youth/young-faces/fourth-cohort", "pensioners/portrait", "pensioners/support", "pensioners/generations", "pensioners/stories", "pensioners/active-longevity", "pensioners/gallery"].includes(key) && (
         <section className="kpContentSection">
           <div className="kpSectionTitle"><span>Информация</span><h2>Раздел наполняется</h2><p>Материалы, контакты и новости будут добавляться по мере обновления программы.</p></div>
           <a className="kpAction" href="mailto:social@railways.kz">Связаться с командой <span>↗</span></a>
