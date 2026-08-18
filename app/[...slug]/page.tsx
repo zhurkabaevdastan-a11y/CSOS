@@ -75,13 +75,33 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
       )}
 
       {key === "sport/marathon-registration" && (
-        <section className="kpContentSection kpMarathonFormSection">
-          <div className="kpSectionTitle"><span>Форма участника</span><h2>Регистрация на марафон</h2><p>Ответы сохраняются в официальной форме Microsoft Forms.</p></div>
-          <div className="kpFormPanel">
-            <iframe title="Регистрация на Марафон ҚТЖ" src={marathonEmbedUrl} allowFullScreen />
-          </div>
-          <p className="kpFormFallback">Если форма не загрузилась, <a href={marathonRegistrationUrl} target="_blank" rel="noreferrer">откройте её в новой вкладке</a>.</p>
-        </section>
+        <>
+          <section className="kpContentSection kpMarathonIntro">
+            <div className="kpSectionTitle"><span>О событии</span><h2>Один старт — одна команда</h2><p>Марафон развивает корпоративную культуру, поддерживает здоровый образ жизни и объединяет железнодорожников по всей стране.</p></div>
+            <div className="kpMarathonLead"><div><p>Марафон ҚТЖ — спортивное событие для работников Компании, их семей и друзей железной дороги. Участники встречаются в Астане, чтобы вместе пройти выбранную дистанцию и поддержать культуру активной жизни.</p><p>Мы ждём вас на старте. Верьте в себя, поддерживайте коллег и двигайтесь к финишу в едином ритме ҚТЖ.</p><a href="#marathon-registration">Зарегистрироваться <i>↗</i></a></div><aside><span>Дата старта</span><strong>19 сентября</strong><small>2026 · Астана</small></aside></div>
+          </section>
+          <section className="kpContentSection kpMarathonDistances">
+            <div className="kpSectionTitle"><span>Дистанции</span><h2>Выберите свой темп</h2><p>Маршрут состоит из кругов протяжённостью 2,5 км.</p></div>
+            <div><article><strong>2,5</strong><span>км</span><p>Короткая дистанция для уверенного старта.</p></article><article><strong>5</strong><span>км</span><p>Один из самых доступных форматов массового забега.</p></article><article><strong>10</strong><span>км</span><p>Дистанция для подготовленных участников.</p></article></div>
+          </section>
+          <section className="kpContentSection kpMarathonProgram">
+            <div className="kpSectionTitle"><span>Предварительная программа</span><h2>День марафона</h2><p>Время отдельных этапов может уточняться организационным комитетом.</p></div>
+            <div className="kpMarathonSchedule"><article><time>07:50</time><h3>Сбор участников</h3><p>Начало работы камеры хранения.</p></article><article><time>08:30</time><h3>Открытие стартового городка</h3><p>Подготовка участников к забегу.</p></article><article><time>08:40</time><h3>Инструктаж и разминка</h3><p>Общий инструктаж перед стартами.</p></article><article><time>09:00–11:00</time><h3>Старты забегов</h3><p>Дистанции 10 км, 5 км и 2,5 км.</p></article><article><time>11:30</time><h3>Награждение участников</h3><p>Подведение спортивных итогов.</p></article><article><time>12:30</time><h3>Развлекательная программа</h3><p>Завершение общего марафонского дня.</p></article></div>
+          </section>
+          <section className="kpContentSection kpMarathonDetails">
+            <div className="kpMarathonRoute"><article><span>Место сбора</span><h2>Ботанический сад, Астана</h2><p>Стартовый городок располагается в парковочной зоне на пересечении улиц Акмешит и Бухар жырау. Участникам рекомендуется прибыть к 07:50.</p></article><article><span>Маршрут</span><h2>Круг — 2,5 км</h2><p>Забеги проходят на дистанциях 2,5 км, 5 км и 10 км. Точная схема движения будет опубликована организаторами перед стартом.</p></article></div>
+          </section>
+          <section className="kpContentSection kpMarathonConditions">
+            <div className="kpSectionTitle"><span>Условия участия</span><h2>Здоровье и безопасность</h2><p>Пожалуйста, ознакомьтесь с требованиями до подачи заявки.</p></div>
+            <div><article><span>01</span><h3>Возраст</h3><p>Основные участники — от 18 лет. Дети работников, дислоцированных в Астане, допускаются в категориях 10–13 и 14–17 лет.</p></article><article><span>02</span><h3>Здоровье</h3><p>При получении стартового номера необходимо предоставить расписку о личной ответственности за состояние здоровья.</p></article><article><span>03</span><h3>Лимит</h3><p>К участию допускаются не более 600 человек.</p></article></div>
+          </section>
+          <section className="kpContentSection kpMarathonContact"><div><span>Связь с организаторами</span><h2>Есть вопрос о старте?</h2><p>Телефон: <a href="tel:+77784812821">+7 778 481 28 21</a><br />Электронная почта: <a href="mailto:Zhurkabayev_D@railways.kz">Zhurkabayev_D@railways.kz</a></p></div><nav><a href="https://chat.whatsapp.com/B5InlZWFveAFozbG4cojZz" target="_blank" rel="noreferrer">WhatsApp <i>↗</i></a><a href="https://www.instagram.com/sport.railways.kz" target="_blank" rel="noreferrer">Instagram <i>↗</i></a></nav></section>
+          <section className="kpContentSection kpMarathonFormSection" id="marathon-registration">
+            <div className="kpSectionTitle"><span>Форма участника</span><h2>Регистрация на марафон</h2><p>Ответы сохраняются в официальной форме Microsoft Forms.</p></div>
+            <div className="kpFormPanel"><iframe title="Регистрация на Марафон ҚТЖ" src={marathonEmbedUrl} allowFullScreen /></div>
+            <p className="kpFormFallback">Если форма не загрузилась, <a href={marathonRegistrationUrl} target="_blank" rel="noreferrer">откройте её в новой вкладке</a>.</p>
+          </section>
+        </>
       )}
 
       {key === "sport/results" && (
