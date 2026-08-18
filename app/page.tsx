@@ -53,7 +53,6 @@ const emptyAnalytics: SiteAnalytics = {
 const pageLabel = (title: string, path: string) => title || (path === "/" ? "Главная" : path);
 
 export default function Home() {
-  const [menu, setMenu] = useState(false);
   const [panel, setPanel] = useState<"auth" | "account" | "admin" | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [role, setRole] = useState<string | null>(null);
@@ -139,10 +138,10 @@ export default function Home() {
           <img src="/ktz-logo.png" alt="Қазақстан темір жолы" />
           <span><b>Все о социальной</b><small>политике ҚТЖ</small></span>
         </a>
-        <nav className={menu ? "open" : ""}>{sectionNavigation.map((item) => <a className={topNavigation.some((primary) => primary.href === item.href) ? undefined : "kpMenuOnly"} key={item.href} href={item.href}>{item.label}</a>)}</nav>
+        <nav>{topNavigation.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav>
         <button className="kpLanguage" type="button" data-language-toggle aria-label="Қазақ тіліне ауысу" title="Қазақша">ҚАЗ</button>
         <button className="kpCabinet" onClick={openCabinet}>{session ? (role === "admin" ? "Админ-панель" : "Мой аккаунт") : "Вход / регистрация"}</button>
-        <button className="kpMenu" onClick={() => setMenu(!menu)} aria-expanded={menu} aria-label="Открыть меню">{menu ? "×" : "☰"}</button>
+        <details className="kpMobileNav"><summary aria-label="Открыть меню">☰</summary><nav>{sectionNavigation.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav></details>
       </header>
 
       <section className="kpHomeHero" aria-label="Люди. Движение. Возможности.">
