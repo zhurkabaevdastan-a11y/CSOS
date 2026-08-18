@@ -226,3 +226,150 @@ td small{display:block;margin-top:5px;color:var(--muted)}.status{display:inline-
 }
 
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
+
+/* Poster-inspired ҚТЖ theme: condensed typography, blue headlines and gold accents. */
+:root{
+  --ink:#111820;--navy:#005d80;--navy-2:#004664;--blue:#007fae;--cyan:#12a8d2;
+  --gold:#b68a24;--sand:#eef2f3;--paper:#fff;--white:#fff;
+  --muted:#53616a;--line:rgba(0,95,132,.18);--shadow:0 18px 48px rgba(0,68,100,.11);
+}
+body{
+  background:
+    linear-gradient(145deg,rgba(0,127,174,.045) 0 18%,transparent 18% 62%,rgba(182,138,36,.035) 62% 75%,transparent 75%),
+    #eef2f3;
+}
+.kpHome,.kpPage{background:transparent}
+.kpHeader{
+  min-height:82px;background:rgba(255,255,255,.97);border-top:6px solid var(--blue);
+  border-bottom:1px solid rgba(0,95,132,.22);box-shadow:0 8px 30px rgba(0,68,100,.07);
+}
+.kpBrand,.kpHeader>nav a,.kpLanguage,.kpMenu{border-color:rgba(0,95,132,.18)}
+.kpHeader>nav a{
+  color:var(--navy-2);font-family:Impact,Haettenschweiler,"Arial Narrow Bold","Arial Narrow",sans-serif;
+  min-width:0;padding:10px 6px;font-size:clamp(10px,.86vw,13px);font-weight:700;letter-spacing:.025em;text-transform:uppercase;overflow-wrap:anywhere;
+}
+.kpHeader>nav{min-width:0}
+.kpHeader>nav a:hover{color:#fff;background:var(--blue)}
+.kpBrand b{color:var(--blue);font-weight:900}.kpBrand small{color:var(--gold);font-weight:800}
+.kpCabinet{min-width:148px;padding-inline:16px;background:var(--blue);font-family:"Arial Narrow",Arial,sans-serif;text-transform:uppercase;letter-spacing:.04em}
+.kpLanguage{color:var(--gold);background:#fff}
+
+.kpHomeHero{
+  min-height:min(760px,calc(100svh - 82px));background:
+    linear-gradient(118deg,#fff 0 58%,#eef4f6 58% 72%,#dce8ec 72% 100%);
+  border-bottom:12px solid var(--blue);
+}
+.kpHomeHero:before,.kpHomeHero:after{content:"";position:absolute;pointer-events:none}
+.kpHomeHero:before{
+  inset:0;background:
+    linear-gradient(132deg,transparent 0 23%,rgba(0,127,174,.07) 23% 27%,transparent 27% 43%,rgba(182,138,36,.08) 43% 45%,transparent 45%);
+}
+.kpHomeHero:after{
+  right:-8%;bottom:-36%;width:62%;height:120%;background:url("/ktz-hero.png") 75% center/cover no-repeat;
+  opacity:.1;filter:grayscale(1);transform:rotate(-5deg);
+}
+.kpHeroDesktop{opacity:0}
+.kpHeroBrandLine{display:none}
+.kpHeroMobile,html[lang="kk"] .kpHeroMobile{
+  position:absolute;z-index:2;inset:0;display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(100px,11vw,170px) clamp(24px,7vw,116px);color:var(--blue);background:transparent;
+}
+.kpHeroMobile>span,html[lang="kk"] .kpHeroMobile>span{
+  max-width:760px;color:var(--gold);font-family:"Arial Narrow",Arial,sans-serif;
+  font-size:clamp(13px,1.4vw,20px);font-weight:900;line-height:1.3;letter-spacing:.06em;text-transform:uppercase;
+}
+.kpHeroMobile h1,html[lang="kk"] .kpHeroMobile h1{
+  max-width:950px;margin:28px 0 36px;color:var(--blue);
+  font-family:Impact,Haettenschweiler,"Arial Narrow Bold","Arial Narrow",sans-serif;
+  font-size:clamp(68px,8.4vw,136px);font-weight:900;line-height:.86;letter-spacing:.005em;text-transform:uppercase;
+}
+.kpHeroMobile i,html[lang="kk"] .kpHeroMobile i{width:280px;height:10px;background:linear-gradient(90deg,var(--blue) 0 70%,var(--gold) 70%)}
+.kpScroll{z-index:3;color:var(--navy-2);font-weight:900}.kpScroll span{border-color:rgba(0,95,132,.42)}
+
+.kpMission,.kpDirections,.kpUpdates,.kpContentSection,.kpPageHero,.kpHomeFacts{
+  border-radius:8px;border:1px solid rgba(0,95,132,.15);box-shadow:none;
+}
+.kpMission,.kpDirections,.kpUpdates,.kpContentSection,.kpPageHero{
+  background:
+    linear-gradient(135deg,rgba(0,127,174,.035) 0 18%,transparent 18% 78%,rgba(182,138,36,.035) 78%),
+    #fff;
+}
+.kpEyebrow,.kpSectionTitle>span{
+  color:var(--gold);font-family:"Arial Narrow",Arial,sans-serif;font-size:12px;font-weight:900;letter-spacing:.09em;
+}
+.kpMission h2,.kpSectionTitle h2,.kpPageHero h1,.kpFeaturedCopy h2,.kpRelated h2,
+.kpResultGrid h3,.kpPageCards h3,.kpSteps h3,.kpInfoGrid h3,.kpTimeline h3,
+.kpYoungFacesLead h2,.kpMarathonLead h2,.kpVeteransLead h2{
+  font-family:Impact,Haettenschweiler,"Arial Narrow Bold","Arial Narrow",sans-serif;
+  font-weight:900;letter-spacing:.005em;text-transform:uppercase;
+}
+.kpMission h2,.kpSectionTitle h2,.kpPageHero h1{color:var(--blue);line-height:.95}
+.kpMission h2 em{color:var(--gold)}
+.kpMission>p,.kpSectionTitle p,.kpPageHero>p{color:#26343c;line-height:1.72}
+
+.kpHomeFacts{background:var(--navy-2);border-color:var(--navy-2)}
+.kpHomeFacts article{border-color:rgba(255,255,255,.18)}
+.kpHomeFacts strong{color:#fff;font-family:Impact,Haettenschweiler,"Arial Narrow Bold","Arial Narrow",sans-serif;letter-spacing:.02em}
+.kpHomeFacts span{color:#d7edf5;font-weight:800}
+.kpDirectionList{border-top:6px solid var(--blue)}
+.kpDirectionList>a{background:rgba(255,255,255,.72);border-bottom-color:rgba(0,95,132,.17)}
+.kpDirectionList strong{color:var(--blue);font-family:Impact,Haettenschweiler,"Arial Narrow Bold","Arial Narrow",sans-serif;letter-spacing:.01em;text-transform:uppercase}
+.kpDirectionList>a>span,.kpDirectionList i{color:var(--gold);font-weight:900}
+.kpDirectionList>a:hover{color:#fff;background:var(--blue)}
+.kpDirectionList>a:hover strong{color:#fff}.kpDirectionList>a:hover>span{color:#f2d47d}
+
+.kpFeatured{border-radius:8px;border:1px solid var(--blue);box-shadow:none}
+.kpFeaturedVisual{background:linear-gradient(145deg,#004965,#007fae)}
+.kpFeaturedVisual:after{border-color:rgba(255,255,255,.12);box-shadow:none}
+.kpFeaturedCopy{background:#fff;color:var(--ink);border-left:12px solid var(--gold)}
+.kpFeaturedCopy .kpEyebrow{color:var(--gold)}
+.kpFeaturedCopy time{color:var(--blue);border-color:var(--gold);font-weight:900}
+.kpFeaturedCopy h2{color:var(--blue)}
+.kpFeaturedCopy>div{border-color:rgba(0,95,132,.2)}
+.kpFeaturedCopy a{color:#fff;background:var(--blue);border-radius:5px;text-transform:uppercase}
+.kpFeaturedCopy .kpFeaturedSecondary{color:var(--blue);background:#eef5f7;border:1px solid rgba(0,95,132,.22)}
+
+.kpUpdateGrid>a,.kpPageCards>a,.kpResultGrid article,.kpResultGrid>a,.kpSteps article,.kpInfoGrid article,
+.kpStats article,.kpTimeline article,.instructorRegion,.instructorRegionPeople article{
+  border-radius:6px;border-color:rgba(0,95,132,.18);box-shadow:none;background:#fff;
+}
+.kpUpdateGrid>a,.kpPageCards>a,.kpResultGrid article,.kpResultGrid>a,.kpSteps article,.kpInfoGrid article{border-top:7px solid var(--blue)}
+.kpUpdateGrid h3,.kpPageCards h3,.kpResultGrid h3,.kpSteps h3,.kpInfoGrid h3{color:var(--navy-2)}
+.kpUpdateGrid>a>span,.kpPageCards>a>span,.kpResultGrid span,.kpSteps span,.kpInfoGrid span{color:var(--gold);font-weight:900}
+.kpAction,.kpYoungFacesCta>a,.kpMarathonContact a,.kpEventRegistration{
+  border-radius:5px;background:var(--blue);font-family:"Arial Narrow",Arial,sans-serif;
+  font-weight:900;letter-spacing:.035em;text-transform:uppercase;
+}
+
+.kpPageHero{border-top:10px solid var(--blue)}
+.kpBreadcrumbs{color:var(--muted)}.kpBreadcrumbs a{color:var(--blue);font-weight:800}
+.kpHeroVisual{border-radius:6px;filter:saturate(.82) contrast(1.04)}
+.kpRelated{border-radius:8px;background:var(--blue)}
+.kpRelated>span{color:#f2d47d}.kpRelated a{border-radius:5px;background:#fff;color:var(--blue);text-transform:uppercase}
+.kpFooter{border-radius:8px;background:#071b25;border-top:8px solid var(--gold)}
+.kpFooter a{color:#fff}.kpFooter p,.kpFooter small{color:#b9cbd2}
+
+.kpVeteransLead>div,.kpYoungFacesLead>div,.kpMarathonLead>div{border-radius:6px;background:linear-gradient(145deg,var(--navy-2),var(--blue))}
+.kpVeteransLead figure,.kpVeteranPhotoPair img,.kpVeteranPhotoStory img,.kpVeteranSportsGallery img,
+.kpVeteranGallery figure,.kpYoungFacesLead aside,.kpMarathonLead aside{border-radius:6px}
+.modal,.adminSection,.analyticsPanel,.analyticsChart,.tableWrap{border-radius:8px}
+.modal .primary,.modal .secondary{border-radius:5px;text-transform:uppercase;font-weight:900}
+
+@media(max-width:820px){
+  .kpHeader{min-height:68px;border-top-width:4px}
+  .kpHeader>nav{background:#fff;border-top:5px solid var(--gold)}
+  .kpHeader>nav a,.kpMobileNav nav a{color:var(--navy-2);font-family:Impact,Haettenschweiler,"Arial Narrow Bold","Arial Narrow",sans-serif;text-transform:uppercase;letter-spacing:.02em}
+  .kpHomeHero{min-height:calc(100svh - 68px)}
+  .kpHeroMobile,html[lang="kk"] .kpHeroMobile{padding:110px 22px 120px}
+  .kpHeroMobile h1,html[lang="kk"] .kpHeroMobile h1{font-size:clamp(44px,13vw,60px);line-height:.9;margin:24px 0 30px}
+  .kpHeroMobile i,html[lang="kk"] .kpHeroMobile i{width:210px;height:8px}
+  .kpMission,.kpDirections,.kpUpdates,.kpContentSection,.kpPageHero,.kpFeatured,.kpRelated,.kpFooter{border-radius:6px}
+  .kpSectionTitle h2,.kpPageHero h1{line-height:1.02}
+  .kpFeaturedCopy{border-left:0;border-top:10px solid var(--gold)}
+}
+@media(max-width:620px){
+  .kpMission h2,.kpSectionTitle h2{font-size:clamp(36px,11vw,52px)}
+  .kpPageHero h1{font-size:clamp(38px,11vw,50px)}
+  .kpDirectionList strong{font-size:clamp(28px,8vw,38px)}
+  .kpPageCards>a,.kpResultGrid article,.kpResultGrid>a,.kpSteps article,.kpInfoGrid article{min-height:270px}
+}
