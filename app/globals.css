@@ -612,13 +612,18 @@ body{
 /* Use one Kazakh-compatible typeface and colour across the whole brand title. */
 .kpBrand span,.kpBrand b,.kpBrand small{
   color:var(--navy)!important;
-  font-family:Arial,"Helvetica Neue",sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
   font-weight:800!important;
   font-style:normal;
-  letter-spacing:.045em!important;
+  letter-spacing:.04em!important;
   text-shadow:none;
 }
-.kpBrand small{font-size:10px}
+.kpBrand b,.kpBrand small{
+  display:block;
+  margin:0;
+  font-size:clamp(11px,.75vw,13px)!important;
+  line-height:1.15;
+}
 
 /* Department team */
 .kpTeamStructure{overflow:hidden}
