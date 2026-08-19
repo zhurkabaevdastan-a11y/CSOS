@@ -18,7 +18,7 @@ img{display:block;max-width:100%}
 .kpHeader{position:sticky;z-index:50;top:0;display:grid;grid-template-columns:minmax(230px,1.15fr) minmax(460px,2fr) auto auto auto;align-items:stretch;min-height:84px;color:var(--ink);background:rgba(247,243,238,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(18px)}
 .kpBrand{display:flex;align-items:center;gap:15px;padding:14px clamp(18px,3vw,46px);border-right:1px solid var(--line);text-decoration:none;min-width:0}
 .kpBrand img{width:116px;height:46px;object-fit:contain}
-.kpBrand span{display:flex;flex-direction:column;min-width:0;text-transform:uppercase;line-height:1.05}
+.kpBrand span{display:flex;flex-direction:column;min-width:0;text-transform:uppercase;line-height:1.05;font-weight:900}
 .kpBrand b{font-size:12px;letter-spacing:.08em}.kpBrand small{margin-top:6px;color:var(--muted);font-size:10px;letter-spacing:.04em}
 .kpHeader>nav{display:grid;grid-template-columns:repeat(6,1fr)}
 .kpHeader>nav .kpMenuOnly{display:none}
@@ -260,7 +260,7 @@ body{
 }
 .kpHeader>nav{min-width:0}
 .kpHeader>nav a:hover{color:#fff;background:var(--blue)}
-.kpBrand b{color:var(--blue);font-weight:900}.kpBrand small{color:var(--gold);font-weight:800}
+.kpBrand b{color:var(--blue);font-weight:900}.kpBrand small{color:var(--gold);font-weight:900}
 .kpCabinet{min-width:148px;padding-inline:16px;background:var(--blue);font-family:"Arial Narrow",Arial,sans-serif;text-transform:uppercase;letter-spacing:.04em}
 .kpLanguage{color:var(--gold);background:#fff}
 

@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { instructorRegions, instructors, marathonEmbedUrl, marathonRegistrationPath, marathonRegistrationUrl, samruk2026Nominations, samruk2026Placements, sectionNavigation, sitePages, sportCalendar, sportResults, teamMembers, topNavigation, veteranAgeGroups, veteranGallery, veteranRegions, veteranStats, youngFacesApplicationUrl } from "../content";
+import { instructorRegions, instructors, marathonEmbedUrl, marathonRegistrationPath, marathonRegistrationUrl, samruk2026Nominations, samruk2026Placements, sectionNavigation, sitePages, sportCalendar, sportResults, topNavigation, veteranAgeGroups, veteranGallery, veteranRegions, veteranStats, youngFacesApplicationUrl } from "../content";
 
 export function generateStaticParams() {
   return Object.keys(sitePages).map((key) => ({ slug: key.split("/") }));
@@ -119,16 +119,6 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
         <section className="kpContentSection kpVeteranGallery">
           <div className="kpSectionTitle"><span>История в кадрах</span><h2>Люди, встречи и события</h2><p>Фотографии из материалов Департамента социальной политики ҚТЖ.</p></div>
           <div>{veteranGallery.map((photo) => <figure key={photo.src}><img src={photo.src} alt={photo.alt} loading="lazy" /><figcaption>{photo.caption}</figcaption></figure>)}</div>
-        </section>
-      )}
-
-      {key === "team" && (
-        <section className="kpContentSection kpTeamStructure">
-          <div className="kpSectionTitle"><span>Структура Департамента</span><h2>Команда социальной политики</h2><p>Сотрудники Департамента и направления работы по основному и приписному штату.</p></div>
-          {teamMembers.filter((member) => member.staff === "Руководитель").map((member) => <article className="kpTeamDirector" key={member.name}><img src={member.image} alt={member.name} /><div><span>{member.role}</span><h3>{member.name}</h3><p>Руководит работой Департамента социальной политики ҚТЖ.</p></div></article>)}
-          <div className="kpTeamGroups">
-            {["Основной штат", "Приписной штат"].map((group) => <section key={group}><div className="kpTeamGroupTitle"><span>{group}</span><strong>{teamMembers.filter((member) => member.staff === group).length}</strong></div><div className="kpTeamGrid">{teamMembers.filter((member) => member.staff === group).map((member) => <article className="kpTeamCard" key={member.name}><img src={member.image} alt={member.name} loading="lazy" /><div><span>{member.role}</span><h3>{member.name}</h3><h4>Функционал</h4><ul>{member.responsibilities.map((responsibility) => <li key={responsibility}>{responsibility}</li>)}</ul></div></article>)}</div></section>)}
-          </div>
         </section>
       )}
 
@@ -274,7 +264,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
         </section>
       )}
 
-      {!page.cards && !page.steps && !page.panels && !["team", "sport/instructors", "sport/calendar", "sport/marathon-registration", "sport/results", "sport/results/samruk-2026", "appeals", "youth/young-faces/fourth-cohort", "pensioners/portrait", "pensioners/support", "pensioners/generations", "pensioners/stories", "pensioners/active-longevity", "pensioners/gallery"].includes(key) && (
+      {!page.cards && !page.steps && !page.panels && !["sport/instructors", "sport/calendar", "sport/marathon-registration", "sport/results", "sport/results/samruk-2026", "youth/young-faces/fourth-cohort", "pensioners/portrait", "pensioners/support", "pensioners/generations", "pensioners/stories", "pensioners/active-longevity", "pensioners/gallery"].includes(key) && (
         <section className="kpContentSection">
           <div className="kpSectionTitle"><span>Информация</span><h2>Раздел наполняется</h2><p>Материалы, контакты и новости будут добавляться по мере обновления программы.</p></div>
           <a className="kpAction" href="mailto:social@railways.kz">Связаться с командой <span>↗</span></a>

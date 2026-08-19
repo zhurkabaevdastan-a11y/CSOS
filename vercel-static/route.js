@@ -9,16 +9,16 @@ document.querySelectorAll(".reveal").forEach((node) => observer.observe(node));
 
 const fullSectionNavigation = [
   ["/corporate-culture/", "Корпоративная культура"],
+  ["/vnd/", "ВНД"],
   ["/social-stability/", "Социальная стабильность"],
-  ["/appeals/", "Информация по жалобам и обращениям"],
   ["/youth/", "Молодёжная политика"],
   ["/children/", "Работа с детьми"],
   ["/pensioners/", "Ветераны отрасли"],
   ["/volunteering/", "Волонтёрство"],
   ["/sport/", "Спортивная жизнь"],
-  ["/team/", "Наша команда"],
+  ["/achievements/", "Наши достижения"],
 ];
-const primarySectionPaths = new Set(["/corporate-culture/", "/appeals/", "/youth/", "/pensioners/", "/volunteering/", "/sport/"]);
+const primarySectionPaths = new Set(["/corporate-culture/", "/vnd/", "/social-stability/", "/youth/", "/volunteering/", "/sport/"]);
 
 function makeSectionLinks(markMobileOnly = false) {
   return fullSectionNavigation.map(([href, label]) => {

@@ -11,14 +11,14 @@ const supabase = createClient(
 
 const directions = [
   { number: "01", href: "/corporate-culture", title: "Корпоративная культура", text: "Ценности, традиции и инициативы единой команды ҚТЖ.", mark: "КК" },
-  { number: "02", href: "/social-stability", title: "Социальная стабильность", text: "Благополучие сотрудников, открытый диалог и профилактика социальных рисков.", mark: "СС" },
-  { number: "03", href: "/appeals", title: "Информация по жалобам и обращениям", text: "Раздел готовится к наполнению.", mark: "ОБ" },
-  { number: "04", href: "/youth", title: "Молодёжная политика", text: "КВН, региональный совет, «Жас үздік маман» и «100 молодых лиц ҚТЖ».", mark: "МП" },
-  { number: "05", href: "/children", title: "Работа с детьми", text: "Образовательные, спортивные и семейные инициативы.", mark: "ДТ" },
-  { number: "06", href: "/pensioners", title: "Ветераны отрасли", text: "Поддержка ветеранов, встречи поколений и сохранение истории.", mark: "ВО" },
-  { number: "07", href: "/volunteering", title: "Волонтёрство", text: "Школа корпоративного волонтёрства и лучшие волонтёры 2026 года.", mark: "ВЛ" },
-  { number: "08", href: "/sport", title: "Спортивная жизнь", text: "Инструкторы, календарь событий, результаты сборной и фотоархив.", mark: "СП" },
-  { number: "09", href: "/team", title: "Наша команда", text: "Люди, которые развивают социальные программы и региональные инициативы.", mark: "НК" },
+  { number: "02", href: "/vnd", title: "ВНД", text: "Внутренние нормативные документы, регламенты и методические материалы", mark: "ВНД" },
+  { number: "03", href: "/social-stability", title: "Социальная стабильность", text: "SRS, ESG и система работы с жалобами и обращениями", mark: "СС" },
+  { number: "04", href: "/youth", title: "Молодёжная политика", text: "Развитие, форум, конкурсы и истории успеха молодых работников", mark: "МП" },
+  { number: "05", href: "/children", title: "Работа с детьми", text: "Образовательные, спортивные и семейные инициативы", mark: "ДТ" },
+  { number: "06", href: "/pensioners", title: "Ветераны отрасли", text: "Поддержка ветеранов, встречи поколений и сохранение истории", mark: "ВО" },
+  { number: "07", href: "/volunteering", title: "Волонтёрство", text: "Школа волонтёрства, лучшие волонтёры и акция «Таза Қазақстан»", mark: "ВЛ" },
+  { number: "08", href: "/sport", title: "Спортивная жизнь", text: "Инструкторы, календарь событий, результаты сборной и фотоархив", mark: "СП" },
+  { number: "09", href: "/achievements", title: "Наши достижения", text: "Проекты, инициативы и результаты социальной политики ҚТЖ", mark: "НД" },
 ];
 
 type SiteAnalytics = {
@@ -160,7 +160,7 @@ export default function Home() {
       <section className="kpHomeFacts reveal" aria-label="Социальная политика в цифрах">
         <article><strong>120 000+</strong><span>сотрудников</span></article>
         <article><strong>9</strong><span>ключевых направлений</span></article>
-        <article><strong>17</strong><span>регионов присутствия</span></article>
+        <article><strong>17 + 2</strong><span>17 регионов Казахстана и 2 участка в РФ: Илецкий и Восточный</span></article>
         <article><strong>45</strong><span>позиций спортивных инструкторов</span></article>
       </section>
 
