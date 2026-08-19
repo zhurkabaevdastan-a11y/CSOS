@@ -34,7 +34,7 @@ img{display:block;max-width:100%}
 .kpHomeHero{position:relative;background:var(--navy);min-height:min(780px,calc(100svh - 84px));overflow:hidden}
 .kpHeroDesktop,.kpHeroBrandLine{display:none}
 .kpHeroMobile,html[lang="kk"] .kpHeroMobile{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:clamp(100px,12vw,180px) clamp(24px,7vw,116px);background:linear-gradient(90deg,rgba(3,19,47,.62) 0,rgba(3,19,47,.34) 48%,rgba(3,19,47,.04) 76%),url("/ktz-hero-clean.png") center/cover;color:var(--white)}
-.kpHeroMobile>span,html[lang="kk"] .kpHeroMobile>span{max-width:620px;color:var(--cyan);font-size:clamp(13px,1.3vw,20px);font-weight:700;line-height:1.5;text-transform:uppercase;letter-spacing:.09em}
+.kpHeroMobile>span,html[lang="kk"] .kpHeroMobile>span{max-width:620px;color:var(--cyan);font-size:clamp(13px,1.3vw,20px);font-weight:900;line-height:1.5;text-transform:uppercase;letter-spacing:.09em}
 .kpHeroMobile h1,html[lang="kk"] .kpHeroMobile h1{max-width:820px;margin:30px 0;font-size:clamp(52px,6.5vw,104px);line-height:.96;letter-spacing:-.045em;text-transform:uppercase}
 .kpHeroMobile i,html[lang="kk"] .kpHeroMobile i{width:240px;height:6px;background:linear-gradient(90deg,var(--gold) 0 70%,var(--red) 70%)}
 .kpScroll{position:absolute;right:clamp(20px,4vw,68px);bottom:28px;display:flex;align-items:center;gap:16px;color:var(--white);text-decoration:none;text-transform:uppercase;font-size:11px;letter-spacing:.12em}
@@ -164,7 +164,7 @@ table{width:100%;border-collapse:collapse}th,td{padding:17px 15px;border-bottom:
 .kpRelated a{display:inline-flex;align-items:center;gap:14px;padding:14px 18px;color:var(--navy);background:var(--white);border-radius:999px;text-decoration:none;font-weight:800;white-space:nowrap}.kpRelated i{font-style:normal}
 
 .kpFooter{display:grid;grid-template-columns:1.5fr 1fr 1fr auto;gap:46px;align-items:start;margin:16px;padding:66px clamp(24px,6vw,90px) 34px;color:var(--white);background:var(--navy);border-radius:34px}
-.kpFooter img{width:132px;filter:brightness(0) invert(1)}.kpFooter p{color:rgba(255,255,255,.58);line-height:1.5}.kpFooter nav,.kpFooter>div:nth-child(3){display:flex;flex-direction:column;gap:13px}.kpFooter a{text-decoration:none}.kpFooter small{color:rgba(255,255,255,.45);white-space:nowrap}
+.kpFooter img{width:132px;filter:brightness(0) invert(1)}.kpFooter p{color:rgba(255,255,255,.58);line-height:1.5}.kpFooter>div:first-child p{font-weight:900}.kpFooter nav,.kpFooter>div:nth-child(3){display:flex;flex-direction:column;gap:13px}.kpFooter a{text-decoration:none}.kpFooter small{color:rgba(255,255,255,.45);white-space:nowrap}
 
 /* Auth and admin remain private, while the privileged address is never exposed in the UI. */
 .modalBackdrop{position:fixed;z-index:100;inset:0;display:grid;place-items:center;padding:22px;background:rgba(3,19,47,.78);backdrop-filter:blur(14px)}
