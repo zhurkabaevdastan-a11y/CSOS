@@ -525,7 +525,7 @@ export const veteranGallery = [
 
 export const topNavigation = [
   { href: "/corporate-culture", label: "Корпоративная культура" },
-  { href: "/vnd", label: "ВНД" },
+  { href: "/pensioners", label: "Ветераны отрасли" },
   { href: "/social-stability", label: "Социальная стабильность" },
   { href: "/youth", label: "Молодёжная политика" },
   { href: "/volunteering", label: "Волонтёрство" },

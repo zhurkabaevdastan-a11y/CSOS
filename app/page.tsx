@@ -176,15 +176,6 @@ export default function Home() {
         <div className="kpFeaturedCopy"><span className="kpEyebrow">02 / Главное событие</span><time>19 сентября 2026 · Астана</time><h2>Марафон ҚТЖ</h2><p>Главный массовый старт для работников, семей и друзей железной дороги. Регистрация участников проходит в официальной форме Microsoft прямо на сайте.</p><div><a href={marathonRegistrationPath}>Регистрация на марафон <span>↗</span></a><a className="kpFeaturedSecondary" href="/sport/calendar">Календарь спорта</a></div></div>
       </section>
 
-      <section className="kpUpdates reveal">
-        <div className="kpSectionTitle"><span>03 / Актуальное</span><h2>Сейчас в центре внимания</h2></div>
-        <div className="kpUpdateGrid">
-          <a href="/sport/calendar"><span>СПОРТ · 2027</span><h3>Календарь спортивного сезона</h3><i>↗</i></a>
-          <a href="/sport/results"><span>СПОРТ · РЕЗУЛЬТАТЫ</span><h3>Победы сборной команды ҚТЖ</h3><i>↗</i></a>
-          <a href="/youth/young-specialist"><span>МОЛОДЁЖЬ</span><h3>Жас үздік маман</h3><i>↗</i></a>
-        </div>
-      </section>
-
       <footer className="kpFooter">
         <div><img src="/ktz-logo.png" alt="ҚТЖ" /><p>Все о социальной политике<br />АО «НК «Қазақстан темір жолы»</p></div>
         <nav>{topNavigation.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav>

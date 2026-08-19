@@ -18,7 +18,7 @@ const fullSectionNavigation = [
   ["/sport/", "Спортивная жизнь"],
   ["/achievements/", "Наши достижения"],
 ];
-const primarySectionPaths = new Set(["/corporate-culture/", "/vnd/", "/social-stability/", "/youth/", "/volunteering/", "/sport/"]);
+const primarySectionPaths = new Set(["/corporate-culture/", "/pensioners/", "/social-stability/", "/youth/", "/volunteering/", "/sport/"]);
 
 function makeSectionLinks(markMobileOnly = false) {
   return fullSectionNavigation.map(([href, label]) => {
