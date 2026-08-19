@@ -609,6 +609,13 @@ body{
 .kpRelated{margin-block:12px;padding:clamp(42px,5vw,70px)}
 .kpFooter{margin:12px;padding:48px clamp(24px,5vw,72px) 30px}
 
+/* Keep both lines of the brand title equally bold in every header. */
+.kpBrand span,.kpBrand b,.kpBrand small{
+  font-family:"Arial Black",Arial,"Helvetica Neue",sans-serif;
+  font-weight:900!important;
+}
+.kpBrand small{font-size:10px}
+
 /* Department team */
 .kpTeamStructure{overflow:hidden}
 .kpTeamDirector{display:grid;grid-template-columns:220px minmax(0,1fr);align-items:center;gap:clamp(32px,5vw,72px);max-width:980px;margin:0 auto 58px;padding:30px;background:#fff;border:1px solid var(--line);border-left:10px solid var(--gold)}
