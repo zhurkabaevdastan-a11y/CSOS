@@ -1,5 +1,6 @@
 import { notFound, permanentRedirect } from "next/navigation";
 import { getSportBanner } from "../sport-banners";
+import { renderSocialStabilityContent } from "../social-stability-content";
 import { getPageAncestors, pageRedirects, instructorRegions, instructors, marathonEmbedUrl, marathonRegistrationPath, marathonRegistrationUrl, samruk2026Nominations, samruk2026Placements, sectionNavigation, sitePages, sportCalendar, sportResults, topNavigation, veteranAgeGroups, veteranGallery, veteranRegions, veteranStats, youngFacesApplicationUrl } from "../content";
 
 export function generateStaticParams() {
@@ -29,6 +30,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
   if (!page) notFound();
   const ancestors = getPageAncestors(key);
   const sportPhoto = getSportBanner(key);
+  const socialContent = renderSocialStabilityContent(key);
   const panelsIntro = page.panelsIntro ?? { label: "Главное", title: "Работа по направлению", text: "Основные задачи и приоритеты социальной политики." };
   const cardsIntro = page.cardsIntro ?? (key.startsWith("sport/photos/")
     ? { label: "Фотоальбомы", title: "Откройте альбом события", text: "Фотографии откроются в новой вкладке на Яндекс Диске." }
@@ -37,7 +39,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
   return (
     <main className="kpPage">
       <SiteHeader />
-      <section className="kpPageHero">
+      <section className={`kpPageHero${socialContent ? " kpPageHero--social" : ""}`}>
         <div className="kpBreadcrumbs"><a href="/">Главная</a><span>•</span>{ancestors.map((ancestor) => <span className="kpBreadcrumbItem" key={ancestor.path}><a href={ancestor.path}>{ancestor.title}</a><span>•</span></span>)}<b>{page.title}</b></div>
         <span className="kpEyebrow">{page.eyebrow}</span>
         <h1>{page.title}</h1>
@@ -47,7 +49,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
             <picture><img src={sportPhoto.src} srcSet={sportPhoto.srcSet} sizes="(max-width: 760px) 100vw, 92vw" width={sportPhoto.width} height={sportPhoto.height} alt={sportPhoto.alt} style={{ objectPosition: sportPhoto.position }} decoding="async" /></picture>
             <figcaption><span><span>Фото из спортивного архива</span> · {sportPhoto.year}</span><a href={sportPhoto.album} target="_blank" rel="noreferrer"><span>Открыть фотоальбом</span> ↗</a></figcaption>
           </figure>
-        ) : <div className={`kpHeroVisual kpHeroVisual--${slug[0]}`}><span>ҚТЖ</span><i /></div>}
+        ) : socialContent ? null : <div className={`kpHeroVisual kpHeroVisual--${slug[0]}`}><span>ҚТЖ</span><i /></div>}
       </section>
 
       {key === "pensioners" && (
@@ -266,7 +268,9 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
         </section>
       )}
 
-      {!page.cards && !page.steps && !page.panels && !["sport/instructors", "sport/calendar", "sport/marathon-registration", "sport/results", "sport/results/samruk-2026", "youth/young-faces/fourth-cohort", "pensioners/portrait", "pensioners/support", "pensioners/generations", "pensioners/stories", "pensioners/active-longevity", "pensioners/gallery"].includes(key) && (
+      {socialContent && <div className="kpSocialSections" dangerouslySetInnerHTML={{ __html: socialContent }} />}
+
+      {!socialContent && !page.cards && !page.steps && !page.panels && !["sport/instructors", "sport/calendar", "sport/marathon-registration", "sport/results", "sport/results/samruk-2026", "youth/young-faces/fourth-cohort", "pensioners/portrait", "pensioners/support", "pensioners/generations", "pensioners/stories", "pensioners/active-longevity", "pensioners/gallery"].includes(key) && (
         <section className="kpContentSection">
           <div className="kpSectionTitle"><span>Информация</span><h2>Раздел наполняется</h2><p>Материалы, контакты и новости будут добавляться по мере обновления программы.</p></div>
           <a className="kpAction" href="mailto:social@railways.kz">Связаться с командой <span>↗</span></a>

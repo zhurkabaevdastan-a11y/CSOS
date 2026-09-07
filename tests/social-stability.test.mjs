@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 import { sitePages } from '../app/content.ts';
+import { renderSocialStabilityContent } from '../app/social-stability-content.ts';
 
 const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
 const paths = ['social-stability', 'social-stability/research', 'social-stability/appeals'];
@@ -18,12 +19,11 @@ test('Social stability has exactly the two requested subsections, in order', () 
 });
 
 test('Research explains SRS and Industrial Relations without inventing indicator values', () => {
-  const panels = sitePages['social-stability/research'].panels;
-  assert.equal(panels.length, 2);
-  assert.equal(panels[0].title, 'SRS — динамика показателей');
-  assert.match(panels[0].notice, /после получения подтверждённых результатов/);
-  assert.equal(panels[1].label, 'Industrial Relations (IR)');
-  assert.equal(panels[1].title, 'Мониторинг производственных отношений');
+  const html = renderSocialStabilityContent('social-stability/research');
+  assert.match(html, /Исследование Samruk Research Services/);
+  assert.match(html, /Динамика показателей SRS/);
+  assert.match(html, /Industrial Relations — мониторинг производственных отношений/);
+  assert.doesNotMatch(html, /после получения подтверждённых результатов/);
 });
 
 test('Both official appeal channels are accessible links, not embedded forms', () => {

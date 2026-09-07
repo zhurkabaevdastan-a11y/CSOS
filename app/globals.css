@@ -724,3 +724,64 @@ body{
 .kpSportPhoto figcaption a:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
 @media(max-width:760px){.kpSportPhoto img{height:210px}}
 @media(max-width:480px){.kpSportPhoto{margin-inline:-18px}.kpSportPhoto img{height:180px}.kpSportPhoto figcaption{padding-inline:18px}}
+
+/* Social stability: readable source data with no chart library or additional network requests. */
+.kpPageHero--social{padding-bottom:32px}
+.kpPageHero--social>p{margin-bottom:0}
+.kpSocialSections{display:contents}
+.kpSocialContent{color:var(--navy);font-size:1rem;line-height:1.65}
+.kpSocialContent h2{margin:12px 0 20px;font-size:clamp(1.55rem,2.8vw,2.25rem);line-height:1.25;letter-spacing:-.02em;text-transform:none;overflow-wrap:anywhere}
+.kpSocialContent h3{margin:26px 0 14px;font-size:1.2rem;line-height:1.35;text-transform:none;overflow-wrap:anywhere}
+.kpSocialContent>p,.kpSocialProse{max-width:82ch}
+.kpSocialContent p{color:var(--navy);font-size:1rem;line-height:1.65}
+.kpSocialContent .kpEyebrow{font-size:.875rem}
+.kpSocialDefinitions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 32px;margin:20px 0}
+.kpSocialDefinitions>div{border-top:1px solid var(--line);padding-top:16px;min-width:0}
+.kpSocialDefinitions dt{font-weight:750;font-size:1.1rem}
+.kpSocialDefinitions dd{margin:8px 0 0}
+.kpSocialCoverage{display:flex;align-items:center;gap:18px;margin:30px 0 8px}
+.kpSocialCoverage strong{font-size:2.2rem;color:var(--navy);line-height:1.2}
+.kpSocialStats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:24px 0}
+.kpSocialStats article{display:flex;flex-direction:column;gap:6px;min-width:0;padding:22px;border:1px solid var(--line);border-radius:18px;background:#fff}
+.kpSocialStats article>span:first-child{font-weight:750}
+.kpSocialStats strong{font-size:clamp(1.7rem,3vw,2.5rem);line-height:1.3;color:var(--navy)}
+.kpSocialStats small{margin-top:8px;font-size:.875rem;line-height:1.6}
+.kpSrsCharts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:24px}
+.kpSrsChart{display:flex;flex-direction:column;min-width:0;padding:24px;border:1px solid var(--line);border-radius:20px;background:#fff}
+.kpSrsChart h3{margin:0 0 12px;font-size:1.15rem}
+.kpSrsChart>p{margin:0 0 20px}
+.kpSrsBars{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:auto 0 0;padding:0;list-style:none}
+.kpSrsBars li{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0;font-size:.875rem;font-variant-numeric:tabular-nums}
+.kpSrsBars strong{font-size:1rem;font-weight:750}
+.kpSrsTrack{display:flex;align-items:flex-end;justify-content:center;width:100%;height:150px;border-bottom:1px solid #a3b8c6;background:repeating-linear-gradient(to top,#eef3f6 0,#eef3f6 1px,transparent 1px,transparent 25%)}
+.kpSrsTrack i{display:block;width:70%;max-width:46px;background:#0089b9;border-radius:5px 5px 0 0}
+.kpSrsBars li:last-child i{background:#bd942c}
+.kpSrsPending{align-self:center;font-size:1.2rem}
+.kpSrsChart .kpSrsInsight{border-top:1px solid var(--line);margin:18px 0 0;padding-top:14px;font-size:.875rem;line-height:1.6}
+.kpSocialTableWrap{max-width:100%;margin:28px 0;overflow-x:auto}
+.kpSocialTable{width:100%;border-collapse:collapse;table-layout:fixed;font-size:1rem;color:var(--navy)}
+.kpSocialTable caption{text-align:left;font-size:1.2rem;font-weight:750;line-height:1.4;padding:0 0 16px;color:var(--navy)}
+.kpSocialTable th,.kpSocialTable td{padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:middle;line-height:1.5;overflow-wrap:anywhere}
+.kpSocialTable th:first-child{width:60%;text-align:left}
+.kpSocialTable thead{background:#e9f1f5}
+.kpSocialTable th:not(:first-child),.kpSocialTable td{text-align:center;font-variant-numeric:tabular-nums}
+.kpSocialTable tbody th{font-weight:500}
+.kpSocialTable tbody tr:nth-child(even){background:#f9fafb}
+.kpSocialList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 30px;padding-left:22px}
+.kpSocialContent .kpSocialNote,.kpSocialContent .kpSocialSource{font-size:.875rem;line-height:1.6;color:#475569}
+.kpSocialSource{margin-top:24px}
+@media(max-width:760px){
+  .kpSrsCharts,.kpSocialDefinitions,.kpSocialList{grid-template-columns:1fr}
+  .kpSocialContent{padding:28px 22px}
+  .kpSocialContent h2{font-size:1.5rem}
+  .kpSrsChart{padding:20px}.kpSrsBars{gap:5px}
+  .kpSocialTable th,.kpSocialTable td{padding:12px 8px;font-size:.9375rem}
+  .kpSocialTable th:first-child{width:54%}
+}
+@media(max-width:480px){
+  .kpSocialContent{padding:24px 18px}
+  .kpSocialStats{gap:10px}.kpSocialStats article{padding:16px 12px}
+  .kpSocialStats strong{font-size:1.7rem}
+  .kpSrsChart{padding:16px 12px}.kpSrsBars{gap:3px}
+  .kpSocialCoverage{align-items:flex-start;gap:12px}
+}
