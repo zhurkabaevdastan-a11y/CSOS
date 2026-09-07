@@ -1,0 +1,37 @@
+// Run with Node's TypeScript stripping: node --experimental-strip-types scripts/sync-social-stability.mjs
+// Keep the public static site in sync with the same content used by the app.
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { sitePages } from '../app/content.ts';
+
+const esc = (value) => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+const internalHref = (href) => href.startsWith('/') && !href.endsWith('/') ? `${href}/` : href;
+const template = readFileSync('vercel-static/social-stability/index.html', 'utf8');
+const start = template.slice(0, template.indexOf('<section class="kpPageHero">'));
+const end = template.slice(template.indexOf('<section class="kpRelated">'));
+const intro = (copy) => `<div class="kpSectionTitle"><span>${esc(copy.label)}</span><h2>${esc(copy.title)}</h2><p>${esc(copy.text)}</p></div>`;
+
+for (const key of ['social-stability', 'social-stability/research', 'social-stability/appeals']) {
+  const page = sitePages[key];
+  const ancestors = key.split('/').slice(0, -1).map((_, index) => sitePages[key.split('/').slice(0, index + 1).join('/')]);
+  const crumbs = ancestors.map((parent) => `<span class="kpBreadcrumbItem"><a href="${internalHref(parent.path)}">${esc(parent.title)}</a><span>•</span></span>`).join('');
+  const head = start.replace(/<title>.*?<\/title>/, `<title>${esc(page.title)} — Все о социальной политике ҚТЖ</title>`).replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${esc(page.lead)}">`);
+  let body = `<section class="kpPageHero"><div class="kpBreadcrumbs"><a href="/">Главная</a><span>•</span>${crumbs}<b>${esc(page.title)}</b></div><span class="kpEyebrow">${esc(page.eyebrow)}</span><h1>${esc(page.title)}</h1><p>${esc(page.lead)}</p><div class="kpHeroVisual kpHeroVisual--social-stability"><span>ҚТЖ</span><i></i></div></section>`;
+  if (page.panels) {
+    body += `<section class="kpContentSection">${intro(page.panelsIntro)}<div class="kpInfoGrid${page.panels.length === 2 ? ' kpInfoGrid--two' : ''}">`;
+    body += page.panels.map((panel, index) => `<article><span>${esc(panel.label)}</span><strong>0${index + 1}</strong><h3>${esc(panel.title)}</h3><p>${esc(panel.text)}</p>${panel.notice ? `<p class="kpDataNotice">${esc(panel.notice)}</p>` : ''}</article>`).join('');
+    body += `</div>${page.source ? `<p class="kpContentSource"><a href="${esc(page.source.href)}" target="_blank" rel="noreferrer"><span>${esc(page.source.label)}</span> ↗</a></p>` : ''}</section>`;
+  }
+  if (page.cards) {
+    body += `<section class="kpContentSection">${intro(page.cardsIntro ?? { label: 'Направления', title: 'Выберите подраздел', text: 'Каждый подраздел открывается на отдельной странице' })}<div class="kpPageCards${page.cards.length === 2 ? ' kpPageCards--two' : ''}">`;
+    body += page.cards.map((card) => `<a href="${esc(internalHref(card.href))}"${card.external ? ' target="_blank" rel="noreferrer"' : ''}><span>${esc(card.tag)}</span><h3>${esc(card.title)}</h3><p>${esc(card.text)}</p><i>↗</i></a>`).join('');
+    body += '</div></section>';
+  }
+  mkdirSync(`vercel-static/${key}`, { recursive: true });
+  writeFileSync(`vercel-static/${key}/index.html`, head + body + end);
+}
+for (const [source, destination] of [['app/globals.css', 'vercel-static/app.css'], ['public/language.js', 'vercel-static/language.js']]) {
+  writeFileSync(destination, readFileSync(source));
+}
+const homePath = 'vercel-static/index.html';
+writeFileSync(homePath, readFileSync(homePath, 'utf8').replace('SRS, ESG и система работы с жалобами и обращениями', 'Исследования и опросы, информация по жалобам и обращениям'));
+console.log('Social stability: app content, static pages, styles and translations synchronized');

@@ -37,6 +37,10 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
   const page = sitePages[key];
   if (!page) notFound();
   const ancestors = slug.slice(0, -1).map((_, index) => sitePages[slug.slice(0, index + 1).join("/")]).filter(Boolean);
+  const panelsIntro = page.panelsIntro ?? { label: "Главное", title: "Работа по направлению", text: "Основные задачи и приоритеты социальной политики." };
+  const cardsIntro = page.cardsIntro ?? (key.startsWith("sport/photos/")
+    ? { label: "Фотоальбомы", title: "Откройте альбом события", text: "Фотографии откроются в новой вкладке на Яндекс Диске." }
+    : { label: "Направления", title: "Выберите подраздел", text: "Каждый подраздел открывается на отдельной странице." });
 
   return (
     <main className="kpPage">
@@ -245,15 +249,16 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
 
       {page.panels && (
         <section className="kpContentSection">
-          <div className="kpSectionTitle"><span>Главное</span><h2>Работа по направлению</h2><p>Основные задачи и приоритеты социальной политики.</p></div>
-          <div className="kpInfoGrid">{page.panels.map((panel, index) => <article key={panel.title}><span>{panel.label}</span><strong>0{index + 1}</strong><h3>{panel.title}</h3><p>{panel.text}</p></article>)}</div>
+          <div className="kpSectionTitle"><span>{panelsIntro.label}</span><h2>{panelsIntro.title}</h2><p>{panelsIntro.text}</p></div>
+          <div className={`kpInfoGrid${page.panels.length === 2 ? " kpInfoGrid--two" : ""}`}>{page.panels.map((panel, index) => <article key={panel.title}><span>{panel.label}</span><strong>0{index + 1}</strong><h3>{panel.title}</h3><p>{panel.text}</p>{panel.notice && <p className="kpDataNotice">{panel.notice}</p>}</article>)}</div>
+          {page.source && <p className="kpContentSource"><a href={page.source.href} target="_blank" rel="noreferrer">{page.source.label} ↗</a></p>}
         </section>
       )}
 
       {page.cards && (
         <section className="kpContentSection">
-          <div className="kpSectionTitle"><span>{key.startsWith("sport/photos/") ? "Фотоальбомы" : "Направления"}</span><h2>{key.startsWith("sport/photos/") ? "Откройте альбом события" : "Выберите подраздел"}</h2><p>{key.startsWith("sport/photos/") ? "Фотографии откроются в новой вкладке на Яндекс Диске." : "Каждый подраздел открывается на отдельной странице."}</p></div>
-          <div className={`kpPageCards${key === "youth" ? " kpPageCards--four" : ""}`}>{page.cards.map((card, index) => <a key={`${card.title}-${index}`} href={card.href} target={card.external ? "_blank" : undefined} rel={card.external ? "noreferrer" : undefined}><span>{card.tag ?? `0${index + 1}`}</span><h3>{card.title}</h3><p>{card.text}</p><i>↗</i></a>)}</div>
+          <div className="kpSectionTitle"><span>{cardsIntro.label}</span><h2>{cardsIntro.title}</h2><p>{cardsIntro.text}</p></div>
+          <div className={`kpPageCards${key === "youth" ? " kpPageCards--four" : ""}${page.cards.length === 2 ? " kpPageCards--two" : ""}`}>{page.cards.map((card, index) => <a key={`${card.title}-${index}`} href={card.href} target={card.external ? "_blank" : undefined} rel={card.external ? "noreferrer" : undefined}><span>{card.tag ?? `0${index + 1}`}</span><h3>{card.title}</h3><p>{card.text}</p><i>↗</i></a>)}</div>
         </section>
       )}
 

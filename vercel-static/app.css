@@ -701,3 +701,11 @@ body{
   .kpTeamGroups{gap:38px}.kpTeamGroupTitle span{font-size:24px}.kpTeamGroupTitle strong{width:40px;height:40px}
   .kpTeamCard{grid-template-columns:105px minmax(0,1fr);min-height:0}.kpTeamCard>div{padding:20px 16px}.kpTeamCard h3{margin:8px 0 18px;font-size:22px}.kpTeamCard ul{gap:6px;padding-left:15px;font-size:13px}
 }
+
+/* Two-part social stability content keeps a balanced, responsive layout. */
+@media (min-width:761px){
+  .kpInfoGrid--two,.kpPageCards--two{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+.kpInfoGrid .kpDataNotice{margin-top:20px;padding-top:18px;border-top:1px solid var(--line);font-size:1rem;line-height:1.6;color:var(--navy)}
+.kpContentSource{margin-top:24px;font-size:1rem;line-height:1.6;overflow-wrap:anywhere}
+.kpContentSource a{color:var(--navy);text-decoration:underline;text-underline-offset:3px}

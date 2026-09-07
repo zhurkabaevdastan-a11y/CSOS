@@ -122,15 +122,18 @@ export const samruk2026Nominations = [
 ] as const;
 
 export type SiteCard = { href: string; title: string; text: string; tag?: string; external?: boolean };
-export type InfoPanel = { label: string; title: string; text: string };
+export type InfoPanel = { label: string; title: string; text: string; notice?: string };
 export type SitePage = {
   path: string;
   title: string;
   eyebrow: string;
   lead: string;
   cards?: SiteCard[];
+  cardsIntro?: { label: string; title: string; text: string };
   steps?: { number: string; title: string; text: string }[];
   panels?: InfoPanel[];
+  panelsIntro?: { label: string; title: string; text: string };
+  source?: { href: string; label: string };
 };
 
 export const marathonRegistrationUrl = "https://forms.cloud.microsoft/r/watNzKnHrC";
@@ -197,10 +200,19 @@ export const sitePages: Record<string, SitePage> = {
     path: "/social-stability", title: "Социальная стабильность", eyebrow: "Благополучие сотрудников",
     lead: "Системная работа с обратной связью, социальным самочувствием и условиями для устойчивой командной среды",
     cards: [
-      { href: "/social-stability/srs", title: "SRS", text: "Динамика и материалы исследований социальной стабильности за последние 10 лет", tag: "2017–2026" },
-      { href: "/social-stability/esg", title: "ESG", text: "Социальные аспекты устойчивого развития, ответственность и благополучие работников", tag: "Устойчивое развитие" },
-      { href: "/social-stability/appeals", title: "Информация по жалобам и обращениям", text: "Каналы обратной связи и порядок работы с обращениями работников", tag: "Обратная связь" },
+      { href: "/social-stability/research", title: "Исследования и опросы", text: "SRS — динамика показателей и Industrial Relations — мониторинг производственных отношений", tag: "Исследования" },
+      { href: "/social-stability/appeals", title: "Информация по жалобам и обращениям", text: "Обратная связь и подача обращений через Нысана и e-Otinish", tag: "Обратная связь" },
     ],
+  },
+  "social-stability/research": {
+    path: "/social-stability/research", title: "Исследования и опросы", eyebrow: "Социальная стабильность",
+    lead: "SRS — динамика показателей и Industrial Relations — мониторинг производственных отношений",
+    panelsIntro: { label: "Исследования", title: "SRS и Industrial Relations", text: "Социальное самочувствие работников и условия в трудовых коллективах" },
+    panels: [
+      { label: "Samruk Research Services", title: "SRS — динамика показателей", text: "Исследование социальной стабильности по трём направлениям: вовлечённость, социальное благополучие и социальное спокойствие работников. Сравнение результатов по годам помогает отслеживать изменения и определять приоритеты социальной работы", notice: "Данные ҚТЖ по годам пока не опубликованы в этом разделе — динамика показателей будет добавлена после получения подтверждённых результатов исследований" },
+      { label: "Industrial Relations (IR)", title: "Мониторинг производственных отношений", text: "Мониторинг социально-бытовых условий, взаимодействия работников и работодателя, а также вопросов в трудовых коллективах. Работа направлена на развитие диалога, своевременное выявление проблем и предупреждение трудовых конфликтов" },
+    ],
+    source: { href: "https://sk.kz/our2024/ru/ensuring-social-stability.html", label: "О SRS и Industrial Relations — материалы АО «Самрук-Қазына»" },
   },
   "social-stability/srs": {
     path: "/social-stability/srs", title: "SRS", eyebrow: "Данные за последние 10 лет",
@@ -223,10 +235,10 @@ export const sitePages: Record<string, SitePage> = {
   "social-stability/appeals": {
     path: "/social-stability/appeals", title: "Информация по жалобам и обращениям", eyebrow: "Слышащая компания",
     lead: "ҚТЖ развивает открытую систему обратной связи и использует несколько каналов для оперативной работы с вопросами работников",
-    panels: [
-      { label: "Е-Өтініш", title: "Официальные обращения", text: "Подача и отслеживание официальных обращений через государственную информационную систему Е-Өтініш" },
-      { label: "Нысана", title: "Внутренняя обратная связь", text: "Корпоративный канал для обращений, предложений и сигналов работников" },
-      { label: "Горячая линия", title: "Оперативная поддержка", text: "Приём обращений по телефону и передача вопросов ответственным подразделениям" },
+    cardsIntro: { label: "Обратная связь", title: "Выберите канал обращения", text: "Официальные сервисы откроются в новой вкладке" },
+    cards: [
+      { href: "https://nysana.cscc.kz/", title: "Нысана", text: "Вопросы социально-трудовых отношений, жалобы и предложения по улучшению условий труда", tag: "Перейти на портал", external: true },
+      { href: "https://eotinish.kz/", title: "e-Otinish / Е-Өтініш", text: "Подача официальных обращений и отслеживание их рассмотрения через систему Е-Өтініш", tag: "Подать обращение", external: true },
     ],
   },
   "appeals": {
