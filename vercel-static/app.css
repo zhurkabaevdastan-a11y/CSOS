@@ -798,3 +798,14 @@ body{
 .kpMarathonMapActions a:hover{border-color:var(--blue)}
 .kpMarathonMap a:focus-visible{outline:3px solid var(--blue);outline-offset:4px}
 @media(max-width:520px){.kpMarathonMapActions{flex-direction:column}.kpMarathonMapActions a{width:100%}}
+
+/* Supplied programme copy: compact, readable articles on all screen sizes. */
+.kpPageHero--program{padding-bottom:clamp(24px,4vw,48px)}
+.kpProgramContent{color:var(--navy)}
+.kpProgramContent article{max-width:960px;margin-inline:auto}
+.kpProgramContent article+article{margin-top:30px;padding-top:30px;border-top:1px solid var(--line)}
+.kpProgramContent h2{margin:0 0 16px;color:var(--navy);font-size:clamp(1.35rem,2.6vw,1.9rem);line-height:1.3;letter-spacing:normal}
+.kpProgramContent p,.kpProgramContent li{font-size:1rem;line-height:1.75;overflow-wrap:anywhere;color:var(--navy)}
+.kpProgramContent p{margin:0 0 14px}.kpProgramContent p:last-child{margin-bottom:0}
+.kpProgramContent ul{margin:0;padding-left:1.3em}.kpProgramContent li+li{margin-top:10px}
+@media(max-width:760px){.kpProgramContent article+article{margin-top:24px;padding-top:24px}}
