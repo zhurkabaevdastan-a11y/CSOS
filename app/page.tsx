@@ -176,13 +176,6 @@ export default function Home() {
         <div className="kpFeaturedCopy"><span className="kpEyebrow">02 / Главное событие</span><time>19 сентября 2026 · Астана</time><h2>Марафон ҚТЖ</h2><p>Главный массовый старт для работников, семей и друзей железной дороги. Регистрация участников проходит в официальной форме Microsoft прямо на сайте.</p><div><a href={marathonRegistrationPath}>Регистрация на марафон <span>↗</span></a><a className="kpFeaturedSecondary" href="/sport/calendar">Календарь спорта</a></div></div>
       </section>
 
-      <footer className="kpFooter">
-        <div><img src="/ktz-logo.png" alt="ҚТЖ" /><p>Все о социальной политике<br />АО «НК «Қазақстан темір жолы»</p></div>
-        <nav>{topNavigation.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav>
-        <div><a href="mailto:social@railways.kz">social@railways.kz</a><p>Астана, ул. Д. Кунаева, 6</p></div>
-        <small>© 2026 АО «НК «ҚТЖ»</small>
-      </footer>
-
       {panel && <div className="modalBackdrop" onMouseDown={(event) => event.target === event.currentTarget && setPanel(null)}><section className={panel === "admin" ? "modal adminModal" : "modal"}>
         <button className="modalClose" onClick={() => setPanel(null)} aria-label="Закрыть">×</button>
         {panel === "auth" && <>

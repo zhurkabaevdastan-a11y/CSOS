@@ -7,7 +7,10 @@ const esc = (value) => String(value).replaceAll('&', '&amp;').replaceAll('<', '&
 const internalHref = (href) => href.startsWith('/') && !href.endsWith('/') ? `${href}/` : href;
 const template = readFileSync('vercel-static/social-stability/index.html', 'utf8');
 const start = template.slice(0, template.indexOf('<section class="kpPageHero">'));
-const end = template.slice(template.indexOf('<section class="kpRelated">'));
+// Keep the document closing tags and scripts, without the retired bottom navigation.
+const endIndex = template.lastIndexOf('</main>');
+if (endIndex < 0) throw new Error('Missing closing main tag in social stability template');
+const end = template.slice(endIndex);
 const intro = (copy) => `<div class="kpSectionTitle"><span>${esc(copy.label)}</span><h2>${esc(copy.title)}</h2><p>${esc(copy.text)}</p></div>`;
 const breadcrumbs = (key) => `<div class="kpBreadcrumbs"><a href="/">Главная</a><span>•</span>${getPageAncestors(key).map((parent) => `<span class="kpBreadcrumbItem"><a href="${internalHref(parent.path)}">${esc(parent.title)}</a><span>•</span></span>`).join('')}<b>${esc(sitePages[key].title)}</b></div>`;
 

@@ -21,17 +21,6 @@ function SiteHeader() {
   );
 }
 
-function SiteFooter() {
-  return (
-    <footer className="kpFooter">
-      <div><img src="/ktz-logo.png" alt="ҚТЖ" /><p>Все о социальной политике<br />АО «НК «Қазақстан темір жолы»</p></div>
-      <nav>{topNavigation.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav>
-      <div><a href="mailto:social@railways.kz">social@railways.kz</a><p>Астана, ул. Д. Кунаева, 6</p></div>
-      <small>© 2026 АО «НК «ҚТЖ»</small>
-    </footer>
-  );
-}
-
 export default async function DetailPage({ params }: { params: Promise<{ slug: string[] }> }) {
   const { slug } = await params;
   const key = slug.join("/");
@@ -284,8 +273,6 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
         </section>
       )}
 
-      <section className="kpRelated"><span>Следующий шаг</span><h2>Люди. Движение.<br />Возможности.</h2><a href="/">Вернуться на главную <i>↗</i></a></section>
-      <SiteFooter />
     </main>
   );
 }
