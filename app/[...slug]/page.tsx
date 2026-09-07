@@ -167,7 +167,17 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
             <div className="kpMarathonSchedule"><article><time>07:50</time><h3>Сбор участников</h3><p>Начало работы камеры хранения.</p></article><article><time>08:30</time><h3>Открытие стартового городка</h3><p>Подготовка участников к забегу.</p></article><article><time>08:40</time><h3>Инструктаж и разминка</h3><p>Общий инструктаж перед стартами.</p></article><article><time>09:00–11:00</time><h3>Старты забегов</h3><p>Дистанции 10 км, 5 км и 2,5 км.</p></article><article><time>11:30</time><h3>Награждение участников</h3><p>Подведение спортивных итогов.</p></article><article><time>12:30</time><h3>Развлекательная программа</h3><p>Завершение общего марафонского дня.</p></article></div>
           </section>
           <section className="kpContentSection kpMarathonDetails">
-            <div className="kpMarathonRoute"><article><span>Место сбора</span><h2>Ботанический сад, Астана</h2><p>Стартовый городок располагается в парковочной зоне на пересечении улиц Акмешит и Бухар жырау. Участникам рекомендуется прибыть к 07:50.</p></article><article><span>Маршрут</span><h2>Круг — 2,5 км</h2><p>Забеги проходят на дистанциях 2,5 км, 5 км и 10 км. Точная схема движения будет опубликована организаторами перед стартом.</p></article></div>
+            <div className="kpMarathonRoute"><article><span>Место сбора</span><h2>Ботанический сад, Астана</h2><p>Стартовый городок располагается в парковочной зоне на пересечении улиц Акмешит и Бухар жырау. Участникам рекомендуется прибыть к 07:50.</p></article><article><span>Маршрут</span><h2>Круг — 2,5 км</h2><p>1 круг — 2,5 км, 2 круга — 5 км, 4 круга — 10 км</p></article></div>
+          </section>
+          <section className="kpContentSection kpMarathonMap" id="marathon-route-map" aria-labelledby="marathon-map-title">
+            <h2 id="marathon-map-title">Карта забега</h2>
+            <a className="kpMarathonMapImage" href="/sports/marathon-2026-route.jpg" target="_blank" rel="noopener noreferrer" aria-label="Открыть карту забега в полном размере">
+              <img src="/sports/marathon-2026-route.jpg" width="1280" height="824" alt="Карта марафона ҚТЖ 2026: круг 2,5 км, направление движения, старт, финиш и стартовый городок" loading="lazy" decoding="async" />
+            </a>
+            <div className="kpMarathonMapActions">
+              <a href="/sports/marathon-2026-route.jpg" target="_blank" rel="noopener noreferrer"><span>Открыть карту крупнее</span><span aria-hidden="true">↗</span></a>
+              <a href="/sports/marathon-2026-route.jpg" download="marathon-qtj-2026-route.jpg"><span>Скачать карту</span><span aria-hidden="true">↓</span></a>
+            </div>
           </section>
           <section className="kpContentSection kpMarathonConditions">
             <div className="kpSectionTitle"><span>Условия участия</span><h2>Здоровье и безопасность</h2><p>Пожалуйста, ознакомьтесь с требованиями до подачи заявки.</p></div>
