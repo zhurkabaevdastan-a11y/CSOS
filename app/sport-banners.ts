@@ -31,8 +31,8 @@ export function getSportBanner(key: string): SportBanner | undefined {
   if (key === 'sport/marathon-registration') return sportBannerPhotos.marathon;
   if (key === 'sport/calendar') return sportBannerPhotos.competition;
   if (key === 'sport/instructors' || key.startsWith('sport/instructors/')) return sportBannerPhotos.team;
-  if (key === 'sport/results/samruk-2026') return sportBannerPhotos.atmosphere;
-  if (key === 'sport/results' || key.startsWith('sport/results/')) return sportBannerPhotos.awards;
+  // Result pages use a compact factual layout; no unrelated event photographs.
+  if (key === 'sport/results' || key.startsWith('sport/results/')) return undefined;
   if (key === 'sport/photos' || key.startsWith('sport/photos/')) return sportBannerPhotos.atmosphere;
   if (key === 'sport') return sportBannerPhotos.team;
   return undefined;

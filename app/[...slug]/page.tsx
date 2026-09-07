@@ -1,7 +1,9 @@
 import { notFound, permanentRedirect } from "next/navigation";
+import Script from "next/script";
 import { getSportBanner } from "../sport-banners";
 import { renderSocialStabilityContent } from "../social-stability-content";
 import { programPages, renderProgramContent } from "../program-content";
+import { resultsPages, renderResultsIndex, renderResultDetail } from "../results-content";
 import { getPageAncestors, pageRedirects, instructorRegions, instructors, marathonEmbedUrl, marathonRegistrationPath, marathonRegistrationUrl, samruk2026Nominations, samruk2026Placements, sectionNavigation, sitePages, sportCalendar, sportResults, topNavigation, veteranAgeGroups, veteranGallery, veteranRegions, veteranStats, youngFacesApplicationUrl } from "../content";
 
 export function generateStaticParams() {
@@ -33,6 +35,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
   const sportPhoto = getSportBanner(key);
   const socialContent = renderSocialStabilityContent(key);
   const programContent = renderProgramContent(key);
+  const resultsContent = key === "sport/results" ? renderResultsIndex() : renderResultDetail(key, { placements: samruk2026Placements, nominations: samruk2026Nominations });
   const panelsIntro = page.panelsIntro ?? { label: "Главное", title: "Работа по направлению", text: "Основные задачи и приоритеты социальной политики." };
   const cardsIntro = page.cardsIntro ?? (key.startsWith("sport/photos/")
     ? { label: "Фотоальбомы", title: "Откройте альбом события", text: "Фотографии откроются в новой вкладке на Яндекс Диске." }
@@ -41,7 +44,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
   return (
     <main className="kpPage">
       <SiteHeader />
-      <section className={`kpPageHero${socialContent ? " kpPageHero--social" : ""}${programPages[key] ? " kpPageHero--program" : ""}`}>
+      <section className={`kpPageHero${socialContent ? " kpPageHero--social" : ""}${programPages[key] ? " kpPageHero--program" : ""}${resultsPages[key] ? " kpPageHero--results" : ""}`}>
         <div className="kpBreadcrumbs"><a href="/">Главная</a><span>•</span>{ancestors.map((ancestor) => <span className="kpBreadcrumbItem" key={ancestor.path}><a href={ancestor.path}>{ancestor.title}</a><span>•</span></span>)}<b>{page.title}</b></div>
         <span className="kpEyebrow">{page.eyebrow}</span>
         <h1>{page.title}</h1>
@@ -51,7 +54,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
             <picture><img src={sportPhoto.src} srcSet={sportPhoto.srcSet} sizes="(max-width: 760px) 100vw, 92vw" width={sportPhoto.width} height={sportPhoto.height} alt={sportPhoto.alt} style={{ objectPosition: sportPhoto.position }} decoding="async" /></picture>
             <figcaption><span><span>Фото из спортивного архива</span> · {sportPhoto.year}</span><a href={sportPhoto.album} target="_blank" rel="noreferrer"><span>Открыть фотоальбом</span> ↗</a></figcaption>
           </figure>
-        ) : socialContent || programPages[key] ? null : <div className={`kpHeroVisual kpHeroVisual--${slug[0]}`}><span>ҚТЖ</span><i /></div>}
+        ) : socialContent || programPages[key] || resultsPages[key] ? null : <div className={`kpHeroVisual kpHeroVisual--${slug[0]}`}><span>ҚТЖ</span><i /></div>}
       </section>
 
       {programContent && <div dangerouslySetInnerHTML={{ __html: programContent }} />}
@@ -196,16 +199,8 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
         </>
       )}
 
-      {key === "sport/results" && (
-        <section className="kpContentSection">
-          <div className="kpSectionTitle"><span>Победы</span><h2>Достижения сборной</h2><p>Результаты корпоративных и отраслевых соревнований.</p></div>
-          <div className="kpResultGrid">{sportResults.map((result, index) => "href" in result ? <a className="kpResultCard" href={result.href} key={result.title}><span>{result.label}</span><strong>0{index + 1}</strong><h3>{result.title}</h3><p>{result.text}</p><i>Открыть результаты ↗</i></a> : <article key={result.title}><span>{result.label}</span><strong>0{index + 1}</strong><h3>{result.title}</h3><p>{result.text}</p></article>)}</div>
-        </section>
-      )}
-
-      {key === "sport/results/samruk-2026" && (
-        <section className="kpContentSection kpSamrukResults"><div className="kpSectionTitle"><span>Итоги соревнований</span><h2>Призовые места сборной ҚТЖ</h2><p>Результаты по дисциплинам из официального распределения призовых мест.</p></div><div className="kpSamrukSummary"><article><strong>27</strong><span>призовых мест</span></article><article><strong>9</strong><span>первых мест</span></article><article><strong>13</strong><span>вторых мест</span></article><article><strong>5</strong><span>третьих мест</span></article></div><div className="kpSamrukPlacements">{samruk2026Placements.map((item) => <article key={item.place}><h3>{item.place}</h3><p>{item.disciplines}</p></article>)}</div><div className="kpSamrukNominations"><h3>Индивидуальные номинации</h3><ul>{samruk2026Nominations.map((nomination) => <li key={nomination}>{nomination}</li>)}</ul></div></section>
-      )}
+      {resultsContent && <div dangerouslySetInnerHTML={{ __html: resultsContent }} />}
+      {key === "sport/results" && <Script src="/results-filters.js" strategy="afterInteractive" />}
 
       {key === "youth/young-faces/fourth-cohort" && (
         <>
@@ -284,7 +279,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
 
       {socialContent && <div className="kpSocialSections" dangerouslySetInnerHTML={{ __html: socialContent }} />}
 
-      {!socialContent && !programContent && !page.cards && !page.steps && !page.panels && !["sport/instructors", "sport/calendar", "sport/marathon-registration", "sport/results", "sport/results/samruk-2026", "youth/young-faces/fourth-cohort", "pensioners/portrait", "pensioners/support", "pensioners/generations", "pensioners/stories", "pensioners/active-longevity", "pensioners/gallery"].includes(key) && (
+      {!socialContent && !programContent && !resultsContent && !page.cards && !page.steps && !page.panels && !["sport/instructors", "sport/calendar", "sport/marathon-registration", "sport/results", "sport/results/samruk-2026", "youth/young-faces/fourth-cohort", "pensioners/portrait", "pensioners/support", "pensioners/generations", "pensioners/stories", "pensioners/active-longevity", "pensioners/gallery"].includes(key) && (
         <section className="kpContentSection">
           <div className="kpSectionTitle"><span>Информация</span><h2>Раздел наполняется</h2><p>Материалы, контакты и новости будут добавляться по мере обновления программы.</p></div>
           <a className="kpAction" href="mailto:social@railways.kz">Связаться с командой <span>↗</span></a>

@@ -7,11 +7,12 @@ import { getSportBanner, sportBannerPhotos } from '../app/sport-banners.ts';
 
 const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
 
-test('Every sports page has one archive banner, unrelated pages are unchanged', () => {
+test('Sports pages retain archive banners; factual results use the compact layout', () => {
   for (const key of Object.keys(sitePages)) {
     const photo = getSportBanner(key);
-    if (key !== 'sport' && !key.startsWith('sport/')) {
+    if ((key !== 'sport' && !key.startsWith('sport/')) || key === 'sport/results' || key.startsWith('sport/results/')) {
       assert.equal(photo, undefined, key);
+      if (key.startsWith('sport/results')) assert.ok(!read(`vercel-static/${key}/index.html`).includes('kpSportPhoto'), key);
       continue;
     }
     assert.ok(photo, key);

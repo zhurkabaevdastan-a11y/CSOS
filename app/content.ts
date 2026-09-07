@@ -1,4 +1,5 @@
 import { programPages } from './program-content.ts';
+import { resultEvents, resultsPages } from './results-content.ts';
 
 export type Instructor = {
   id: number;
@@ -103,12 +104,7 @@ export const sportCalendar = [
   },
 ] as const;
 
-export const sportResults = [
-  { label: "Спартакиада · 2024", title: "Чемпионы IX Спартакиады", text: "1-е место в общекомандном зачёте АО «Самрук-Қазына». 20 медалей: 11 золотых, 6 серебряных и 3 бронзовые." },
-  { label: "Спартакиада · 2025", title: "Победители X Спартакиады", text: "1-е место в общекомандном зачёте АО «Самрук-Қазына». 28 медалей: 11 золотых, 8 серебряных и 9 бронзовых." },
-  { label: "Спартакиада · 2026", title: "XI Спартакиада АО «Самрук-Қазына»", text: "Сборная ҚТЖ завоевала 27 призовых мест: 9 первых, 13 вторых и 5 третьих. Нажмите, чтобы посмотреть результаты по дисциплинам.", href: "/sport/results/samruk-2026" },
-  { label: "Мини-футбол · QYZMET CUP 2025", title: "Чемпионы QAZAQSTAN QYZMET CUP", text: "Сборная АО «НК «ҚТЖ» выиграла финал чемпионата Казахстана по мини-футболу, опередив команду «Самрук-Энерго»." },
-];
+export const sportResults = resultEvents.map(event => ({ label: String(event.year), title: event.title, text: event.summary, href: `/sport/results/${event.slug}` }));
 
 export const samruk2026Placements = [
   { place: "1-е место", disciplines: "Настольный теннис (мужчины); тоғызқұмалақ (мужчины); шахматы (мужчины); армрестлинг (женщины до 65 кг); лёгкая атлетика — мужчины 35+; плавание — мужчины 30–34 и 40–44; плавательная эстафета MIX; киберспорт." },
@@ -277,14 +273,7 @@ export const sitePages: Record<string, SitePage> = {
     path: marathonRegistrationPath, title: "Марафон ҚТЖ", eyebrow: "19 сентября 2026 · Астана",
     lead: "Корпоративный старт, который объединяет работников, семьи и друзей железной дороги со всех регионов страны.",
   },
-  "sport/results": {
-    path: "/sport/results", title: "Результаты сборной команды ҚТЖ", eyebrow: "Наши достижения",
-    lead: "Ключевые результаты сборной ҚТЖ на корпоративных и отраслевых соревнованиях.",
-  },
-  "sport/results/samruk-2026": {
-    path: "/sport/results/samruk-2026", title: "XI Спартакиада АО «Самрук-Қазына»", eyebrow: "8–10 августа 2026 · Астана",
-    lead: "Призовые места сборной команды ҚТЖ на XI Спартакиаде среди работников группы компаний АО «Самрук-Қазына».",
-  },
+  ...resultsPages,
   "sport/photos": {
     path: "/sport/photos", title: "Фотоархив спорта", eyebrow: "История в кадрах",
     lead: "Фото спортивных событий, команд и побед ҚТЖ с навигацией по годам.",
