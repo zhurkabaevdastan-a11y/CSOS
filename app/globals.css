@@ -714,3 +714,13 @@ body{
 .kpMarathonDownload small{flex-basis:100%;font-size:.875rem;font-weight:400}
 .kpMarathonDownload:hover{border-color:var(--blue)}
 .kpMarathonDownload:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+
+/* Real archive photographs replace the decorative artwork on sports pages. */
+.kpSportPhoto{margin:0 calc(clamp(22px,6vw,92px) * -1);background:var(--white)}
+.kpSportPhoto picture{display:block;overflow:hidden;background:#edf1f5}
+.kpSportPhoto img{display:block;width:100%;height:clamp(220px,25vw,360px);object-fit:cover}
+.kpSportPhoto figcaption{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 20px;padding:12px clamp(22px,6vw,92px);color:var(--navy);font-size:.875rem;line-height:1.5}
+.kpSportPhoto figcaption a{color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.kpSportPhoto figcaption a:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
+@media(max-width:760px){.kpSportPhoto img{height:210px}}
+@media(max-width:480px){.kpSportPhoto{margin-inline:-18px}.kpSportPhoto img{height:180px}.kpSportPhoto figcaption{padding-inline:18px}}
