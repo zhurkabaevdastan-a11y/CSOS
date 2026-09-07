@@ -1,8 +1,8 @@
-import { notFound } from "next/navigation";
-import { instructorRegions, instructors, marathonEmbedUrl, marathonRegistrationPath, marathonRegistrationUrl, samruk2026Nominations, samruk2026Placements, sectionNavigation, sitePages, sportCalendar, sportResults, topNavigation, veteranAgeGroups, veteranGallery, veteranRegions, veteranStats, youngFacesApplicationUrl } from "../content";
+import { notFound, permanentRedirect } from "next/navigation";
+import { getPageAncestors, pageRedirects, instructorRegions, instructors, marathonEmbedUrl, marathonRegistrationPath, marathonRegistrationUrl, samruk2026Nominations, samruk2026Placements, sectionNavigation, sitePages, sportCalendar, sportResults, topNavigation, veteranAgeGroups, veteranGallery, veteranRegions, veteranStats, youngFacesApplicationUrl } from "../content";
 
 export function generateStaticParams() {
-  return Object.keys(sitePages).map((key) => ({ slug: key.split("/") }));
+  return [...Object.keys(sitePages), ...Object.keys(pageRedirects)].map((key) => ({ slug: key.split("/") }));
 }
 
 function SiteHeader() {
@@ -34,9 +34,10 @@ function SiteFooter() {
 export default async function DetailPage({ params }: { params: Promise<{ slug: string[] }> }) {
   const { slug } = await params;
   const key = slug.join("/");
+  if (pageRedirects[key]) permanentRedirect(pageRedirects[key]);
   const page = sitePages[key];
   if (!page) notFound();
-  const ancestors = slug.slice(0, -1).map((_, index) => sitePages[slug.slice(0, index + 1).join("/")]).filter(Boolean);
+  const ancestors = getPageAncestors(key);
   const panelsIntro = page.panelsIntro ?? { label: "Главное", title: "Работа по направлению", text: "Основные задачи и приоритеты социальной политики." };
   const cardsIntro = page.cardsIntro ?? (key.startsWith("sport/photos/")
     ? { label: "Фотоальбомы", title: "Откройте альбом события", text: "Фотографии откроются в новой вкладке на Яндекс Диске." }

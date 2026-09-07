@@ -125,6 +125,7 @@ export type SiteCard = { href: string; title: string; text: string; tag?: string
 export type InfoPanel = { label: string; title: string; text: string; notice?: string };
 export type SitePage = {
   path: string;
+  parentPath?: string;
   title: string;
   eyebrow: string;
   lead: string;
@@ -223,8 +224,8 @@ export const sitePages: Record<string, SitePage> = {
       { label: "Выводы", title: "Практические решения", text: "Использование результатов SRS для профилактики рисков и развития социальной среды" },
     ],
   },
-  "social-stability/esg": {
-    path: "/social-stability/esg", title: "ESG", eyebrow: "Устойчивое развитие",
+  "volunteering/esg": {
+    path: "/volunteering/esg", title: "ESG", eyebrow: "Устойчивое развитие",
     lead: "Социальные инициативы ҚТЖ в системе экологической, социальной и корпоративной ответственности",
     panels: [
       { label: "Social", title: "Благополучие работников", text: "Безопасная, справедливая и развивающая рабочая среда для большой команды ҚТЖ" },
@@ -308,13 +309,22 @@ export const sitePages: Record<string, SitePage> = {
     lead: `Фотографии команд, соревнований и ярких моментов спортивного сезона ${year} года.`,
     cards: photoAlbums[String(year)],
   }])),
+  "social-projects": {
+    path: "/social-projects", title: "Социальные проекты", eyebrow: "Инициативы, которые объединяют",
+    lead: "Волонтёрство и социальные инициативы работников ҚТЖ",
+    cards: [
+      { href: "/volunteering", title: "Волонтёрство", text: "Школа корпоративного волонтёрства, лучший волонтёр, акция «Таза Қазақстан» и ESG", tag: "Социальные инициативы" },
+    ],
+  },
   "volunteering": {
     path: "/volunteering", title: "Корпоративное волонтёрство", eyebrow: "Добрые дела объединяют",
+    parentPath: "/social-projects",
     lead: "Поддерживаем инициативы сотрудников, развиваем культуру взаимопомощи и создаём устойчивые социальные проекты.",
     cards: [
       { href: "/volunteering/school", title: "Школа корпоративного волонтёрства", text: "Главное событие года: обучение, практика и запуск социальных инициатив.", tag: "Главное событие" },
       { href: "/volunteering/best-2026", title: "Лучший волонтёр", text: "Истории сотрудников, которые меняют мир рядом", tag: "Люди" },
       { href: "/volunteering/clean-kazakhstan", title: "Акция «Таза Қазақстан»", text: "Экологические инициативы, благоустройство и забота о территориях", tag: "Экология" },
+      { href: "/volunteering/esg", title: "ESG", text: "Социальные инициативы ҚТЖ в системе экологической, социальной и корпоративной ответственности", tag: "Устойчивое развитие" },
     ],
   },
   "volunteering/school": {
@@ -535,12 +545,32 @@ export const veteranGallery = [
   { src: "/veterans/marathon-team.jpg", alt: "Команда ветеранов на спортивном соревновании", caption: "Команда ветеранов ҚТЖ" },
 ];
 
+export const pageRedirects: Record<string, string> = {
+  "social-stability/esg": "/volunteering/esg",
+};
+
+// Content hierarchy can differ from URLs, so existing shared links stay valid.
+export function getPageAncestors(key: string): SitePage[] {
+  const ancestors: SitePage[] = [];
+  const visited = new Set<string>([key]);
+  let current = sitePages[key];
+  while (current) {
+    const parentPath = current.parentPath ?? current.path.slice(0, current.path.lastIndexOf("/"));
+    const parentKey = parentPath.replace(/^\//, "");
+    if (!parentKey || visited.has(parentKey)) break;
+    visited.add(parentKey);
+    current = sitePages[parentKey];
+    if (current) ancestors.unshift(current);
+  }
+  return ancestors;
+}
+
 export const topNavigation = [
   { href: "/corporate-culture", label: "Корпоративная культура" },
   { href: "/pensioners", label: "Ветераны отрасли" },
   { href: "/social-stability", label: "Социальная стабильность" },
   { href: "/youth", label: "Молодёжная политика" },
-  { href: "/volunteering", label: "Волонтёрство" },
+  { href: "/social-projects", label: "Социальные проекты" },
   { href: "/sport", label: "Спортивная жизнь" },
 ];
 
@@ -551,7 +581,7 @@ export const sectionNavigation = [
   { href: "/youth", label: "Молодёжная политика" },
   { href: "/children", label: "Работа с детьми" },
   { href: "/pensioners", label: "Ветераны отрасли" },
-  { href: "/volunteering", label: "Волонтёрство" },
+  { href: "/social-projects", label: "Социальные проекты" },
   { href: "/sport", label: "Спортивная жизнь" },
   { href: "/achievements", label: "Наши достижения" },
 ];

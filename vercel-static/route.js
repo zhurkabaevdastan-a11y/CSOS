@@ -14,11 +14,11 @@ const fullSectionNavigation = [
   ["/youth/", "Молодёжная политика"],
   ["/children/", "Работа с детьми"],
   ["/pensioners/", "Ветераны отрасли"],
-  ["/volunteering/", "Волонтёрство"],
+  ["/social-projects/", "Социальные проекты"],
   ["/sport/", "Спортивная жизнь"],
   ["/achievements/", "Наши достижения"],
 ];
-const primarySectionPaths = new Set(["/corporate-culture/", "/pensioners/", "/social-stability/", "/youth/", "/volunteering/", "/sport/"]);
+const primarySectionPaths = new Set(["/corporate-culture/", "/pensioners/", "/social-stability/", "/youth/", "/social-projects/", "/sport/"]);
 
 function makeSectionLinks(markMobileOnly = false) {
   return fullSectionNavigation.map(([href, label]) => {
@@ -32,6 +32,10 @@ function makeSectionLinks(markMobileOnly = false) {
 
 document.querySelectorAll(".kpHeader>nav").forEach((menu) => menu.replaceChildren(...makeSectionLinks(true)));
 document.querySelectorAll(".kpMobileNav nav").forEach((menu) => menu.replaceChildren(...makeSectionLinks()));
+document.querySelectorAll('.kpFooter nav a[href="/volunteering/"], .kpFooter nav a[href="/volunteering"]').forEach((link) => {
+  link.href = "/social-projects/";
+  link.textContent = "Социальные проекты";
+});
 
 const supabaseUrl = "https://bowvuafbszouqimilytd.supabase.co";
 const supabaseKey = "sb_publishable_lz5Tf7Xfkz9KTPWjNtvtzQ_Xo9yVAFG";

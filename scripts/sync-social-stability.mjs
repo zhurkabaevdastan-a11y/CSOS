@@ -1,7 +1,7 @@
 // Run with Node's TypeScript stripping: node --experimental-strip-types scripts/sync-social-stability.mjs
 // Keep the public static site in sync with the same content used by the app.
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
-import { sitePages } from '../app/content.ts';
+import { getPageAncestors, pageRedirects, sitePages } from '../app/content.ts';
 
 const esc = (value) => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 const internalHref = (href) => href.startsWith('/') && !href.endsWith('/') ? `${href}/` : href;
@@ -9,15 +9,15 @@ const template = readFileSync('vercel-static/social-stability/index.html', 'utf8
 const start = template.slice(0, template.indexOf('<section class="kpPageHero">'));
 const end = template.slice(template.indexOf('<section class="kpRelated">'));
 const intro = (copy) => `<div class="kpSectionTitle"><span>${esc(copy.label)}</span><h2>${esc(copy.title)}</h2><p>${esc(copy.text)}</p></div>`;
+const breadcrumbs = (key) => `<div class="kpBreadcrumbs"><a href="/">Главная</a><span>•</span>${getPageAncestors(key).map((parent) => `<span class="kpBreadcrumbItem"><a href="${internalHref(parent.path)}">${esc(parent.title)}</a><span>•</span></span>`).join('')}<b>${esc(sitePages[key].title)}</b></div>`;
 
-for (const key of ['social-stability', 'social-stability/research', 'social-stability/appeals']) {
+const generatedPages = ['social-stability', 'social-stability/research', 'social-stability/appeals', 'social-projects', 'volunteering', 'volunteering/esg'];
+for (const key of generatedPages) {
   const page = sitePages[key];
-  const ancestors = key.split('/').slice(0, -1).map((_, index) => sitePages[key.split('/').slice(0, index + 1).join('/')]);
-  const crumbs = ancestors.map((parent) => `<span class="kpBreadcrumbItem"><a href="${internalHref(parent.path)}">${esc(parent.title)}</a><span>•</span></span>`).join('');
   const head = start.replace(/<title>.*?<\/title>/, `<title>${esc(page.title)} — Все о социальной политике ҚТЖ</title>`).replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${esc(page.lead)}">`);
-  let body = `<section class="kpPageHero"><div class="kpBreadcrumbs"><a href="/">Главная</a><span>•</span>${crumbs}<b>${esc(page.title)}</b></div><span class="kpEyebrow">${esc(page.eyebrow)}</span><h1>${esc(page.title)}</h1><p>${esc(page.lead)}</p><div class="kpHeroVisual kpHeroVisual--social-stability"><span>ҚТЖ</span><i></i></div></section>`;
+  let body = `<section class="kpPageHero">${breadcrumbs(key)}<span class="kpEyebrow">${esc(page.eyebrow)}</span><h1>${esc(page.title)}</h1><p>${esc(page.lead)}</p><div class="kpHeroVisual kpHeroVisual--${key.split('/')[0]}"><span>ҚТЖ</span><i></i></div></section>`;
   if (page.panels) {
-    body += `<section class="kpContentSection">${intro(page.panelsIntro)}<div class="kpInfoGrid${page.panels.length === 2 ? ' kpInfoGrid--two' : ''}">`;
+    body += `<section class="kpContentSection">${intro(page.panelsIntro ?? { label: 'Главное', title: 'Работа по направлению', text: 'Основные задачи и приоритеты социальной политики' })}<div class="kpInfoGrid${page.panels.length === 2 ? ' kpInfoGrid--two' : ''}">`;
     body += page.panels.map((panel, index) => `<article><span>${esc(panel.label)}</span><strong>0${index + 1}</strong><h3>${esc(panel.title)}</h3><p>${esc(panel.text)}</p>${panel.notice ? `<p class="kpDataNotice">${esc(panel.notice)}</p>` : ''}</article>`).join('');
     body += `</div>${page.source ? `<p class="kpContentSource"><a href="${esc(page.source.href)}" target="_blank" rel="noreferrer"><span>${esc(page.source.label)}</span> ↗</a></p>` : ''}</section>`;
   }
@@ -29,9 +29,23 @@ for (const key of ['social-stability', 'social-stability/research', 'social-stab
   mkdirSync(`vercel-static/${key}`, { recursive: true });
   writeFileSync(`vercel-static/${key}/index.html`, head + body + end);
 }
+// Preserve existing event content while updating its logical parent trail.
+for (const key of Object.keys(sitePages).filter((key) => key.startsWith('volunteering/') && !generatedPages.includes(key))) {
+  const path = `vercel-static/${key}/index.html`;
+  const html = readFileSync(path, 'utf8');
+  if (!html.includes('<div class="kpBreadcrumbs">')) throw new Error(`Missing breadcrumbs: ${key}`);
+  writeFileSync(path, html.replace(/<div class="kpBreadcrumbs">[\s\S]*?<\/div>/, breadcrumbs(key)));
+}
+for (const [from, to] of Object.entries(pageRedirects)) {
+  mkdirSync(`vercel-static/${from}`, { recursive: true });
+  const target = internalHref(to);
+  writeFileSync(`vercel-static/${from}/index.html`, `<!doctype html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ESG — Все о социальной политике ҚТЖ</title><meta http-equiv="refresh" content="0;url=${esc(target)}"><link rel="canonical" href="${esc(target)}"></head><body><a href="${esc(target)}">ESG →</a></body></html>`);
+}
 for (const [source, destination] of [['app/globals.css', 'vercel-static/app.css'], ['public/language.js', 'vercel-static/language.js']]) {
   writeFileSync(destination, readFileSync(source));
 }
 const homePath = 'vercel-static/index.html';
-writeFileSync(homePath, readFileSync(homePath, 'utf8').replace('SRS, ESG и система работы с жалобами и обращениями', 'Исследования и опросы, информация по жалобам и обращениям'));
-console.log('Social stability: app content, static pages, styles and translations synchronized');
+writeFileSync(homePath, readFileSync(homePath, 'utf8')
+  .replace('SRS, ESG и система работы с жалобами и обращениями', 'Исследования и опросы, информация по жалобам и обращениям')
+  .replace('<a href="/volunteering/"><span>07</span><strong>Волонтёрство</strong><p>Школа волонтёрства, лучшие волонтёры и акция «Таза Қазақстан»</p><i>ВЛ</i>', '<a href="/social-projects/"><span>07</span><strong>Социальные проекты</strong><p>Волонтёрство и социальные инициативы работников ҚТЖ</p><i>СЦ</i>'));
+console.log('Social sections: pages, parent navigation, legacy links and translations synchronized');
