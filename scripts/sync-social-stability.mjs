@@ -3,6 +3,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { getPageAncestors, pageRedirects, sitePages } from '../app/content.ts';
 import { renderSocialStabilityContent, socialStabilityTranslations } from '../app/social-stability-content.ts';
+import { renderVndContent, vndTranslations } from '../app/vnd-content.ts';
 
 const esc = (value) => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 const internalHref = (href) => href.startsWith('/') && !href.endsWith('/') ? `${href}/` : href;
@@ -17,11 +18,11 @@ const end = template.slice(endIndex);
 const intro = (copy) => `<div class="kpSectionTitle"><span>${esc(copy.label)}</span><h2>${esc(copy.title)}</h2><p>${esc(copy.text)}</p></div>`;
 const breadcrumbs = (key) => `<div class="kpBreadcrumbs"><a href="/">Главная</a><span>•</span>${getPageAncestors(key).map((parent) => `<span class="kpBreadcrumbItem"><a href="${internalHref(parent.path)}">${esc(parent.title)}</a><span>•</span></span>`).join('')}<b>${esc(sitePages[key].title)}</b></div>`;
 
-const generatedPages = ['social-stability', 'social-stability/research', 'social-stability/srs', 'social-stability/appeals', 'social-projects', 'volunteering', 'volunteering/esg'];
+const generatedPages = ['vnd', 'social-stability', 'social-stability/research', 'social-stability/srs', 'social-stability/appeals', 'social-projects', 'volunteering', 'volunteering/esg'];
 for (const key of generatedPages) {
   const page = sitePages[key];
   const head = start.replace(/<title>.*?<\/title>/, `<title>${esc(page.title)} — Все о социальной политике ҚТЖ</title>`).replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${esc(page.lead)}">`);
-  const socialContent = renderSocialStabilityContent(key);
+  const socialContent = renderSocialStabilityContent(key) || renderVndContent(key);
   let body = `<section class="kpPageHero${socialContent ? ' kpPageHero--social' : ''}">${breadcrumbs(key)}<span class="kpEyebrow">${esc(page.eyebrow)}</span><h1>${esc(page.title)}</h1><p>${esc(page.lead)}</p>${socialContent ? '' : `<div class="kpHeroVisual kpHeroVisual--${key.split('/')[0]}"><span>ҚТЖ</span><i></i></div>`}</section>`;
   if (page.panels) {
     body += `<section class="kpContentSection">${intro(page.panelsIntro ?? { label: 'Главное', title: 'Работа по направлению', text: 'Основные задачи и приоритеты социальной политики' })}<div class="kpInfoGrid${page.panels.length === 2 ? ' kpInfoGrid--two' : ''}">`;
@@ -52,7 +53,7 @@ for (const [from, to] of Object.entries(pageRedirects)) {
 const languagePath = 'public/language.js';
 let language = readFileSync(languagePath, 'utf8').replace(/    \/\/ Social stability data translations start\n[\s\S]*?    \/\/ Social stability data translations end\n/, '');
 if (!language.includes('  const kk = {\n')) throw new Error('Missing Kazakh language dictionary');
-const translationLines = Object.entries(socialStabilityTranslations).map(([ru, kk]) => `    ${JSON.stringify(ru)}: ${JSON.stringify(kk)},`).join('\n');
+const translationLines = Object.entries({...socialStabilityTranslations, ...vndTranslations}).map(([ru, kk]) => `    ${JSON.stringify(ru)}: ${JSON.stringify(kk)},`).join('\n');
 language = language.replace('  const kk = {\n', `  const kk = {\n    // Social stability data translations start\n${translationLines}\n    // Social stability data translations end\n`);
 writeFileSync(languagePath, language);
 for (const [source, destination] of [['app/globals.css', 'vercel-static/app.css'], ['public/language.js', 'vercel-static/language.js']]) {

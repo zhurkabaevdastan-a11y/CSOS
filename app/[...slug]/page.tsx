@@ -2,6 +2,7 @@ import { notFound, permanentRedirect } from "next/navigation";
 import Script from "next/script";
 import { getSportBanner } from "../sport-banners";
 import { renderSocialStabilityContent } from "../social-stability-content";
+import { renderVndContent } from "../vnd-content";
 import { programPages, renderProgramContent } from "../program-content";
 import { candidatesKey, youngFacesPages, renderYoungFacesContent } from "../young-faces-content";
 import { resultsPages, renderResultsIndex, renderResultDetail } from "../results-content";
@@ -35,6 +36,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
   const ancestors = getPageAncestors(key);
   const sportPhoto = getSportBanner(key);
   const socialContent = renderSocialStabilityContent(key);
+  const vndContent = renderVndContent(key);
   const programContent = renderProgramContent(key);
   const candidates = key === candidatesKey ? (await import("../young-faces-candidates")).youngFacesCandidates : [];
   const youngFacesContent = renderYoungFacesContent(key, candidates);
@@ -47,7 +49,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
   return (
     <main className="kpPage">
       <SiteHeader />
-      <section className={`kpPageHero${socialContent ? " kpPageHero--social" : ""}${programPages[key] || youngFacesPages[key] ? " kpPageHero--program" : ""}${youngFacesPages[key] ? " kpPageHero--young" : ""}${resultsPages[key] ? " kpPageHero--results" : ""}`}>
+      <section className={`kpPageHero${socialContent || vndContent ? " kpPageHero--social" : ""}${programPages[key] || youngFacesPages[key] ? " kpPageHero--program" : ""}${youngFacesPages[key] ? " kpPageHero--young" : ""}${resultsPages[key] ? " kpPageHero--results" : ""}`}>
         <div className="kpBreadcrumbs"><a href="/">Главная</a><span>•</span>{ancestors.map((ancestor) => <span className="kpBreadcrumbItem" key={ancestor.path}><a href={ancestor.path}>{ancestor.title}</a><span>•</span></span>)}<b>{page.title}</b></div>
         <span className="kpEyebrow">{page.eyebrow}</span>
         <h1>{page.title}</h1>
@@ -57,10 +59,11 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
             <picture><img src={sportPhoto.src} srcSet={sportPhoto.srcSet} sizes="(max-width: 760px) 100vw, 92vw" width={sportPhoto.width} height={sportPhoto.height} alt={sportPhoto.alt} style={{ objectPosition: sportPhoto.position }} decoding="async" /></picture>
             <figcaption><span><span>Фото из спортивного архива</span> · {sportPhoto.year}</span><a href={sportPhoto.album} target="_blank" rel="noreferrer"><span>Открыть фотоальбом</span> ↗</a></figcaption>
           </figure>
-        ) : socialContent || programPages[key] || youngFacesPages[key] || resultsPages[key] ? null : <div className={`kpHeroVisual kpHeroVisual--${slug[0]}`}><span>ҚТЖ</span><i /></div>}
+        ) : socialContent || vndContent || programPages[key] || youngFacesPages[key] || resultsPages[key] ? null : <div className={`kpHeroVisual kpHeroVisual--${slug[0]}`}><span>ҚТЖ</span><i /></div>}
       </section>
 
       {programContent && <div dangerouslySetInnerHTML={{ __html: programContent }} />}
+      {vndContent && <div dangerouslySetInnerHTML={{ __html: vndContent }} />}
       {youngFacesContent && <div dangerouslySetInnerHTML={{ __html: youngFacesContent }} />}
 
       {key === "pensioners" && (
