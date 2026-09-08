@@ -43,6 +43,7 @@ export const resultSports = {
   tennis: t('Настольный теннис', 'Үстел теннисі'), togyz: 'Тоғызқұмалақ', arm: t('Армрестлинг', 'Қол күресі'),
   basketball: t('Баскетбол', 'Баскетбол'), volleyball: t('Волейбол', 'Волейбол'), chess: t('Шахматы', 'Шахмат'),
   asyk: 'Асық ату', tug: 'Арқан тарту', esports: t('Киберспорт', 'Киберспорт'),
+  darts: t('Дартс', 'Дартс'), archery: 'Садақ ату',
 };
 const individual = t('Личные результаты', 'Жеке нәтижелер');
 const overall = t('Общекомандный результат', 'Жалпыкомандалық нәтиже');
@@ -52,6 +53,104 @@ const rank3 = t('3-е место', '3-орын');
 const sourceSelection = t('Указаны результаты опубликованных карточек, а не полный протокол соревнования', 'Жарыстың толық хаттамасы емес, жарияланған карточкалардың нәтижелері берілген');
 const skiColumns = [resultLabels.name, resultLabels.age, resultLabels.distance, resultLabels.place, resultLabels.time];
 const runColumns = [resultLabels.name, resultLabels.distance, resultLabels.age, resultLabels.place, resultLabels.time];
+// User-supplied 2024 presentation and 2025 final protocol: KTZ entries only.
+// Keep names as written in each year's source; a team award is one result.
+type HistoricalResult = { participant: string; discipline: string; category: string; place: number; result?: string };
+const men = t('Мужчины', 'Ерлер');
+const women = t('Женщины', 'Әйелдер');
+const personal = t('Личный зачёт', 'Жеке есеп');
+const teamStanding = t('Командный зачёт', 'Командалық есеп');
+const ktzTeam = t('Сборная ҚТЖ', 'ҚТЖ құрамасы');
+export const samruk2024Results: HistoricalResult[] = [
+  {participant:'Лимеренко Константин',discipline:resultSports.swimming,category:t('Мужчины до 40 лет','40 жасқа дейінгі ерлер'),place:1},
+  {participant:'Гордиенко Геннадий',discipline:resultSports.swimming,category:t('Мужчины старше 40 лет','40 жастан асқан ерлер'),place:1},
+  {participant:'Сурабалдинов Даурен',discipline:resultSports.chess,category:personal,place:1},
+  {participant:'Аманова Гульжан',discipline:resultSports.chess,category:personal,place:1},
+  {participant:'Насип Сымбат',discipline:resultSports.arm,category:t('Женщины до 65 кг','65 кг-ға дейінгі әйелдер'),place:1},
+  {participant:'Кенжебаев Жанибек',discipline:resultSports.arm,category:t('Мужчины свыше 80 кг','80 кг-нан жоғары ерлер'),place:1},
+  {participant:ktzTeam,discipline:resultSports.asyk,category:teamStanding,place:1},
+  {participant:'Исабеков Али',discipline:resultSports.togyz,category:personal,place:1},
+  {participant:'Халилов Роман',discipline:resultSports.tennis,category:men,place:1},
+  {participant:ktzTeam,discipline:resultSports.esports,category:teamStanding,place:1},
+  {participant:ktzTeam,discipline:resultSports.volleyball,category:women,place:1},
+  {participant:'Штрошеррер Алла',discipline:resultSports.arm,category:t('Женщины свыше 65 кг','65 кг-нан жоғары әйелдер'),place:2},
+  {participant:'Сагидоллинов Нуржан',discipline:resultSports.arm,category:t('Мужчины до 80 кг','80 кг-ға дейінгі ерлер'),place:2},
+  {participant:'Женискызы Анель',discipline:resultSports.swimming,category:t('Женщины до 40 лет','40 жасқа дейінгі әйелдер'),place:2},
+  {participant:'Смайлова Ленара',discipline:resultSports.tennis,category:women,place:2},
+  {participant:ktzTeam,discipline:resultSports.basketball,category:teamStanding,place:2},
+  {participant:'Тагыбергенов Еркебулан',discipline:resultSports.togyz,category:personal,place:2},
+  {participant:'Алимина Татьяна',discipline:resultSports.swimming,category:t('Женщины старше 40 лет','40 жастан асқан әйелдер'),place:3},
+  {participant:'Жанпеисова Алия',discipline:resultSports.tennis,category:women,place:3},
+  {participant:ktzTeam,discipline:resultSports.volleyball,category:men,place:3},
+];
+export const samruk2024Nominations: Cell[][] = [
+  ['Даулетов Диас',resultSports.esports,t('Лучший капитан турнира','Турнирдің үздік капитаны')],
+  ['Смагулова Гульжанат',t('Волейбол · женщины','Волейбол · әйелдер'),t('Лучший разыгрывающий','Үздік байланыстырушы')],
+  ['Наурызгазинов Нурым',t('Волейбол · мужчины','Волейбол · ерлер'),t('Лучший блокирующий','Үздік тосқауыл қоюшы')],
+  ['Аханов Кайраш',resultSports.asyk,t('Лучший снайпер','Үздік мерген')],
+];
+export const samruk2025Results: HistoricalResult[] = [
+  {participant:'Халилов Роман',discipline:resultSports.tennis,category:men,place:1},
+  {participant:'Биятов Ахметбек',discipline:resultSports.tennis,category:men,place:4},
+  {participant:'Жанпеисова Алия',discipline:resultSports.tennis,category:women,place:1},
+  {participant:'Смайлова Ленара',discipline:resultSports.tennis,category:women,place:2},
+  {participant:'Исабеков Али',discipline:resultSports.togyz,category:men,place:1},
+  {participant:'Тагыбергенов Еркебулан',discipline:resultSports.togyz,category:men,place:3},
+  {participant:'Серікова Айжан',discipline:resultSports.togyz,category:women,place:3},
+  {participant:'Икласова Ботагоз',discipline:resultSports.togyz,category:women,place:15},
+  {participant:'Степанцов Андрей',discipline:resultSports.chess,category:men,place:3},
+  {participant:'Сурабалдинов Даурен',discipline:resultSports.chess,category:men,place:5},
+  {participant:'Калдыбаева Жанар',discipline:resultSports.chess,category:women,place:3},
+  {participant:'Аманова Гульжан',discipline:resultSports.chess,category:women,place:9},
+  {participant:'Альмухаметов Рустам',discipline:resultSports.darts,category:men,place:2,result:'280'},
+  {participant:'Сапашева Айнур',discipline:resultSports.darts,category:women,place:5,result:'40'},
+  {participant:ktzTeam,discipline:resultSports.tug,category:teamStanding,place:4},
+  {participant:'Зулпыхаров Самал',discipline:resultSports.archery,category:men,place:1},
+  {participant:'Назарова Махаббат',discipline:resultSports.archery,category:women,place:2},
+  {participant:'Сагидоллинов Нуржан',discipline:resultSports.arm,category:t('Мужчины до 80 кг','80 кг-ға дейінгі ерлер'),place:3},
+  {participant:'Кенжебаев Жанибек',discipline:resultSports.arm,category:t('Мужчины свыше 80 кг','80 кг-нан жоғары ерлер'),place:3},
+  {participant:'Нәсіп Сымбат',discipline:resultSports.arm,category:t('Женщины до 65 кг','65 кг-ға дейінгі әйелдер'),place:1},
+  {participant:'Штрошерер Алла',discipline:resultSports.arm,category:t('Женщины свыше 65 кг','65 кг-нан жоғары әйелдер'),place:1},
+  {participant:ktzTeam,discipline:resultSports.asyk,category:teamStanding,place:2},
+  {participant:'Куанышев Айдос',discipline:resultSports.swimming,category:t('Мужчины 18–24 · 400 м','Ерлер 18–24 · 400 м'),place:5,result:'11:56,48'},
+  {participant:'Лимаренко Константин',discipline:resultSports.swimming,category:t('Мужчины 25–29 · 400 м','Ерлер 25–29 · 400 м'),place:1,result:'05:02,56'},
+  {participant:'Турысмаганбетов Еркин',discipline:resultSports.swimming,category:t('Мужчины 30–34 · 400 м','Ерлер 30–34 · 400 м'),place:3,result:'06:26,31'},
+  {participant:'Барлыбаев Ербол',discipline:resultSports.swimming,category:t('Мужчины 35–39 · 400 м','Ерлер 35–39 · 400 м'),place:4,result:'07:00,91'},
+  {participant:'Кабиев Сагат',discipline:resultSports.swimming,category:t('Мужчины 40–44 · 400 м','Ерлер 40–44 · 400 м'),place:1,result:'06:36,10'},
+  {participant:'Төлендіұлы Ғазиз',discipline:resultSports.swimming,category:t('Мужчины 45–49 · 400 м','Ерлер 45–49 · 400 м'),place:5,result:'07:36,33'},
+  {participant:'Гордиенко Генадий',discipline:resultSports.swimming,category:t('Мужчины 50+ · 400 м','Ерлер 50+ · 400 м'),place:2,result:'06:03,65'},
+  {participant:'Аманбай Ақтілек',discipline:resultSports.swimming,category:t('Женщины 18–24 · 200 м','Әйелдер 18–24 · 200 м'),place:7,result:'06:44,82'},
+  {participant:'Жеңісқызы Әнел',discipline:resultSports.swimming,category:t('Женщины 25–29 · 200 м','Әйелдер 25–29 · 200 м'),place:1,result:'02:57,58'},
+  {participant:'Кичатова Юлия',discipline:resultSports.swimming,category:t('Женщины 30–34 · 200 м','Әйелдер 30–34 · 200 м'),place:6,result:'05:39,85'},
+  {participant:'Балтабаева Жанаргуль',discipline:resultSports.swimming,category:t('Женщины 35–39 · 200 м','Әйелдер 35–39 · 200 м'),place:6,result:'05:06,34'},
+  {participant:'Жамашова Роза',discipline:resultSports.swimming,category:t('Женщины 40–44 · 200 м','Әйелдер 40–44 · 200 м'),place:6,result:'05:54,75'},
+  {participant:'Актамбаева Нургуль',discipline:resultSports.swimming,category:t('Женщины 45–49 · 200 м','Әйелдер 45–49 · 200 м'),place:4,result:'04:21,70'},
+  {participant:'Алимина Татьяна',discipline:resultSports.swimming,category:t('Женщины 50+ · 200 м','Әйелдер 50+ · 200 м'),place:1,result:'03:30,18'},
+  {participant:ktzTeam,discipline:resultSports.swimming,category:t('Смешанная эстафета MIX','MIX аралас эстафетасы'),place:1,result:'02:07,83'},
+];
+const historyCategory = t('Категория', 'Санат');
+const historyName = t('Участник / команда', 'Қатысушы / команда');
+const samruk2024Blocks: Block[] = [
+  ...[resultLabels.gold,resultLabels.silver,resultLabels.bronze].map((title,index)=>({
+    title,columns:[historyName,resultLabels.discipline,historyCategory],
+    rows:samruk2024Results.filter(row=>row.place===index+1).map(row=>[row.participant,row.discipline,row.category]),
+  })),
+  {title:t('Индивидуальные номинации','Жеке номинациялар'),columns:[resultLabels.name,resultLabels.discipline,t('Номинация','Номинация')],rows:samruk2024Nominations},
+];
+const samruk2025Blocks: Block[] = [
+  ...[resultSports.tennis,resultSports.togyz,resultSports.chess,resultSports.darts,resultSports.archery,resultSports.arm,resultSports.swimming].map(discipline=>{
+    const timed=discipline===resultSports.swimming;
+    const scored=discipline===resultSports.darts;
+    return {
+      title:discipline,
+      paragraphs:timed?[t('Время указано в формате минуты:секунды,сотые; дистанция эстафеты в документе не указана','Уақыт минут:секунд,жүздік үлес форматында берілген; құжатта эстафетаның қашықтығы көрсетілмеген')]:undefined,
+      columns:[historyName,historyCategory,resultLabels.place,...(timed?[resultLabels.time]:scored?[resultLabels.result]:[])],
+      rows:samruk2025Results.filter(row=>row.discipline===discipline).map(row=>[row.participant,row.category,row.place,...(timed||scored?[row.result??null]:[])]),
+    };
+  }),
+  {title:t('Национальные командные виды спорта','Ұлттық командалық спорт түрлері'),columns:[resultLabels.team,resultLabels.discipline,resultLabels.place],
+    rows:samruk2025Results.filter(row=>[resultSports.asyk,resultSports.tug].includes(row.discipline)).map(row=>[row.participant,row.discipline,row.place])},
+];
 export const ski2026Rows: Cell[][] = [
   ['Рахимбаева Малика','18–30','1 км',1,'03:24,3'],
   ['Золотухина Галина','31–40','1 км',1,'02:59,5'],
@@ -182,11 +281,16 @@ export const resultEvents: ResultEvent[] = [
     sources:[{label:'Rail-news — «Железная дружба»',href:'https://rail-news.kz/ru/sport/24182-kazaxstanskie-zeleznodorozniki-vyigrali-mezdunarodnyi-turnir-po-futbolu-v-tbilisi.html'},{label:'Instagram — «Железная дружба»',href:'https://www.instagram.com/p/DZ9upsPCoP4/'}],
   },
   {
-    slug:'samruk-2025',sourceSection:5,year:2025,location:null,category:'spartakiad',sports:['multisport'],teamPlace:1,
+    slug:'samruk-2025',sourceSection:5,year:2025,location:'Астана',category:'spartakiad',sports:['multisport','tennis','togyz','chess','darts','archery','arm','swimming','asyk','tug'],teamPlace:1,
     title:t('X Спартакиада «Самрук-Қазына»','«Самұрық-Қазына» X спартакиадасы'),
     summary:t('1-е общекомандное место — 28 медалей','Жалпыкомандалық 1-орын — 28 медаль'),
     medals:{gold:11,silver:8,bronze:9,scope:'reported-total'},
-    blocks:[{title:overall,paragraphs:[t('Сборная ҚТЖ стала победителем X Спартакиады группы компаний «Самрук-Қазына»','ҚТЖ құрамасы «Самұрық-Қазына» компаниялар тобының X спартакиадасында жеңіске жетті')]}],
+    blocks:[{title:overall,paragraphs:[t('Сборная ҚТЖ стала победителем X Спартакиады группы компаний «Самрук-Қазына»','ҚТЖ құрамасы «Самұрық-Қазына» компаниялар тобының X спартакиадасында жеңіске жетті'),
+      t('7–10 августа 2025 года · Астана','2025 жылғы 7–10 тамыз · Астана'),
+      t('Ниже — 37 заполненных результатов работников и сборной ҚТЖ из итогового распределения мест: призовые и остальные места по видам спорта','Төменде қорытынды орындар тізіміндегі ҚТЖ қызметкерлері мен құрамасының толтырылған 37 нәтижесі берілген: спорт түрлері бойынша жүлделі және өзге орындар'),
+      t('В этих строках указаны 23 призовых результата: 11 первых, 5 вторых и 7 третьих мест; это не полная расшифровка общекомандных 28 медалей','Бұл жолдарда 23 жүлделі нәтиже көрсетілген: 11 бірінші, 5 екінші және 7 үшінші орын; бұл команданың 28 медалінің толық тізімі емес'),
+      t('Строки ҚТЖ по киберспорту, мужскому и женскому волейболу, баскетболу и футзалу в предоставленном документе не заполнены — места по ним не добавлены','Берілген құжатта ҚТЖ-ның киберспорт, ерлер және әйелдер волейболы, баскетбол және футзал бойынша жолдары толтырылмаған — олар бойынша орындар қосылмады')
+    ]},...samruk2025Blocks],
     sources:[{label:'Rail-news — X Спартакиада',href:'https://rail-news.kz/ru/sport/21357-pobeditelei-x-spartakiady-samruk-qazyna-pozdravili-v-ktz.html'}],
   },
   {
@@ -224,7 +328,9 @@ export const resultEvents: ResultEvent[] = [
     title:t('IX Спартакиада «Самрук-Қазына»','«Самұрық-Қазына» IX спартакиадасы'),
     summary:t('1-е общекомандное место — 20 медалей','Жалпыкомандалық 1-орын — 20 медаль'),
     medals:{gold:11,silver:6,bronze:3,scope:'reported-total'},
-    blocks:[{title:overall,paragraphs:[t('Команда ҚТЖ заняла 1-е место в общекомандном зачёте IX Спартакиады «Самрук-Қазына»','ҚТЖ командасы «Самұрық-Қазына» IX спартакиадасының жалпыкомандалық есебінде 1-орын алды')]}],
+    blocks:[{title:overall,paragraphs:[t('Команда ҚТЖ заняла 1-е место в общекомандном зачёте IX Спартакиады «Самрук-Қазына»','ҚТЖ командасы «Самұрық-Қазына» IX спартакиадасының жалпыкомандалық есебінде 1-орын алды'),
+      t('Призёры и победители номинаций приведены по презентации результатов команды ҚТЖ за 2024 год; данные на 20:00 24 ноября','Жүлдегерлер мен номинация жеңімпаздары ҚТЖ командасының 2024 жылғы нәтижелер таныстырылымынан алынды; деректер 24 қараша, сағат 20:00 жағдайы бойынша')
+    ]},...samruk2024Blocks],
     sources:[{label:'SK NEWS — IX Спартакиада',href:'https://sknews.kz/news/view/ix-spartakiada-samruk-kazyna-komanda-ktgh-zanyala-i-mesto-zavoevav-20-medaley'}],
   },
 ];
