@@ -1,4 +1,5 @@
 import { programPages } from './program-content.ts';
+import { youngFacesPages } from './young-faces-content.ts';
 import { resultEvents, resultsPages } from './results-content.ts';
 
 export type Instructor = {
@@ -340,10 +341,7 @@ export const sitePages: Record<string, SitePage> = {
   "youth/representatives": programPages["youth/representatives"],
   "youth/young-specialist": programPages["youth/young-specialist"],
   "youth/young-faces": programPages["youth/young-faces"],
-  "youth/young-faces/fourth-cohort": {
-    path: "/youth/young-faces/fourth-cohort", title: "4 поток «100 молодых лиц ҚТЖ»", eyebrow: "Приём заявок · 3–31 августа 2026",
-    lead: "Новый поток формирует сообщество молодых экспертов, способных предлагать инициативы, реализовывать значимые проекты и повышать эффективность ҚТЖ.",
-  },
+  ...youngFacesPages,
   "youth/forum": programPages["youth/forum"],
   "youth/success-stories": {
     path: "/youth/success-stories", title: "Истории успеха", eyebrow: "Люди и возможности",

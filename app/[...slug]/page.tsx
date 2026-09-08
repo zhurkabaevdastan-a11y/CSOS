@@ -3,8 +3,9 @@ import Script from "next/script";
 import { getSportBanner } from "../sport-banners";
 import { renderSocialStabilityContent } from "../social-stability-content";
 import { programPages, renderProgramContent } from "../program-content";
+import { candidatesKey, youngFacesPages, renderYoungFacesContent } from "../young-faces-content";
 import { resultsPages, renderResultsIndex, renderResultDetail } from "../results-content";
-import { getPageAncestors, pageRedirects, instructorRegions, instructors, marathonEmbedUrl, marathonRegistrationPath, marathonRegistrationUrl, samruk2026Nominations, samruk2026Placements, sectionNavigation, sitePages, sportCalendar, sportResults, topNavigation, veteranAgeGroups, veteranGallery, veteranRegions, veteranStats, youngFacesApplicationUrl } from "../content";
+import { getPageAncestors, pageRedirects, instructorRegions, instructors, marathonEmbedUrl, marathonRegistrationPath, marathonRegistrationUrl, samruk2026Nominations, samruk2026Placements, sectionNavigation, sitePages, sportCalendar, sportResults, topNavigation, veteranAgeGroups, veteranGallery, veteranRegions, veteranStats } from "../content";
 
 export function generateStaticParams() {
   return [...Object.keys(sitePages), ...Object.keys(pageRedirects)].map((key) => ({ slug: key.split("/") }));
@@ -35,6 +36,8 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
   const sportPhoto = getSportBanner(key);
   const socialContent = renderSocialStabilityContent(key);
   const programContent = renderProgramContent(key);
+  const candidates = key === candidatesKey ? (await import("../young-faces-candidates")).youngFacesCandidates : [];
+  const youngFacesContent = renderYoungFacesContent(key, candidates);
   const resultsContent = key === "sport/results" ? renderResultsIndex() : renderResultDetail(key, { placements: samruk2026Placements, nominations: samruk2026Nominations });
   const panelsIntro = page.panelsIntro ?? { label: "Главное", title: "Работа по направлению", text: "Основные задачи и приоритеты социальной политики." };
   const cardsIntro = page.cardsIntro ?? (key.startsWith("sport/photos/")
@@ -44,7 +47,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
   return (
     <main className="kpPage">
       <SiteHeader />
-      <section className={`kpPageHero${socialContent ? " kpPageHero--social" : ""}${programPages[key] ? " kpPageHero--program" : ""}${resultsPages[key] ? " kpPageHero--results" : ""}`}>
+      <section className={`kpPageHero${socialContent ? " kpPageHero--social" : ""}${programPages[key] || youngFacesPages[key] ? " kpPageHero--program" : ""}${youngFacesPages[key] ? " kpPageHero--young" : ""}${resultsPages[key] ? " kpPageHero--results" : ""}`}>
         <div className="kpBreadcrumbs"><a href="/">Главная</a><span>•</span>{ancestors.map((ancestor) => <span className="kpBreadcrumbItem" key={ancestor.path}><a href={ancestor.path}>{ancestor.title}</a><span>•</span></span>)}<b>{page.title}</b></div>
         <span className="kpEyebrow">{page.eyebrow}</span>
         <h1>{page.title}</h1>
@@ -54,10 +57,11 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
             <picture><img src={sportPhoto.src} srcSet={sportPhoto.srcSet} sizes="(max-width: 760px) 100vw, 92vw" width={sportPhoto.width} height={sportPhoto.height} alt={sportPhoto.alt} style={{ objectPosition: sportPhoto.position }} decoding="async" /></picture>
             <figcaption><span><span>Фото из спортивного архива</span> · {sportPhoto.year}</span><a href={sportPhoto.album} target="_blank" rel="noreferrer"><span>Открыть фотоальбом</span> ↗</a></figcaption>
           </figure>
-        ) : socialContent || programPages[key] || resultsPages[key] ? null : <div className={`kpHeroVisual kpHeroVisual--${slug[0]}`}><span>ҚТЖ</span><i /></div>}
+        ) : socialContent || programPages[key] || youngFacesPages[key] || resultsPages[key] ? null : <div className={`kpHeroVisual kpHeroVisual--${slug[0]}`}><span>ҚТЖ</span><i /></div>}
       </section>
 
       {programContent && <div dangerouslySetInnerHTML={{ __html: programContent }} />}
+      {youngFacesContent && <div dangerouslySetInnerHTML={{ __html: youngFacesContent }} />}
 
       {key === "pensioners" && (
         <section className="kpContentSection kpVeteransIntro">
@@ -202,58 +206,6 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
       {resultsContent && <div dangerouslySetInnerHTML={{ __html: resultsContent }} />}
       {key === "sport/results" && <Script src="/results-filters.js" strategy="afterInteractive" />}
 
-      {key === "youth/young-faces/fourth-cohort" && (
-        <>
-          <section className="kpContentSection kpYoungFacesIntro">
-            <div className="kpSectionTitle"><span>О программе</span><h2>Стартовал отбор в четвёртый поток</h2><p>Заявки принимаются до 31 августа 2026 года.</p></div>
-            <div className="kpYoungFacesLead">
-              <div>
-                <p>Программа «100 молодых лиц ҚТЖ» запущена в 2019 году и направлена на выявление, развитие и продвижение талантливых молодых работников.</p>
-                <p>До четвёртого потока программа объединила три когорты: 2020–2022, 2023–2024 и 2025–2026.</p>
-                <p>Четвёртый поток ориентирован на развитие участников как экспертов и проектных лидеров. Ключевой акцент — разработка и реализация проектов, повышающих эффективность Компании.</p>
-              </div>
-              <aside><span>Приём заявок</span><strong>3–31 августа</strong><small>2026 года</small><a className="kpYoungFacesApply" href={youngFacesApplicationUrl} target="_blank" rel="noreferrer">Подать заявку <i>↗</i></a></aside>
-            </div>
-          </section>
-
-          <section className="kpContentSection">
-            <div className="kpSectionTitle"><span>Участники</span><h2>Кто может принять участие</h2><p>Отбор проводится среди работников группы компаний ҚТЖ.</p></div>
-            <div className="kpYoungFacesEligibility">
-              <article><span>Можно участвовать</span><h3>Работники до 35 лет</h3><p>Кандидаты с высоким профессиональным потенциалом и стремлением к развитию. Ключевые качества: инициативность, вовлечённость, лидерство, добросовестность и профессионализм.</p></article>
-              <article><span>Не допускаются</span><h3>Ограничения программы</h3><ul><li>Выпускники предыдущих потоков.</li><li>Работники по договорам ГПХ и аутстаффинга.</li></ul></article>
-            </div>
-          </section>
-
-          <section className="kpContentSection kpYoungFacesSelection">
-            <div className="kpSectionTitle"><span>Этапы отбора</span><h2>Путь кандидата</h2><p>От подачи заявки до объявления победителей.</p></div>
-            <div className="kpSelectionTimeline">
-              {[
-                ["01", "Сбор заявок", "3–31 августа 2026"],
-                ["02", "Тестирование SHL", "до 13 сентября 2026"],
-                ["03", "Опросники мотивации и компетенций", "до 1 октября 2026"],
-                ["04", "Ассессмент-центр", "до 15 октября 2026"],
-                ["05", "Интервью по компетенциям", "до 15 ноября 2026"],
-                ["06", "Комплексная проверка", "до 18 ноября 2026"],
-                ["07", "Экспертный отбор", "до 25 ноября 2026"],
-                ["08", "Объявление победителей", "до 1 декабря 2026"],
-              ].map(([number, title, date]) => <article key={number}><span>{number}</span><h3>{title}</h3><time>{date}</time></article>)}
-            </div>
-          </section>
-
-          <section className="kpContentSection kpYoungFacesDevelopment">
-            <div className="kpSectionTitle"><span>Два года развития</span><h2>Что ждёт победителей</h2><p>Обучение, экспертиза и практическое внедрение проектов.</p></div>
-            <div className="kpYoungFacesFeatures">
-              {[
-                ["01", "Модульное обучение", "Проектное управление, бизнес-мышление, hard skills и навыки внедрения улучшений."],
-                ["02", "Работа с экспертами", "Гостевые встречи, диагностика зон развития и взаимодействие с руководителями."],
-                ["03", "Корпоративные инициативы", "Участие во внешних молодёжных мероприятиях и ключевых проектах Компании."],
-                ["04", "Реализация проектов", "Второй год посвящён практической работе с трекерами Astana Hub и стейкхолдерами ҚТЖ."],
-              ].map(([number, title, text]) => <article key={number}><span>{number}</span><h3>{title}</h3><p>{text}</p></article>)}
-            </div>
-            <div className="kpYoungFacesCta"><div><span>Готовы заявить о себе?</span><h3>Начните свой путь в четвёртом потоке.</h3></div><a href={youngFacesApplicationUrl} target="_blank" rel="noreferrer">Подать заявку <i>↗</i></a></div>
-          </section>
-        </>
-      )}
 
       {page.panels && (
         <section className="kpContentSection">
@@ -279,7 +231,7 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
 
       {socialContent && <div className="kpSocialSections" dangerouslySetInnerHTML={{ __html: socialContent }} />}
 
-      {!socialContent && !programContent && !resultsContent && !page.cards && !page.steps && !page.panels && !["sport/instructors", "sport/calendar", "sport/marathon-registration", "sport/results", "sport/results/samruk-2026", "youth/young-faces/fourth-cohort", "pensioners/portrait", "pensioners/support", "pensioners/generations", "pensioners/stories", "pensioners/active-longevity", "pensioners/gallery"].includes(key) && (
+      {!socialContent && !programContent && !youngFacesContent && !resultsContent && !page.cards && !page.steps && !page.panels && !["sport/instructors", "sport/calendar", "sport/marathon-registration", "sport/results", "sport/results/samruk-2026", "pensioners/portrait", "pensioners/support", "pensioners/generations", "pensioners/stories", "pensioners/active-longevity", "pensioners/gallery"].includes(key) && (
         <section className="kpContentSection">
           <div className="kpSectionTitle"><span>Информация</span><h2>Раздел наполняется</h2><p>Материалы, контакты и новости будут добавляться по мере обновления программы.</p></div>
           <a className="kpAction" href="mailto:social@railways.kz">Связаться с командой <span>↗</span></a>
