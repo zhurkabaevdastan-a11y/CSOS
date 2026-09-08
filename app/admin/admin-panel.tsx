@@ -160,7 +160,7 @@ export default function AdminPanel() {
 
             <div className="analyticsChart" aria-label="Просмотры за последние 14 дней">
               <div className="analyticsChartHead"><h4>Динамика за 14 дней</h4><span>{numberFormat.format(analytics.summary.sessions)} сессий всего</span></div>
-              <div className="analyticsBars">{analytics.daily.map((item) => <div key={item.day} title={`${item.day}: ${item.views} просмотров`}><span style={{ height: `${Math.max(4, (Number(item.views) / maxDailyViews) * 100)}%` }} /><small>{new Date(`${item.day}T00:00:00+05:00`).toLocaleDateString("ru-RU", { day: "2-digit", month: "2-digit" })}</small></div>)}</div>
+              <div className="adminChartScroll" tabIndex={0} role="region" aria-label="Просмотры за последние 14 дней"><div className="analyticsBars">{analytics.daily.map((item) => <div key={item.day} title={`${item.day}: ${item.views} просмотров`}><span style={{ height: `${Math.max(4, (Number(item.views) / maxDailyViews) * 100)}%` }} /><small>{new Date(`${item.day}T00:00:00+05:00`).toLocaleDateString("ru-RU", { day: "2-digit", month: "2-digit" })}</small></div>)}</div></div>
             </div>
 
             <div className="analyticsGrid">
@@ -176,7 +176,7 @@ export default function AdminPanel() {
           <section className="adminSection">
             <div className="adminSectionTitle"><div><span>Участники</span><h3>Регистрации на события</h3></div></div>
             <div className="adminStats"><div><strong>{registrations.length}</strong><span>всего заявок</span></div><div><strong>{registrations.filter((row) => ["new", "submitted"].includes(row.status)).length}</strong><span>новых</span></div><div><strong>{new Set(registrations.map((row) => row.profiles?.region).filter(Boolean)).size}</strong><span>регионов</span></div></div>
-            <div className="tableWrap"><table><thead><tr><th>Участник</th><th>Контакты</th><th>Подразделение</th><th>Направление</th><th>Статус</th></tr></thead><tbody>{registrations.map((row) => <tr key={row.id}><td><b>{row.profiles?.last_name} {row.profiles?.first_name}</b><small>{row.profiles?.region}</small></td><td>{row.profiles?.email}<small>{row.profiles?.phone}</small></td><td>{row.profiles?.department || "—"}</td><td>{row.discipline || "—"}<small>{row.team_name}</small></td><td><span className="status">{["new", "submitted"].includes(row.status) ? "Новая" : row.status}</span></td></tr>)}</tbody></table>{!registrations.length && <p className="emptyState">Пока нет регистраций.</p>}</div>
+            <div className="tableWrap" tabIndex={0} role="region" aria-label="Регистрации на события"><table><thead><tr><th>Участник</th><th>Контакты</th><th>Подразделение</th><th>Направление</th><th>Статус</th></tr></thead><tbody>{registrations.map((row) => <tr key={row.id}><td><b>{row.profiles?.last_name} {row.profiles?.first_name}</b><small>{row.profiles?.region}</small></td><td>{row.profiles?.email}<small>{row.profiles?.phone}</small></td><td>{row.profiles?.department || "—"}</td><td>{row.discipline || "—"}<small>{row.team_name}</small></td><td><span className="status">{["new", "submitted"].includes(row.status) ? "Новая" : row.status}</span></td></tr>)}</tbody></table>{!registrations.length && <p className="emptyState">Пока нет регистраций.</p>}</div>
           </section></>}
         </>}
       </section>

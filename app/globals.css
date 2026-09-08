@@ -981,18 +981,85 @@ body{
 .kpHeader{grid-template-columns:minmax(250px,300px) minmax(0,1fr) auto auto}
 @media(max-width:1240px){.kpHeader{grid-template-columns:minmax(0,1fr) auto auto}}
 .kpHeader.kpAdminHeader{grid-template-columns:minmax(0,1fr) auto auto}
-.kpAdminPage{min-height:100svh}
-.kpAdminBack{padding:10px 14px;color:var(--navy);font-size:.875rem;font-weight:700;text-decoration:none}
+.kpAdminPage{min-height:100svh;min-width:0;color:var(--ink);font-size:1rem;line-height:1.55}
+.kpAdminBack{display:flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;color:var(--navy);font-size:.875rem;font-weight:700;text-decoration:none}
 .kpAdminBack:hover{text-decoration:underline}
-.kpAdminSurface{display:grid;justify-items:center;padding:clamp(20px,4vw,56px) clamp(12px,3vw,36px)}
-.kpAdminSurface>.modal{width:min(600px,100%);max-height:none;overflow:visible;padding:clamp(24px,4vw,48px);border:1px solid var(--line);border-radius:20px}
-.kpAdminSurface>.adminModal{width:min(1220px,100%)}
+.kpAdminHeader .kpBrand{min-width:0}
+.kpAdminHeader .kpLanguage{min-width:44px;min-height:44px;font-size:.875rem}
+.kpAdminPage :is(a,button,input,[tabindex]):focus-visible{outline:3px solid var(--blue);outline-offset:4px}
+.kpAdminSurface{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;min-width:0;padding:clamp(20px,3vw,40px) clamp(12px,3vw,36px);padding-bottom:max(24px,env(safe-area-inset-bottom))}
+.kpAdminSurface>.modal{width:100%;max-width:560px;min-width:0;max-height:none;overflow:visible;margin:0;padding:clamp(20px,3vw,36px);border:1px solid var(--line);border-radius:20px;box-shadow:0 12px 36px rgba(3,19,47,.08)}
+.kpAdminSurface>.adminModal{max-width:1360px}
+.kpAdminSurface :is(.adminHead,.adminSection,.adminSectionTitle,.adminStats,.analyticsGrid,.analyticsPanel,.analyticsPanelHead,.analyticsChart,.analyticsChartHead,.tableWrap){min-width:0;max-width:100%}
 .kpAdminSurface .modal h2{font-size:clamp(1.5rem,3vw,2rem);line-height:1.25;letter-spacing:-.02em}
-.kpAdminSurface .modal label{font-size:.875rem}
-.kpAdminSurface .modal input,.kpAdminSurface .modal button{font-size:1rem}
-.kpAdminSurface .adminHead{padding-right:0}
-.kpAdminSurface .analyticsBars small{font-size:.75rem}
-@media(max-width:620px){
-  .kpAdminSurface .analyticsChart{overflow-x:auto}
-  .kpAdminSurface .analyticsBars{min-width:480px}
+.kpAdminSurface .modal :is(h3,h4){font-size:clamp(1.0625rem,1.7vw,1.375rem);line-height:1.4;letter-spacing:normal}
+.kpAdminSurface .modal :is(p,label,button){line-height:1.55}
+.kpAdminSurface .modal label{font-size:.875rem;font-weight:700}
+.kpAdminSurface .modal :is(input,button){font-size:1rem;min-height:48px}
+.kpAdminSurface .modal input{min-width:0;max-width:100%;border-radius:10px;padding:12px 14px}
+.kpAdminSurface .modal button{padding:10px 18px;align-self:flex-start;border-radius:10px;text-transform:none;white-space:normal;cursor:pointer}
+.kpAdminSurface .modal button:disabled{opacity:.65;cursor:wait}
+.kpAdminSurface .formActions{margin-top:24px}
+.kpAdminSurface .formActions>button{width:100%}
+.kpAdminSurface .adminHead{align-items:flex-start;flex-direction:row;flex-wrap:wrap;padding-right:0;gap:16px}
+.kpAdminSurface .adminHead>div{flex:1 1 260px;min-width:0}
+.kpAdminSurface .adminHead h2{margin:8px 0 12px}
+.kpAdminSurface .adminHead>button{flex:0 0 auto}
+.kpAdminSurface .adminSection{margin-top:28px;padding-top:24px}
+.kpAdminSurface :is(.adminSectionTitle,.analyticsPanelHead,.analyticsChartHead){flex-wrap:wrap;align-items:flex-start;gap:8px 16px}
+.kpAdminSurface .adminSectionTitle>div{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:0}
+.kpAdminSurface .adminSectionTitle>div>span{font-size:.75rem;line-height:1.5}
+.kpAdminSurface :is(.adminSectionTitle>small,.analyticsPanelHead>span,.analyticsChartHead>span){font-size:.875rem;line-height:1.5}
+.kpAdminSurface .adminStats{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}
+.kpAdminSurface .adminStats--analytics{grid-template-columns:repeat(4,minmax(0,1fr))}
+.kpAdminSurface .adminStats>div{min-width:0;padding:18px;border:1px solid var(--line);border-radius:14px}
+.kpAdminSurface .adminStats strong{font-size:clamp(1.5rem,2.7vw,2.125rem);font-variant-numeric:tabular-nums;line-height:1.2;white-space:nowrap}
+.kpAdminSurface .adminStats span{font-size:.875rem;line-height:1.4}
+.kpAdminSurface .analyticsGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.kpAdminSurface .analyticsPanel{padding:20px;border-radius:14px}
+.kpAdminSurface .analyticsChart{overflow:visible;padding:20px;border-radius:14px}
+.kpAdminSurface .analyticsChart h4{color:#fff}
+.kpAdminSurface .analyticsChartHead>span{color:#c4d5e9}
+.kpAdminSurface .adminChartScroll{width:100%;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-color:#78b7d5 #19344f;scrollbar-width:thin;padding-bottom:8px}
+.kpAdminSurface .analyticsBars{min-width:42rem;grid-template-columns:repeat(14,minmax(2.5rem,1fr));gap:.5rem;height:190px;margin-top:20px}
+.kpAdminSurface .analyticsBars>div{grid-template-rows:minmax(0,1fr) 1.5rem;gap:.5rem;min-width:0}
+.kpAdminSurface .analyticsBars small{font-size:.75rem;line-height:1.5;transform:none;white-space:nowrap;color:#c4d5e9}
+.kpAdminSurface .pageAnalytics article{grid-template-columns:minmax(0,1fr);gap:8px;padding:16px 0}
+.kpAdminSurface .pageAnalyticsNumbers{flex-direction:row;align-items:baseline;justify-content:flex-start;gap:12px}
+.kpAdminSurface .pageAnalyticsNumbers :is(strong,span){white-space:nowrap}
+.kpAdminSurface .pageAnalyticsNumbers strong{font-size:1.125rem}
+.kpAdminSurface .pageAnalyticsNumbers span{font-size:.875rem}
+.kpAdminSurface :is(.pageAnalytics b,.recentVisits b){font-size:1rem;line-height:1.5}
+.kpAdminSurface :is(.pageAnalytics small,.recentVisits small){max-width:100%;font-size:.75rem;line-height:1.6;overflow-x:auto;white-space:nowrap}
+.kpAdminSurface .recentVisits article{flex-direction:column;gap:8px}
+.kpAdminSurface .recentVisits article>div{width:100%}
+.kpAdminSurface .recentVisits time{font-size:.875rem;white-space:normal;line-height:1.5}
+.kpAdminSurface .tableWrap{width:100%;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:12px;background:#fff}
+.kpAdminSurface .tableWrap table{width:100%;min-width:800px;border-collapse:collapse;font-size:.9375rem;line-height:1.5}
+.kpAdminSurface .tableWrap :is(th,td){padding:14px 16px;text-align:left;vertical-align:top}
+.kpAdminSurface .tableWrap th{font-size:.875rem;background:#eef5f8;color:var(--navy)}
+.kpAdminSurface .tableWrap td small{font-size:.8125rem;line-height:1.5}
+.kpAdminSurface :is(.formMessage,.adminNotice,.emptyState){font-size:1rem;line-height:1.6}
+.kpAdminSurface .emptyState{padding:20px 0;text-align:left}
+@media(max-width:1024px){
+  .kpAdminSurface .analyticsGrid{grid-template-columns:minmax(0,1fr)}
+  .kpAdminSurface .adminStats--analytics{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:600px){
+  .kpAdminSurface{padding:16px 10px 24px}
+  .kpAdminSurface>.modal{padding:20px 16px;border-radius:16px}
+  .kpAdminSurface .modal h2{font-size:1.375rem;line-height:1.35}
+  .kpAdminSurface .modal :is(h3,h4){font-size:1.0625rem}
+  .kpAdminSurface .adminHead>div{flex-basis:100%}
+  .kpAdminSurface .adminHead>button{width:100%}
+  .kpAdminSurface .adminStats{grid-template-columns:repeat(auto-fit,minmax(min(100%,9rem),1fr));gap:8px}
+  .kpAdminSurface .adminStats>div{padding:14px 10px}
+  .kpAdminSurface .adminStats strong{font-size:1.5rem}
+  .kpAdminSurface :is(.analyticsPanel,.analyticsChart){padding:16px 12px}
+  .kpAdminSurface .adminSection{margin-top:24px;padding-top:20px}
+  .kpAdminSurface .analyticsBars{height:160px}
+  .kpAdminBack{padding-inline:8px}
+}
+@media(max-width:359px){
+  .kpAdminSurface .adminStats{grid-template-columns:minmax(0,1fr)}
 }

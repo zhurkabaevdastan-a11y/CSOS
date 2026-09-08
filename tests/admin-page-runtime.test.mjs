@@ -70,6 +70,9 @@ test('direct admin URL starts at login, loads protected data after authorization
   await app.login();
   assert.deepEqual(app.queries, ['profiles', 'registrations', 'get_site_analytics']);
   assert.match(app.elements.get('#modalContent').innerHTML, /Статистика сайта/);
+  const dashboard = app.elements.get('#modalContent').innerHTML;
+  assert.match(dashboard, /class="adminChartScroll" tabindex="0"/);
+  assert.equal([...dashboard.matchAll(/<div\b/g)].length, [...dashboard.matchAll(/<\/div>/g)].length, 'responsive chart wrapper keeps valid nesting');
   app.elements.get('#logout').onclick();
   await app.settle();
   assert.ok(app.elements.has('#adminLoginForm'));
