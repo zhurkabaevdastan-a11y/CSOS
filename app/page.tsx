@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { createClient, type Session } from "@supabase/supabase-js";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createClient } from "@supabase/supabase-js";
+import { requireAdmin, adminMessages, adminErrorMessage } from "../public/admin-access.js";
 import { marathonRegistrationPath, sectionNavigation, topNavigation } from "./content";
 
 const supabase = createClient(
@@ -53,9 +54,9 @@ const emptyAnalytics: SiteAnalytics = {
 const pageLabel = (title: string, path: string) => title || (path === "/" ? "Главная" : path);
 
 export default function Home() {
-  const [panel, setPanel] = useState<"auth" | "account" | "admin" | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
-  const [role, setRole] = useState<string | null>(null);
+  const [panel, setPanel] = useState<"auth" | "admin" | null>(null);
+  const requestId = useRef(0);
+  const [authLoading, setAuthLoading] = useState(false);
   const [authEmail, setAuthEmail] = useState("");
   const [authPassword, setAuthPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -65,27 +66,6 @@ export default function Home() {
   const [adminError, setAdminError] = useState("");
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setSession(data.session));
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, next) => setSession(next));
-    return () => listener.subscription.unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    if (!session) { setRole(null); return; }
-    supabase.from("profiles").select("role").eq("id", session.user.id).single()
-      .then(({ data }) => setRole(data?.role ?? "participant"));
-  }, [session]);
-
-  useEffect(() => {
-    const openFromHash = () => {
-      if (window.location.hash === "#login") setPanel("auth");
-    };
-    openFromHash();
-    window.addEventListener("hashchange", openFromHash);
-    return () => window.removeEventListener("hashchange", openFromHash);
-  }, [session]);
-
-  useEffect(() => {
     const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
       if (entry.isIntersecting) { entry.target.classList.add("is-visible"); observer.unobserve(entry.target); }
     }), { threshold: 0.08 });
@@ -93,25 +73,26 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
-  const authenticate = async (create = false) => {
-    setMessage("Проверяем данные…");
-    const result = create
-      ? await supabase.auth.signUp({ email: authEmail, password: authPassword })
-      : await supabase.auth.signInWithPassword({ email: authEmail, password: authPassword });
-    if (result.error) return setMessage(result.error.message);
-    if (result.data.session) {
-      setMessage("");
-      setPanel(null);
-      if (window.location.hash) window.history.replaceState(null, "", window.location.pathname);
-      return;
-    }
-    setMessage(create && !result.data.session ? "Подтвердите адрес по ссылке в письме, затем войдите." : "Вход выполнен.");
-  };
+  const closePanel = useCallback(() => {
+    requestId.current += 1;
+    setPanel(null);
+    setAuthLoading(false);
+    setAuthPassword("");
+    setAnalytics(emptyAnalytics);
+    setRegistrations([]);
+    if (window.location.hash) window.history.replaceState(null, "", window.location.pathname);
+  }, []);
 
-  const openCabinet = async () => {
+  const openCabinet = useCallback(async () => {
+    const id = ++requestId.current;
     setMessage("");
-    if (!session) return setPanel("auth");
-    if (role === "admin") {
+    setPanel("auth");
+    setAuthLoading(true);
+    setAnalytics(emptyAnalytics);
+    setRegistrations([]);
+    try {
+      await requireAdmin(supabase);
+      if (id !== requestId.current) return;
       setPanel("admin");
       setAdminLoading(true);
       setAdminError("");
@@ -121,12 +102,60 @@ export default function Home() {
           .order("created_at", { ascending: false }),
         supabase.rpc("get_site_analytics"),
       ]);
-      setRegistrations(registrationResult.data ?? []);
-      setAnalytics((analyticsResult.data as SiteAnalytics | null) ?? emptyAnalytics);
-      if (registrationResult.error || analyticsResult.error) setAdminError("Не удалось загрузить часть данных. Обновите панель чуть позже.");
-      setAdminLoading(false);
-    } else setPanel("account");
+      if (id !== requestId.current) return;
+      if (registrationResult.error || analyticsResult.error) {
+        setAdminError(adminMessages.unavailable);
+      } else {
+        setRegistrations(registrationResult.data ?? []);
+        setAnalytics((analyticsResult.data as SiteAnalytics | null) ?? emptyAnalytics);
+      }
+    } catch (error) {
+      if (id !== requestId.current) return;
+      setPanel("auth");
+      setMessage(adminErrorMessage(error));
+    } finally {
+      if (id === requestId.current) { setAdminLoading(false); setAuthLoading(false); }
+    }
+  }, []);
+
+  const authenticate = async () => {
+    if (authLoading) return;
+    const id = ++requestId.current;
+    setAuthLoading(true);
+    setMessage("");
+    try {
+      const result = await supabase.auth.signInWithPassword({ email: authEmail.trim(), password: authPassword });
+      if (id !== requestId.current) return;
+      if (result.error || !result.data.session) throw new Error(adminMessages.credentials);
+      setAuthPassword("");
+      await openCabinet();
+    } catch (error) {
+      if (id === requestId.current) setMessage(adminErrorMessage(error));
+    } finally {
+      if (id === requestId.current) setAuthLoading(false);
+    }
   };
+
+  useEffect(() => {
+    const openFromHash = () => {
+      if (["#admin", "#login"].includes(window.location.hash)) void openCabinet();
+    };
+    const { data: listener } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_OUT") closePanel();
+    });
+    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") closePanel(); };
+    openFromHash();
+    window.addEventListener("hashchange", openFromHash);
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      requestId.current += 1;
+      listener.subscription.unsubscribe();
+      window.removeEventListener("hashchange", openFromHash);
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [openCabinet, closePanel]);
+
+  const signOut = () => { closePanel(); void supabase.auth.signOut({ scope: "local" }); };
 
   const maxDailyViews = Math.max(1, ...analytics.daily.map((item) => Number(item.views)));
   const maxPageViews = Math.max(1, ...analytics.pages.map((item) => Number(item.views)));
@@ -140,7 +169,7 @@ export default function Home() {
         </a>
         <nav>{topNavigation.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav>
         <button className="kpLanguage" type="button" data-language-toggle aria-label="Қазақ тіліне ауысу" title="Қазақша">ҚАЗ</button>
-        <button className="kpCabinet" onClick={openCabinet}>{session ? (role === "admin" ? "Админ-панель" : "Мой аккаунт") : "Вход / регистрация"}</button>
+        <button className="kpCabinet" onClick={() => void openCabinet()}>Админ-панель</button>
         <details className="kpMobileNav"><summary aria-label="Открыть меню">☰</summary><nav>{sectionNavigation.map((item) => <a key={item.href} href={item.href}>{item.label}</a>)}</nav></details>
       </header>
 
@@ -176,27 +205,24 @@ export default function Home() {
         <div className="kpFeaturedCopy"><span className="kpEyebrow">02 / Главное событие</span><time>19 сентября 2026 · Астана</time><h2>Марафон ҚТЖ</h2><p>Главный массовый старт для работников, семей и друзей железной дороги. Регистрация участников проходит в официальной форме Microsoft прямо на сайте.</p><div><a href={marathonRegistrationPath}>Регистрация на марафон <span>↗</span></a><a className="kpFeaturedSecondary" href="/sport/calendar">Календарь спорта</a></div></div>
       </section>
 
-      {panel && <div className="modalBackdrop" onMouseDown={(event) => event.target === event.currentTarget && setPanel(null)}><section className={panel === "admin" ? "modal adminModal" : "modal"}>
-        <button className="modalClose" onClick={() => setPanel(null)} aria-label="Закрыть">×</button>
+      {panel && <div className="modalBackdrop" onMouseDown={(event) => event.target === event.currentTarget && closePanel()}><section role="dialog" aria-modal="true" aria-label="Админ-панель" className={panel === "admin" ? "modal adminModal" : "modal"}>
+        <button className="modalClose" onClick={closePanel} aria-label="Закрыть">×</button>
         {panel === "auth" && <>
-          <span className="kpEyebrow">Личный кабинет</span><h2>Вход в систему</h2>
-          <p className="modalLead">Используйте корпоративную или личную электронную почту.</p>
-          <label>Электронная почта<input type="email" value={authEmail} onChange={(event) => setAuthEmail(event.target.value)} placeholder="name@example.com" /></label>
-          <label>Пароль<input type="password" value={authPassword} onChange={(event) => setAuthPassword(event.target.value)} placeholder="Не менее 6 символов" /></label>
-          <div className="formActions"><button className="primary" onClick={() => authenticate(false)}>Войти</button><button className="secondary" onClick={() => authenticate(true)}>Зарегистрироваться на сайте</button></div>
-          {message && <p className="formMessage">{message}</p>}
-        </>}
-        {panel === "account" && <>
-          <span className="kpEyebrow">Личный кабинет</span><h2>Мой аккаунт</h2>
-          <p className="modalLead">Вы вошли как <b>{session?.user.email}</b>.</p>
-          <div className="formActions"><button type="button" className="secondary" onClick={() => { supabase.auth.signOut(); setPanel(null); }}>Выйти</button></div>
+          <span className="kpEyebrow">Админ-панель</span><h2>Вход для администратора</h2>
+          <p className="modalLead">Доступ к статистике сайта</p>
+          <form onSubmit={(event) => { event.preventDefault(); void authenticate(); }}>
+            <label>Электронная почта<input type="email" autoComplete="username" required value={authEmail} onChange={(event) => setAuthEmail(event.target.value)} placeholder="name@example.com" /></label>
+            <label>Пароль<input type="password" autoComplete="current-password" required value={authPassword} onChange={(event) => setAuthPassword(event.target.value)} /></label>
+            <div className="formActions"><button className="primary" type="submit" disabled={authLoading}>{authLoading ? "Проверяем данные…" : "Войти"}</button></div>
+          </form>
+          {message && <p className="formMessage" role="alert">{message}</p>}
         </>}
         {panel === "admin" && <>
-          <div className="adminHead"><div><span className="kpEyebrow">Быстрая панель</span><h2>Управление сайтом</h2><p>Посещения страниц и регистрации собраны в одном месте.</p></div><button className="secondary" onClick={() => { supabase.auth.signOut(); setPanel(null); }}>Выйти</button></div>
+          <div className="adminHead"><div><span className="kpEyebrow">Быстрая панель</span><h2>Управление сайтом</h2><p>Посещения страниц и регистрации собраны в одном месте.</p></div><button className="secondary" onClick={signOut}>Выйти</button></div>
           {adminLoading && <p className="adminNotice">Загружаем актуальную статистику…</p>}
           {adminError && <p className="adminNotice adminNotice--error">{adminError}</p>}
 
-          <section className="adminSection">
+          {!adminLoading && !adminError && <><section className="adminSection">
             <div className="adminSectionTitle"><div><span>Посещаемость</span><h3>Статистика сайта</h3></div><small>Время: Астана</small></div>
             <div className="adminStats adminStats--analytics">
               <div><strong>{numberFormat.format(analytics.summary.total_views)}</strong><span>просмотров</span></div>
@@ -224,7 +250,7 @@ export default function Home() {
             <div className="adminSectionTitle"><div><span>Участники</span><h3>Регистрации на события</h3></div></div>
             <div className="adminStats"><div><strong>{registrations.length}</strong><span>всего заявок</span></div><div><strong>{registrations.filter((row) => ["new", "submitted"].includes(row.status)).length}</strong><span>новых</span></div><div><strong>{new Set(registrations.map((row) => row.profiles?.region).filter(Boolean)).size}</strong><span>регионов</span></div></div>
             <div className="tableWrap"><table><thead><tr><th>Участник</th><th>Контакты</th><th>Подразделение</th><th>Направление</th><th>Статус</th></tr></thead><tbody>{registrations.map((row) => <tr key={row.id}><td><b>{row.profiles?.last_name} {row.profiles?.first_name}</b><small>{row.profiles?.region}</small></td><td>{row.profiles?.email}<small>{row.profiles?.phone}</small></td><td>{row.profiles?.department || "—"}</td><td>{row.discipline || "—"}<small>{row.team_name}</small></td><td><span className="status">{["new", "submitted"].includes(row.status) ? "Новая" : row.status}</span></td></tr>)}</tbody></table>{!registrations.length && <p className="emptyState">Пока нет регистраций.</p>}</div>
-          </section>
+          </section></>}
         </>}
       </section></div>}
     </main>
