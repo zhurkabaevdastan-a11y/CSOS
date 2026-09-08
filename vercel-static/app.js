@@ -31,16 +31,13 @@ let adminRequest = 0;
 function Zt(html, admin = false) {
   T("#modalContent").innerHTML = html;
   T("#modal").className = admin ? "modal adminModal" : "modal";
-  T("#modal").setAttribute("role", "dialog");
-  T("#modal").setAttribute("aria-modal", "true");
   T("#modal").setAttribute("aria-label", "Админ-панель");
   T("#modalWrap").hidden = false;
 }
 function Ye() {
   adminRequest += 1;
-  T("#modalWrap").hidden = true;
   T("#modalContent").replaceChildren();
-  if (location.hash) history.replaceState(null, "", location.pathname);
+  St();
 }
 function adminSignOut() { Ye(); void F.auth.signOut({ scope: "local" }); }
 function St(message = "") {
@@ -69,7 +66,7 @@ function St(message = "") {
       T("#msg").hidden = false;
       T("#msg").textContent = adminErrorMessage(error);
     } finally {
-      if (id === adminRequest) {
+      if (id === adminRequest && T("#login")) {
         T("#login").disabled = false;
         T("#login").textContent = "Войти";
       }
@@ -120,17 +117,8 @@ async function us() {
     if (id === adminRequest) St(adminErrorMessage(error));
   }
 }
-if (T("#menu")) T("#menu").onclick = () => T(".kpHeader>nav").classList.toggle("open");
-T("#cabinet").textContent = "Админ-панель";
-T("#cabinet").onclick = () => void us();
-if (T("#eventRegister")) T("#eventRegister").onclick = () => location.href = "https://forms.cloud.microsoft/r/watNzKnHrC";
-T("#modalClose").onclick = Ye;
-T("#modalWrap").onclick = (event) => { if (event.target.id === "modalWrap") Ye(); };
-document.addEventListener("keydown", (event) => { if (event.key === "Escape") Ye(); });
 F.auth.onAuthStateChange((event) => { if (event === "SIGNED_OUT") Ye(); });
-const openAdminHash = () => { if (["#admin", "#login"].includes(location.hash)) void us(); };
-window.addEventListener("hashchange", openAdminHash);
-openAdminHash();
+if (location.pathname.replace(/\/+$/, "") === "/admin" && T("#modalContent")) void us();
 const ds = new IntersectionObserver((entries) => entries.forEach((entry) => {
   if (entry.isIntersecting) { entry.target.classList.add("is-visible"); ds.unobserve(entry.target); }
 }), { threshold: .08 });

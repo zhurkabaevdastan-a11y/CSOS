@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#03132f">
+  <title>Админ-панель — ҚТЖ</title>
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <main class="kpAdminPage">
+    <header class="kpHeader kpAdminHeader">
+      <a class="kpBrand" href="/" aria-label="ҚТЖ — главная"><img src="/ktz-logo.png" alt="Қазақстан темір жолы"><span><b>Все о социальной</b><small>политике ҚТЖ</small></span></a>
+      <a class="kpAdminBack" href="/">На главную</a>
+      <button class="kpLanguage" type="button" data-language-toggle aria-label="Қазақ тіліне ауысу" title="Қазақша">ҚАЗ</button>
+    </header>
+    <div class="kpAdminSurface" id="modalWrap">
+      <section class="modal" id="modal" aria-label="Админ-панель">
+        <div id="modalContent"><span class="kpEyebrow">Админ-панель</span><h2>Вход для администратора</h2><p class="adminNotice">Проверяем данные…</p></div>
+        <noscript>Для входа в админ-панель включите JavaScript в браузере</noscript>
+      </section>
+    </div>
+  </main>
+  <script type="module" src="/app.js"></script>
+  <script defer src="/language.js"></script>
+</body>
+</html>

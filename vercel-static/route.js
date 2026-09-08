@@ -1,3 +1,9 @@
+const redirectLegacyAdminLink = () => {
+  if (["#admin", "#login"].includes(location.hash)) location.replace("/admin/");
+};
+redirectLegacyAdminLink();
+window.addEventListener("hashchange", redirectLegacyAdminLink);
+
 const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
   if (entry.isIntersecting) {
     entry.target.classList.add("is-visible");

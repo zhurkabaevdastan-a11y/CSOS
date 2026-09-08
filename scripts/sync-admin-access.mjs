@@ -31,11 +31,15 @@ function walk(dir) {
     if (entry.isDirectory()) walk(file);
     else if (entry.name.endsWith('.html')) {
       const html = fs.readFileSync(file, 'utf8');
-      const updated = html.replace(/(<(?:a|button)\b[^>]*class="kpCabinet"[^>]*>)[\s\S]*?(<\/(?:a|button)>)/g,
-        (_, start, end) => start.replace('href="/#login"', 'href="/#admin"') + 'Админ-панель' + end);
+      let updated = html.replace(/<(?:a|button)\b[^>]*class="kpCabinet"[^>]*>[\s\S]*?<\/(?:a|button)>/g, '');
+      if (file === path.join(root, 'vercel-static/index.html')) {
+        updated = updated.replace(/<div class="modalBackdrop" id="modalWrap" hidden>[\s\S]*?<\/section><\/div>/, '')
+          .replace('<script type="module" src="/app.js"></script>', '');
+      }
       if (html !== updated) { fs.writeFileSync(file, updated); count++; }
     }
   }
 }
 walk(path.join(root, 'vercel-static'));
-console.log(`Admin-only access synchronized; ${count} page headers updated`);
+fs.copyFileSync(path.join(root, 'app/globals.css'), path.join(root, 'vercel-static/app.css'));
+console.log(`Separate admin page synchronized; ${count} public pages updated`);

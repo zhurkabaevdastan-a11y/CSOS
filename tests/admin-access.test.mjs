@@ -47,7 +47,7 @@ test('expired sessions and database errors fail closed', async () => {
   assert.equal(adminErrorMessage(new Error('LOGIN_REQUIRED')), '');
 });
 test('both publications only offer administrator sign-in, while marathon registration remains', () => {
-  const react = fs.readFileSync('app/page.tsx', 'utf8');
+  const react = fs.readFileSync('app/admin/admin-panel.tsx', 'utf8');
   const bundle = fs.readFileSync('vercel-static/app.js', 'utf8');
   const application = bundle.slice(bundle.indexOf('var F=hs('));
   for (const source of [react, application]) {
@@ -57,14 +57,14 @@ test('both publications only offer administrator sign-in, while marathon registr
     assert.match(source, /get_site_analytics/);
     assert.match(source, /Вход для администратора/);
   }
-  assert.match(react, /marathonRegistrationPath/);
+  assert.match(fs.readFileSync('app/page.tsx', 'utf8'), /marathonRegistrationPath/);
   const marathon = fs.readFileSync('vercel-static/sport/marathon-registration/index.html', 'utf8');
   assert.match(marathon, /forms\.cloud\.microsoft/);
   for (const file of ['language.js', 'admin-access.js']) {
     assert.equal(fs.readFileSync('public/' + file, 'utf8'), fs.readFileSync('vercel-static/' + file, 'utf8'));
   }
 });
-test('all static page headers use the same admin link', () => {
+test('all public page headers omit admin links and login controls', () => {
   let count = 0;
   function walk(dir) {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -72,14 +72,33 @@ test('all static page headers use the same admin link', () => {
       if (entry.isDirectory()) walk(file);
       else if (entry.name.endsWith('.html')) {
         const html = fs.readFileSync(file, 'utf8');
-        for (const match of html.matchAll(/<(a|button)\b[^>]*class="kpCabinet"[^>]*>(.*?)<\/(?:a|button)>/g)) {
+        const header = html.match(/<header\b[\s\S]*?<\/header>/)?.[0];
+        if (header) {
           count++;
-          assert.equal(match[2], 'Админ-панель', file);
-          if (match[1] === 'a') assert.match(match[0], /href="\/#admin"/, file);
+          assert.doesNotMatch(header, /kpCabinet|Админ-панель|Личный кабинет|href="\/(?:#(?:login|admin)|admin)/, file);
         }
       }
     }
   }
   walk('vercel-static');
   assert.ok(count > 60);
+  for (const file of ['app/page.tsx', 'app/[...slug]/page.tsx']) {
+    const source = fs.readFileSync(file, 'utf8');
+    assert.doesNotMatch(source, /kpCabinet|Админ-панель|signInWithPassword/);
+  }
+});
+
+test('separate admin entry point is not indexed and uses the existing role guard', () => {
+  const page = fs.readFileSync('app/admin/page.tsx', 'utf8');
+  const panel = fs.readFileSync('app/admin/admin-panel.tsx', 'utf8');
+  const html = fs.readFileSync('vercel-static/admin/index.html', 'utf8');
+  assert.match(page, /robots: \{ index: false, follow: false \}/);
+  assert.match(html, /name="robots" content="noindex,nofollow"/);
+  assert.match(panel, /void openCabinet\(\)/);
+  assert.ok(panel.indexOf('await requireAdmin(supabase)') < panel.indexOf('supabase.rpc("get_site_analytics")'));
+  assert.match(html, /src="\/app.js"/);
+  assert.doesNotMatch(html, /modalBackdrop|modalClose|zhurkabaevdastan@gmail/);
+  assert.doesNotMatch(fs.readFileSync('vercel-static/index.html', 'utf8'), /modalWrap|src="\/app.js"/);
+  assert.match(fs.readFileSync('vercel-static/route.js', 'utf8'), /location.replace\("\/admin\/"\)/);
+  assert.match(fs.readFileSync('app/page.tsx', 'utf8'), /location.replace\("\/admin\/"\)/);
 });

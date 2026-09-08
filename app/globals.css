@@ -976,3 +976,23 @@ body{
 .kpSocialTable{min-width:560px;table-layout:auto}
 .kpYoungRoster table{min-width:640px;table-layout:auto}
 .pageAnalytics small,.recentVisits small{overflow-x:auto;white-space:nowrap}
+
+/* Administration has a separate, unlisted entry point. */
+.kpHeader{grid-template-columns:minmax(250px,300px) minmax(0,1fr) auto auto}
+@media(max-width:1240px){.kpHeader{grid-template-columns:minmax(0,1fr) auto auto}}
+.kpHeader.kpAdminHeader{grid-template-columns:minmax(0,1fr) auto auto}
+.kpAdminPage{min-height:100svh}
+.kpAdminBack{padding:10px 14px;color:var(--navy);font-size:.875rem;font-weight:700;text-decoration:none}
+.kpAdminBack:hover{text-decoration:underline}
+.kpAdminSurface{display:grid;justify-items:center;padding:clamp(20px,4vw,56px) clamp(12px,3vw,36px)}
+.kpAdminSurface>.modal{width:min(600px,100%);max-height:none;overflow:visible;padding:clamp(24px,4vw,48px);border:1px solid var(--line);border-radius:20px}
+.kpAdminSurface>.adminModal{width:min(1220px,100%)}
+.kpAdminSurface .modal h2{font-size:clamp(1.5rem,3vw,2rem);line-height:1.25;letter-spacing:-.02em}
+.kpAdminSurface .modal label{font-size:.875rem}
+.kpAdminSurface .modal input,.kpAdminSurface .modal button{font-size:1rem}
+.kpAdminSurface .adminHead{padding-right:0}
+.kpAdminSurface .analyticsBars small{font-size:.75rem}
+@media(max-width:620px){
+  .kpAdminSurface .analyticsChart{overflow-x:auto}
+  .kpAdminSurface .analyticsBars{min-width:480px}
+}
