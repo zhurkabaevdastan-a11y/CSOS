@@ -33,6 +33,12 @@ test('Stage 2 preserves the supplied instructions and organizer contacts', () =>
   assert.equal((html.match(/data-candidate=/g)??[]).length,0,'Roster belongs on its own page');
 });
 
+test('Programme background uses the user-requested word потока', () => {
+  const html = renderYoungFacesContent(`${cohortKey}/about`);
+  assert.ok(html.includes('До четвёртого потока программа объединила три потока: 2020–2022, 2023–2024 и 2025–2026'));
+  assert.ok(!html.includes('когорты'));
+});
+
 test('All 1517 source rows and both outcomes are present without changed spelling', () => {
   assert.deepEqual(youngFacesCandidates.map(row=>row.number),Array.from({length:1517},(_,i)=>i+1));
   assert.equal(youngFacesCandidates.filter(row=>row.status==='admitted').length,1427);
