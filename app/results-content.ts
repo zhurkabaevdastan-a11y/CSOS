@@ -4,7 +4,8 @@ export const resultsTranslations: Record<string, string> = {};
 const t = (ru: string, kk: string) => { resultsTranslations[ru] = kk; return ru; };
 const esc = (value: unknown) => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 type Cell = string | number | null;
-type Block = { title: string; paragraphs?: string[]; items?: string[]; columns?: string[]; rows?: Cell[][] };
+type MedalResult = { place: 1 | 2 | 3; participant: string; discipline: string; category?: string; organization?: string; source: string };
+type Block = { title: string; paragraphs?: string[]; items?: string[]; columns?: string[]; rows?: Cell[][]; awards?: MedalResult[] };
 type ResultEvent = {
   slug: string; year: number; title: string; location: string | null;
   category: string; sports: string[]; summary: string; teamPlace: number | null;
@@ -107,6 +108,38 @@ export const swim2025Rows: Cell[][] = [
   ['Анел Жеңісқызы',t('100 м, брасс','100 м, брасс'),1],
   ['Анел Жеңісқызы',t('50 м, баттерфляй','50 м, баттерфляй'),3],
 ];
+// All 27 supplied Instagram publications were read on 2026-09-08.
+// Categories not repeated in captions retain the user's earlier prize-distribution document.
+// A team/relay award counts once, not once per member. Live medal counts in captions are not final totals.
+export const samruk2026Results: MedalResult[] = [
+  {place:1,participant:'Роман Халилов',discipline:resultSports.tennis,category:t('Мужчины','Ерлер'),organization:t('ТОО «Теміржолсу-Караганда», станция Жана-Арка — ведущий специалист АВР','«Теміржолсу-Караганда» ЖШС, Жаңаарқа станциясы — АВР жетекші маманы'),source:'https://www.instagram.com/reel/Db0A1kjqgiq/'},
+  {place:1,participant:'Әли Исабеков',discipline:resultSports.togyz,category:t('Мужчины · трёхкратный чемпион Спартакиады','Ерлер · Спартакиаданың үш дүркін чемпионы'),organization:t('АО «Пассажирские перевозки», «Пригородные перевозки», Карагандинский участок — помощник машиниста','«Жолаушылар тасымалы» АҚ, «Қала маңы тасымалы», Қарағанды учаскесі — машинист көмекшісі'),source:'https://www.instagram.com/reel/Db0NBkVqiPG/'},
+  {place:1,participant:'Даурен Сурабалдинов',discipline:resultSports.chess,category:t('Мужчины','Ерлер'),organization:t('АО «Қазтеміртранс», агентство «Алтынколь» — начальник отдела по обеспечению погрузки и выгрузки','«Қазтеміртранс» АҚ, «Алтынкөл» агенттігі — тиеу мен түсіруді қамтамасыз ету бөлімінің бастығы'),source:'https://www.instagram.com/reel/Dbx3fZBqKtV/'},
+  {place:1,participant:'Сымбат Нәсіп',discipline:resultSports.arm,category:t('Женщины до 65 кг','65 кг-ға дейінгі әйелдер'),organization:t('Корпоративный фонд ҚТЖ — менеджер','ҚТЖ корпоративтік қоры — менеджер'),source:'https://www.instagram.com/reel/Db2q62rKEya/'},
+  {place:1,participant:'Алтынбек Шахметов',discipline:t('Лёгкая атлетика · 800 м','Жеңіл атлетика · 800 м'),category:t('Мужчины 35+','Ерлер 35+'),organization:t('АО «KTZ Express» — управляющий директор по правовым вопросам','«KTZ Express» АҚ — құқықтық мәселелер жөніндегі басқарушы директор'),source:'https://www.instagram.com/reel/DbzzBYzqK-O/'},
+  {place:1,participant:'Константин Лимаренко',discipline:resultSports.swimming,category:t('Мужчины 30–34','Ерлер 30–34'),organization:t('АО «KTZ Express», «KTZE Южный», агентство Достык — диспетчер','«KTZ Express» АҚ, «KTZE Оңтүстік», Достық агенттігі — диспетчер'),source:'https://www.instagram.com/reel/DbxSpgQKsTn/'},
+  {place:1,participant:'Сағат Кабиев',discipline:resultSports.swimming,category:t('Мужчины 40–44','Ерлер 40–44'),source:'https://www.instagram.com/reel/DbxRVw7K77D/'},
+  {place:1,participant:t('Сборная ҚТЖ по плаванию','ҚТЖ жүзу құрамасы'),discipline:resultSports.swimming,category:t('Смешанная эстафета MIX · 4 × 50 м вольным стилем','MIX аралас эстафетасы · 4 × 50 м еркін әдіс'),organization:'Әнел Жеңісқызы, Татьяна Алимина, Константин Лимаренко, Геннадий Гордиенко',source:'https://www.instagram.com/reel/Dbw6e-LKHs9/'},
+  {place:1,participant:t('Сборная ҚТЖ по киберспорту','ҚТЖ киберспорт құрамасы'),discipline:resultSports.esports,category:t('Командный зачёт','Командалық есеп'),source:'https://www.instagram.com/reel/Db0gxX0qZ2l/'},
+  {place:2,participant:'Ленара Смайылова',discipline:resultSports.tennis,category:t('Женщины','Әйелдер'),organization:t('ТОО «Теміржолсу-Көкшетау», станция Кокшетау — специалист отдела документооборота','«Теміржолсу-Көкшетау» ЖШС, Көкшетау станциясы — құжат айналымы бөлімінің маманы'),source:'https://www.instagram.com/p/Dbz8jRDqYs6/'},
+  {place:2,participant:'Нуржан Сагидоллинов',discipline:resultSports.arm,category:t('Мужчины до 80 кг','80 кг-ға дейінгі ерлер'),organization:t('Корпоративный фонд ҚТЖ — менеджер','ҚТЖ корпоративтік қоры — менеджер'),source:'https://www.instagram.com/p/Db23e8SK0H2/'},
+  {place:2,participant:'Кайраш Аханов',discipline:resultSports.asyk,organization:t('Дирекция перевозочного процесса, ВЧД Экибастуз — осмотрщик вагонов','Тасымалдау процесінің дирекциясы, Екібастұз ВЧД — вагон қараушы'),source:'https://www.instagram.com/p/Db0AkphKFd5/'},
+  {place:2,participant:'Томирис Атымжанова',discipline:t('Лёгкая атлетика · 400 м','Жеңіл атлетика · 400 м'),category:t('Женщины 18–34','Әйелдер 18–34'),organization:t('Станция Экибастуз','Екібастұз станциясы'),source:'https://www.instagram.com/p/DbzyRmkqmpo/'},
+  {place:2,participant:'Еркебулан Ахмадиев',discipline:t('Лёгкая атлетика · 800 м','Жеңіл атлетика · 800 м'),category:t('Мужчины 18–34','Ерлер 18–34'),organization:t('НЖС Семей','Семей НЖС'),source:'https://www.instagram.com/p/DbzyDUUKuFg/'},
+  {place:2,participant:'Әнел Жеңісқызы',discipline:resultSports.swimming,category:t('Женщины 25–29','Әйелдер 25–29'),organization:t('АО «KTZ Express», «KTZE Западный», агентство Актобе — диспетчер','«KTZ Express» АҚ, «KTZE Батыс», Ақтөбе агенттігі — диспетчер'),source:'https://www.instagram.com/p/DbxehuyK1O3/'},
+  {place:2,participant:'Ирина Радзевич',discipline:resultSports.swimming,category:t('Женщины 40–44','Әйелдер 40–44'),organization:t('Карагандинское ТЧЭ — инженер 1-й категории ПТО','Қарағанды ТЧЭ — ПТО-ның 1-санатты инженері'),source:'https://www.instagram.com/p/DbxbAS5q-A2/'},
+  {place:2,participant:'Татьяна Алимина',discipline:resultSports.swimming,category:t('Женщины 50+','Әйелдер 50+'),organization:t('Дирекция автоматизации и цифровизации — главный менеджер Департамента аналитики и разработки','Автоматтандыру және цифрландыру дирекциясы — Аналитика және әзірлемелер департаментінің бас менеджері'),source:'https://www.instagram.com/p/DbxZu2pqX2i/'},
+  {place:2,participant:'Геннадий Гордиенко',discipline:resultSports.swimming,category:t('Мужчины 50+','Ерлер 50+'),organization:t('АО «Пассажирские перевозки», «Экспресс», Астанинский участок — экипировщик','«Жолаушылар тасымалы» АҚ, «Экспресс», Астана учаскесі — жабдықтаушы'),source:'https://www.instagram.com/p/DbxDPmwK61L/'},
+  {place:2,participant:t('Сборная ҚТЖ по лёгкой атлетике','ҚТЖ жеңіл атлетика құрамасы'),discipline:t('Лёгкая атлетика · эстафета','Жеңіл атлетика · эстафета'),category:t('Командный зачёт','Командалық есеп'),source:'https://www.instagram.com/p/Dbz5QWnquZM/'},
+  {place:2,participant:t('Сборная ҚТЖ по арқан тарту','ҚТЖ арқан тарту құрамасы'),discipline:resultSports.tug,category:t('Первая медаль команды в этой дисциплине','Команданың осы спорт түріндегі алғашқы медалі'),source:'https://www.instagram.com/p/DbxkUJlKU_m/'},
+  {place:2,participant:t('Женская сборная ҚТЖ','ҚТЖ әйелдер құрамасы'),discipline:resultSports.volleyball,source:'https://www.instagram.com/p/Db2xVokKnXk/'},
+  {place:2,participant:t('Мужская сборная ҚТЖ','ҚТЖ ерлер құрамасы'),discipline:resultSports.basketball,source:'https://www.instagram.com/reel/Db2vqDOqncG/'},
+  {place:3,participant:'Айжан Серікова',discipline:resultSports.togyz,category:t('Женщины','Әйелдер'),organization:t('АО «Кедентранссервис», филиал по Астане и Акмолинской области — приёмосдатчик груза и багажа','«Кедентранссервис» АҚ, Астана және Ақмола облысы бойынша филиалы — жүк пен багажды қабылдап-тапсырушы'),source:'https://www.instagram.com/p/Db0QNboqkON/'},
+  {place:3,participant:'Гульжан Аманова',discipline:resultSports.chess,category:t('Женщины','Әйелдер'),organization:t('ТОО «КТЖ-Грузовые перевозки», филиал «Ақтөбе» (Уральск) — менеджер по персоналу','«ҚТЖ-Жүк тасымалы» ЖШС, «Ақтөбе» филиалы (Орал) — персонал жөніндегі менеджер'),source:'https://www.instagram.com/p/Dbx6iRCK_db/'},
+  {place:3,participant:'Алла Штрошерер',discipline:resultSports.arm,category:t('Женщины свыше 65 кг','65 кг-нан жоғары әйелдер'),organization:t('АО «НК «ҚТЖ»','«ҚТЖ» ҰК» АҚ'),source:'https://www.instagram.com/p/Db23EgIq3HM/'},
+  {place:3,participant:'Галина Золотухина',discipline:t('Лёгкая атлетика · 400 м','Жеңіл атлетика · 400 м'),category:t('Женщины 35+','Әйелдер 35+'),organization:t('ТОО «КТЖ-Грузовые перевозки», Карагандинское ТЧЭ-14 — оператор ЦОТУ','«ҚТЖ-Жүк тасымалы» ЖШС, Қарағанды ТЧЭ-14 — ЖТЕО операторы'),source:'https://www.instagram.com/p/Dbzywgnq4U3/'},
+  {place:3,participant:t('Сборная ҚТЖ по футзалу','ҚТЖ футзал құрамасы'),discipline:t('Футзал','Футзал'),category:t('Матч за бронзу: победа над KEGOC — 5:0','Қола үшін матч: KEGOC командасын 5:0 есебімен жеңді'),source:'https://www.instagram.com/p/Db2WXvIKC7W/'},
+];
 const samruk2026Source = 'https://rail-news.kz/ru/sport/24547-sbornaia-ktz-stala-obladatelem-kubka-spartakiady-samruk-qazyna.html';
 export const resultEvents: ResultEvent[] = [
   {
@@ -115,22 +148,15 @@ export const resultEvents: ResultEvent[] = [
     sports: ['multisport','tennis','togyz','chess','arm','running','swimming','esports','asyk','tug','volleyball','basketball','futsal'], teamPlace: 1,
     summary: t('1-е общекомандное место третий год подряд — 27 медалей','Үшінші жыл қатарынан жалпыкомандалық 1-орын — 27 медаль'),
     medals: { gold: 9, silver: 13, bronze: 5, scope: 'reported-total' },
-    blocks: [{ title: t('Отдельные результаты команды','Команданың жекелеген нәтижелері'),
-      paragraphs: [t('Ниже — отдельные известные результаты, а не полный личный протокол всех 27 медалей','Төменде барлық 27 медальдың толық жеке хаттамасы емес, белгілі жекелеген нәтижелер берілген')],
-      columns: [resultLabels.name, resultLabels.discipline, resultLabels.result], rows: [
-        [t('Команда ҚТЖ','ҚТЖ командасы'),resultSports.esports,rank1],
-        ['Роман Халилов',resultSports.tennis,rank1], ['Али Исабеков',resultSports.togyz,rank1],
-        ['Сымбат Насип',resultSports.arm,rank1], ['Алла Штрошерер',resultSports.arm,rank3],
-        [t('Мужская сборная ҚТЖ','ҚТЖ ерлер құрамасы'),resultSports.basketball,rank2],
-        [t('Женская сборная ҚТЖ','ҚТЖ әйелдер құрамасы'),resultSports.volleyball,rank2],
-        [t('Сборная ҚТЖ','ҚТЖ құрамасы'),'Футзал',t('3-е место, матч с KEGOC — 5:0','3-орын, KEGOC командасымен матч — 5:0')],
-      ] }],
-    sources: [{label:'Rail-news — XI Спартакиада',href:samruk2026Source},{label:'Rail-news — футзал',href:'https://rail-news.kz/ru/sport/24540-futzal-prines-sbornoi-ktz-bronzu-na-spartakiade.html'},
-      {label:'Instagram — XI Спартакиада',href:'https://www.instagram.com/reel/Db5AeHoKUTP/'},
-      {label:'Instagram — киберспорт',href:'https://www.instagram.com/reel/Db0gxX0qZ2l/'},
-      {label:'Instagram — настольный теннис',href:'https://www.instagram.com/reel/Db0A1kjqgiq/'},
-      {label:'Instagram — баскетбол',href:'https://www.instagram.com/reel/Db2vqDOqncG/'},
-      {label:'Instagram — волейбол',href:'https://www.instagram.com/reel/Db2xgzQqmhL/'}],
+    blocks: [{title:overall,paragraphs:[
+      t('8–10 августа 2026 года в Астане сборная ҚТЖ завоевала Кубок XI Спартакиады группы компаний АО «Самрук-Қазына» и третий год подряд заняла первое общекомандное место','2026 жылғы 8–10 тамызда Астанада ҚТЖ құрамасы «Самұрық-Қазына» АҚ компаниялар тобының XI спартакиадасының кубогын жеңіп алып, үшінші жыл қатарынан жалпыкомандалық бірінші орын иеленді'),
+      t('Все 27 наград представлены ниже — каждая командная победа и эстафета учтена как один призовой результат','Барлық 27 жүлде төменде берілген — әр командалық жеңіс пен эстафета бір жүлделі нәтиже ретінде есептелген'),
+    ]},
+    {title:t('Золотые медали · 9','Алтын медальдар · 9'),awards:samruk2026Results.filter(row=>row.place===1)},
+    {title:t('Серебряные медали · 13','Күміс медальдар · 13'),awards:samruk2026Results.filter(row=>row.place===2)},
+    {title:t('Бронзовые медали · 5','Қола медальдар · 5'),awards:samruk2026Results.filter(row=>row.place===3)}],
+    sources: [{label:'Rail-news — XI Спартакиада',href:samruk2026Source},
+      {label:t('Rail-news — состав плавательной эстафеты','Rail-news — жүзу эстафетасының құрамы'),href:'https://rail-news.kz/index.php/ru/sport/24508-pervoe-zoloto-ktz-na-spartakiade-samruk-qazyna-zavoevali-plovcy.html'}],
   },
   {
     slug:'winter-samruk-2026',sourceSection:2,year:2026,location:null,category:'spartakiad',sports:['hockey','skiing'],teamPlace:null,
@@ -239,19 +265,24 @@ export function renderResultsIndex() {
   </section>`;
 }
 type LegacyResults = {placements: readonly {place:string;disciplines:string}[];nominations:readonly string[]};
-const legacyTitle = t('Распределение призовых мест по дисциплинам','Спорт түрлері бойынша жүлделі орындардың бөлінуі');
 const legacyNote = t('Сохранено из ранее предоставленного распределения призовых мест ҚТЖ','ҚТЖ-ның бұрын берілген жүлделі орындар тізімінен сақталған');
 const nominationsTitle = t('Индивидуальные номинации','Жеке номинациялар');
+const awardParticipant = t('Участник / команда','Қатысушы / команда');
+const awardDiscipline = t('Дисциплина и категория','Спорт түрі мен санаты');
+const awardSources = t('Ссылки в именах участников и названиях команд ведут к публикациям о соответствующих наградах','Қатысушылардың есімдері мен команда атауларындағы сілтемелер тиісті жүлделер туралы жарияланымдарға апарады');
+function renderMedalTable(block: Block) {
+  return `<div class="kpResultsTable kpSamrukTable" role="region" tabindex="0" aria-label="${esc(resultLabels.scroll)}"><table><caption>${esc(block.title)}</caption><thead><tr><th scope="col">${esc(awardParticipant)}</th><th scope="col">${esc(awardDiscipline)}</th></tr></thead><tbody>${block.awards!.map(row=>`<tr data-samruk-place="${row.place}"><th scope="row"><a href="${esc(row.source)}" target="_blank" rel="noopener noreferrer"><span>${esc(row.participant)}</span><span aria-hidden="true"> ↗</span></a>${row.organization?`<span class="kpAwardNote">${esc(row.organization)}</span>`:''}</th><td><span>${esc(row.discipline)}</span>${row.category?`<span class="kpAwardNote">${esc(row.category)}</span>`:''}</td></tr>`).join('')}</tbody></table></div>`;
+}
 export function renderResultDetail(key: string, legacy?: LegacyResults) {
   const event = resultEvents.find(event => `sport/results/${event.slug}` === key);
   if (!event) return '';
   const medals = event.medals;
-  const retained = event.slug === 'samruk-2026' && legacy ? `<section class="kpContentSection kpResultsBlock kpResultsLegacy"><h2>${esc(legacyTitle)}</h2><p>${esc(legacyNote)}</p>${legacy.placements.map(item=>`<article><h3>${esc(item.place)}</h3><p>${esc(item.disciplines)}</p></article>`).join('')}<h3>${esc(nominationsTitle)}</h3><ul>${legacy.nominations.map(item=>`<li>${esc(item)}</li>`).join('')}</ul></section>` : '';
+  const retained = event.slug === 'samruk-2026' && legacy ? `<section class="kpContentSection kpResultsBlock kpResultsLegacy"><h2>${esc(nominationsTitle)}</h2><p>${esc(legacyNote)}</p><ul>${legacy.nominations.map(item=>`<li>${esc(item)}</li>`).join('')}</ul></section>` : '';
   const medalSummary = medals ? `<section class="kpContentSection kpResultsMedals"><h2>${esc(medals.scope === 'reported-total' ? resultLabels.total : resultLabels.selected)}</h2><div>${[['gold',resultLabels.gold],['silver',resultLabels.silver],['bronze',resultLabels.bronze]].map(([metal,label])=>`<article data-medal="${metal}"><strong>${medals[metal as 'gold'|'silver'|'bronze']}</strong><span>${esc(label)}</span></article>`).join('')}</div></section>` : '';
   const blocks = event.blocks.map((block,index) => {
-    const table = block.rows && block.columns ? `<div class="kpResultsTable" role="region" tabindex="0" aria-label="${esc(resultLabels.scroll)}"><table><caption>${esc(block.title)}</caption><thead><tr>${block.columns.map(column=>`<th scope="col">${esc(column)}</th>`).join('')}</tr></thead><tbody>${block.rows.map(row=>`<tr>${row.map((cell,i)=> i===0?`<th scope="row">${esc(cell??resultLabels.unknown)}</th>`:`<td data-label="${esc(block.columns![i])}">${esc(cell??resultLabels.unknown)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>` : '';
+    const table = block.awards ? renderMedalTable(block) : block.rows && block.columns ? `<div class="kpResultsTable" role="region" tabindex="0" aria-label="${esc(resultLabels.scroll)}"><table><caption>${esc(block.title)}</caption><thead><tr>${block.columns.map(column=>`<th scope="col">${esc(column)}</th>`).join('')}</tr></thead><tbody>${block.rows.map(row=>`<tr>${row.map((cell,i)=> i===0?`<th scope="row">${esc(cell??resultLabels.unknown)}</th>`:`<td data-label="${esc(block.columns![i])}">${esc(cell??resultLabels.unknown)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>` : '';
     return `<section class="kpContentSection kpResultsBlock" aria-labelledby="result-block-${index}"><h2 id="result-block-${index}">${esc(block.title)}</h2>${(block.paragraphs??[]).map(p=>`<p>${esc(p)}</p>`).join('')}${block.items?`<ul>${block.items.map(item=>`<li>${esc(item)}</li>`).join('')}</ul>`:''}${table}</section>`;
   }).join('');
-  const sources = event.sources.length ? `<section class="kpContentSection kpResultsSources"><h2>${esc(resultLabels.sources)}</h2><ul>${event.sources.map(source=>`<li><a href="${esc(source.href)}" target="_blank" rel="noopener noreferrer"><span>${esc(source.label)}</span> <span aria-hidden="true">↗</span></a></li>`).join('')}</ul></section>` : '';
+  const sources = event.sources.length ? `<section class="kpContentSection kpResultsSources"><h2>${esc(resultLabels.sources)}</h2>${event.slug==='samruk-2026'?`<p>${esc(awardSources)}</p>`:''}<ul>${event.sources.map(source=>`<li><a href="${esc(source.href)}" target="_blank" rel="noopener noreferrer"><span>${esc(source.label)}</span> <span aria-hidden="true">↗</span></a></li>`).join('')}</ul></section>` : '';
   return `<div class="kpResultsDetail">${medalSummary}${blocks}${retained}${sources}<div class="kpResultsBack"><a href="/sport/results/">← <span>${esc(resultLabels.back)}</span></a></div></div>`;
 }

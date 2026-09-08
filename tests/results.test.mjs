@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
-import {resultEvents,resultsPages,resultsTranslations,resultsPhoto,renderResultsIndex,renderResultDetail,ski2026Rows,marathon2026Rows,marathon2025Rows,swim2025Rows} from '../app/results-content.ts';
+import {resultEvents,resultsPages,resultsTranslations,resultsPhoto,renderResultsIndex,renderResultDetail,ski2026Rows,marathon2026Rows,marathon2025Rows,swim2025Rows,samruk2026Results} from '../app/results-content.ts';
 import {sitePages,getPageAncestors,samruk2026Placements,samruk2026Nominations} from '../app/content.ts';
 const read=path=>readFileSync(new URL(`../${path}`,import.meta.url),'utf8');
 const event=slug=>resultEvents.find(item=>item.slug===slug);
@@ -80,7 +80,7 @@ test('Corrected names, missing times and category labels retain the supplied mea
   assert.doesNotMatch(marathon,/Бекешев|4 мая|19 сентября|<iframe|<img|00:00:00/);
   assert.match(renderResultDetail('sport/results/swimming-masters-2025'),/а не отдельной сборной/);
 });
-test('Static output matches shared renderers, with readable tables and retained XI placements',()=>{
+test('Static output matches shared renderers, with readable tables and consolidated XI awards',()=>{
   for(const key of Object.keys(resultsPages)){
     const html=read(`vercel-static/${key}/index.html`);
     const content=key==='sport/results'?renderResultsIndex():renderResultDetail(key,legacy);
@@ -91,10 +91,32 @@ test('Static output matches shared renderers, with readable tables and retained 
     }
   }
   const xi=renderResultDetail('sport/results/samruk-2026',legacy);
-  for(const row of samruk2026Placements)assert.ok(xi.includes(row.disciplines));
+  assert.doesNotMatch(xi,/Отдельные результаты команды|Распределение призовых мест по дисциплинам/);
+  for(const row of samruk2026Results)assert.ok(xi.includes(row.participant));
   for(const nomination of samruk2026Nominations)assert.ok(xi.includes(nomination));
   assert.match(read('app/globals.css'),/\.kpResultsTable\{[^}]*overflow-x:auto/);
   assert.match(read('app/globals.css'),/\.kpResultsIndex \[hidden\]\{display:none!important\}/);
+});
+test('All 27 supplied XI Instagram posts map once to 9 gold, 13 silver and 5 bronze awards',()=>{
+  const supplied=['Db23e8SK0H2','Db23EgIq3HM','Db2xVokKnXk','Db2vqDOqncG','Db2q62rKEya','Db2WXvIKC7W','Db0QNboqkON','Db0gxX0qZ2l','Db0NBkVqiPG','Db0A1kjqgiq','Db0AkphKFd5','Dbz8jRDqYs6','Dbz5QWnquZM','DbzzBYzqK-O','Dbzywgnq4U3','DbzyRmkqmpo','DbzyDUUKuFg','Dbx6iRCK_db','Dbx3fZBqKtV','DbxkUJlKU_m','DbxehuyK1O3','DbxbAS5q-A2','DbxZu2pqX2i','DbxSpgQKsTn','DbxRVw7K77D','DbxDPmwK61L','Dbw6e-LKHs9'];
+  assert.equal(samruk2026Results.length,27);
+  assert.deepEqual([1,2,3].map(place=>samruk2026Results.filter(row=>row.place===place).length),[9,13,5]);
+  assert.deepEqual(samruk2026Results.map(row=>new URL(row.source).pathname.split('/')[2]).sort(),supplied.sort());
+  assert.equal(new Set(samruk2026Results.map(row=>row.source)).size,27);
+  assert.equal(event('samruk-2026').blocks.flatMap(block=>block.awards??[]).length,27);
+  const html=renderResultDetail('sport/results/samruk-2026',legacy);
+  assert.equal((html.match(/data-samruk-place=/g)||[]).length,27);
+  assert.equal((html.match(/class="kpResultsTable kpSamrukTable"/g)||[]).length,3);
+  assert.match(html,/Сымбат Нәсіп/);assert.match(html,/Әли Исабеков/);assert.match(html,/Әнел Жеңісқызы/);
+  assert.match(html,/победа над KEGOC — 5:0/);
+  assert.match(html,/4 × 50 м/);
+  assert.equal(samruk2026Results.find(row=>row.source.includes('Dbw6e-LKHs9')).organization.split(', ').length,4);
+  assert.match(read('app/globals.css'),/\.kpSamrukTable table\{min-width:0;table-layout:fixed\}/);
+  for(const row of samruk2026Results){
+    assert.equal(new URL(row.source).hostname,'www.instagram.com');
+    assert.ok(!row.source.includes('?'));
+    assert.ok(html.includes(`href="${row.source}" target="_blank" rel="noopener noreferrer"`));
+  }
 });
 test('Filters combine independent criteria, support empty state and reset without reloads',()=>{
   const values={year:{value:''},sport:{value:''},category:{value:''}};

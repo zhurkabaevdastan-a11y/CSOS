@@ -857,3 +857,8 @@ body{
 @media(prefers-reduced-motion:reduce){.kpResultsEvent{transition:none}}
 .kpVeteranCouncilPhoto{max-width:840px;margin:0 auto}
 .kpVeteranCouncilPhoto img{display:block;width:100%;height:auto;border-radius:6px}
+.kpSamrukTable table{min-width:0;table-layout:fixed}
+.kpSamrukTable :is(th,td){min-width:0;overflow-wrap:anywhere;width:50%}
+.kpSamrukTable a{color:#006b91;text-decoration:underline;text-underline-offset:3px}
+.kpSamrukTable .kpAwardNote{display:block;margin-top:6px;font-size:.875rem;line-height:1.6;font-weight:400;color:#415069}
+@media(max-width:640px){.kpSamrukTable :is(th,td){padding:12px 10px}.kpSamrukTable table{font-size:1rem}}
