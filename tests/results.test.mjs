@@ -111,7 +111,7 @@ test('All 27 supplied XI Instagram posts map once to 9 gold, 13 silver and 5 bro
   assert.match(html,/победа над KEGOC — 5:0/);
   assert.match(html,/4 × 50 м/);
   assert.equal(samruk2026Results.find(row=>row.source.includes('Dbw6e-LKHs9')).organization.split(', ').length,4);
-  assert.match(read('app/globals.css'),/\.kpSamrukTable table\{min-width:0;table-layout:fixed\}/);
+  assert.match(read('app/globals.css'),/\.kpSamrukTable table\{min-width:560px;table-layout:auto\}/);
   for(const row of samruk2026Results){
     assert.equal(new URL(row.source).hostname,'www.instagram.com');
     assert.ok(!row.source.includes('?'));
