@@ -423,7 +423,8 @@ body{
   .kpDirectionList>a,.kpUpdateGrid>a,.kpPageCards>a,.kpResultGrid article,.kpResultGrid>a,.kpSteps article,.kpInfoGrid article{min-width:0;overflow:hidden}
   .kpDirectionList i,.kpUpdateGrid i,.kpPageCards>a>i{flex:0 0 auto;max-width:52px;max-height:52px}
   .kpAction,.kpEventRegistration,.kpYoungFacesCta>a,.kpMarathonContact a{max-width:100%;white-space:normal;text-align:center;overflow-wrap:normal}
-  .kpMarathonSchedule article{width:100%;min-width:0;grid-template-columns:minmax(72px,90px) minmax(0,1fr);gap:8px 14px;padding:22px 8px}
+  .kpMarathonSchedule article{width:100%;min-width:0;grid-template-columns:minmax(0,1fr);gap:8px 14px;padding:22px 8px}
+  .kpMarathonSchedule time{grid-row:auto;white-space:nowrap}
   .kpMarathonSchedule h3,.kpMarathonSchedule p{min-width:0;overflow-wrap:normal}
 }
 /* Refined global header: compact navigation with a single utility cluster. */

@@ -26,6 +26,15 @@ if (html.includes('id="marathon-route-map"')) {
   if (!html.includes(conditions)) throw new Error('Missing marathon conditions section');
   html = html.replace(conditions, map + conditions);
 }
+// Keep the schedule and meeting point identical to the React page.
+const page = readFileSync('app/[...slug]/page.tsx', 'utf8');
+for (const className of ['kpMarathonProgram', 'kpMarathonDetails']) {
+  const pattern = new RegExp(`<section className="kpContentSection ${className}">[\\s\\S]*?</section>`);
+  const section = page.match(pattern)?.[0];
+  const target = new RegExp(`<section class="kpContentSection ${className}">[\\s\\S]*?</section>`);
+  if (!section || !target.test(html)) throw new Error(`Missing marathon section: ${className}`);
+  html = html.replace(target, section.replaceAll('className=', 'class='));
+}
 writeFileSync(path, html);
 for (const [source, destination] of [['app/globals.css', 'vercel-static/app.css'], ['public/language.js', 'vercel-static/language.js']]) {
   writeFileSync(destination, readFileSync(source));

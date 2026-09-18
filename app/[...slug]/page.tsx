@@ -176,11 +176,22 @@ export default async function DetailPage({ params }: { params: Promise<{ slug: s
             <div><article><strong>2,5</strong><span>км</span><p>Короткая дистанция для уверенного старта.</p></article><article><strong>5</strong><span>км</span><p>Один из самых доступных форматов массового забега.</p></article><article><strong>10</strong><span>км</span><p>Дистанция для подготовленных участников.</p></article></div>
           </section>
           <section className="kpContentSection kpMarathonProgram">
-            <div className="kpSectionTitle"><span>Предварительная программа</span><h2>День марафона</h2><p>Время отдельных этапов может уточняться организационным комитетом.</p></div>
-            <div className="kpMarathonSchedule"><article><time>07:50</time><h3>Сбор участников</h3><p>Начало работы камеры хранения.</p></article><article><time>08:30</time><h3>Открытие стартового городка</h3><p>Подготовка участников к забегу.</p></article><article><time>08:40</time><h3>Инструктаж и разминка</h3><p>Общий инструктаж перед стартами.</p></article><article><time>09:00–11:00</time><h3>Старты забегов</h3><p>Дистанции 10 км, 5 км и 2,5 км.</p></article><article><time>11:30</time><h3>Награждение участников</h3><p>Подведение спортивных итогов.</p></article><article><time>12:30</time><h3>Развлекательная программа</h3><p>Завершение общего марафонского дня.</p></article></div>
+            <div className="kpSectionTitle"><span>Программа мероприятия</span><h2>День марафона</h2><p>19 сентября 2026 · Начало в 12:00</p></div>
+            <div className="kpMarathonSchedule">
+              <article><time>12:00</time><h3>Открытие стартового городка и приветственное слово ведущего</h3><p>Центральная сцена</p></article>
+              <article><time>12:05</time><h3>Приветственное слово руководителей</h3><p>Центральная сцена</p></article>
+              <article><time>12:10</time><h3>Инструктаж и разминка для участников марафона</h3><p>Центральная сцена</p></article>
+              <article><time>12:15</time><h3>Построение участников в стартовой зоне</h3><p>Стартовая зона</p></article>
+              <article><time>12:25</time><h3>Старт на дистанции 2,5 км — дети</h3><p>Стартовая зона</p></article>
+              <article><time>12:30</time><h3>Старт на дистанции 2,5 км — участники 60 лет и старше</h3><p>Стартовая зона</p></article>
+              <article><time>12:40</time><h3>Старт на дистанции 10 км</h3><p>Стартовая зона</p></article>
+              <article><time>12:50</time><h3>Старт на дистанции 5 км</h3><p>Стартовая зона</p></article>
+              <article><time>12:50–13:30</time><h3>Плоггинг на территории Ботанического сада</h3><p>Центральная сцена</p></article>
+              <article><time>13:30–14:00</time><h3>Торжественное награждение с участием руководства Компании и приглашённых гостей</h3><p>Центральная сцена</p></article>
+            </div>
           </section>
           <section className="kpContentSection kpMarathonDetails">
-            <div className="kpMarathonRoute"><article><span>Место сбора</span><h2>Ботанический сад, Астана</h2><p>Стартовый городок располагается в парковочной зоне на пересечении улиц Акмешит и Бухар жырау. Участникам рекомендуется прибыть к 07:50.</p></article><article><span>Маршрут</span><h2>Круг — 2,5 км</h2><p>1 круг — 2,5 км, 2 круга — 5 км, 4 круга — 10 км</p></article></div>
+            <div className="kpMarathonRoute"><article><span>Место сбора</span><h2>Ботанический сад, Астана</h2><p>Ботанический сад со стороны улицы Бухар жырау — открытие стартового городка в 12:00</p></article><article><span>Маршрут</span><h2>Круг — 2,5 км</h2><p>1 круг — 2,5 км, 2 круга — 5 км, 4 круга — 10 км</p></article></div>
           </section>
           <section className="kpContentSection kpMarathonMap" id="marathon-route-map" aria-labelledby="marathon-map-title">
             <h2 id="marathon-map-title">Карта забега</h2>

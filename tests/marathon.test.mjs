@@ -56,3 +56,21 @@ test('The 2026 route map is available in both sites without cropping', () => {
   const dictionary = vm.runInNewContext(`(${read('public/language.js').match(/  const kk = (\{[\s\S]*?\n  \});/)[1]})`);
   for (const label of ['Карта забега', 'Открыть карту крупнее', 'Скачать карту', 'Открыть карту забега в полном размере']) assert.ok(dictionary[label], label);
 });
+
+test('September 19 program starts at noon with ten translated events in both sites', () => {
+  const dictionary = vm.runInNewContext(`(${read('public/language.js').match(/  const kk = (\{[\s\S]*?\n  \});/)[1]})`);
+  const expectedTimes = ['12:00', '12:05', '12:10', '12:15', '12:25', '12:30', '12:40', '12:50', '12:50–13:30', '13:30–14:00'];
+  const schedules = [];
+  for (const path of ['app/[...slug]/page.tsx', 'vercel-static/sport/marathon-registration/index.html']) {
+    const source = read(path).replaceAll('className=', 'class=');
+    const program = source.match(/<section class="kpContentSection kpMarathonProgram">[\s\S]*?<\/section>/)[0];
+    assert.deepEqual([...program.matchAll(/<time>(.*?)<\/time>/g)].map(match => match[1]), expectedTimes, path);
+    for (const match of program.matchAll(/<(?:h3|p|span)>([^<]+)<\/(?:h3|p|span)>/g)) {
+      assert.ok(dictionary[match[1]], `Missing Kazakh translation: ${match[1]}`);
+    }
+    assert.ok(source.includes('Ботанический сад со стороны улицы Бухар жырау — открытие стартового городка в 12:00'), path);
+    assert.ok(!/07:50|08:30|08:40|09:00–11:00|11:30/.test(source), path);
+    schedules.push(program.replace(/\s+/g, ' '));
+  }
+  assert.equal(schedules[0], schedules[1]);
+});
